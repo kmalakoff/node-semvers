@@ -2,6 +2,7 @@
 compatibility/
 performance/
 test/
+.cache/
 .eslintignore
 .eslintrc.js
 .prettierignore
