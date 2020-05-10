@@ -4,7 +4,7 @@ var program = require('commander');
 var isArray = require('lodash.isarray');
 var isNaN = require('lodash.isnan');
 
-program.option('r, --range [range]', 'range type of major, minor, or patch for expressions', 'patch');
+program.option('r, --range [range]', 'range type of major, minor, or patch for version string expressions', 'patch');
 program.option('c, --cache', 'use cached information rather than http for looking up version information');
 program.option('n, --now [date]', 'use a specific time as a Date.parse', function (x) {
   return new Date(isNaN(+x) ? Date.parse(x) : +x);
@@ -50,8 +50,8 @@ NodeVersions.load(program, function (err, semvers) {
   }
 
   if (isArray(version)) {
-    for (var index = 0; index < version.length; index++) console.log(version[index].name);
-  } else console.log(version.name);
+    for (var index = 0; index < version.length; index++) console.log(version[index]);
+  } else console.log(version);
 
   process.exit(0);
 });
