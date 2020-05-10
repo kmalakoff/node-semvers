@@ -1,0 +1,55 @@
+{
+  "name": "node-semvers",
+  "version": "0.1.0",
+  "description": "Utilities for managing versions of node including looking up codenames",
+  "main": "index.js",
+  "bin": {
+    "nsv": "./bin/node-semvers"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "scripts": {
+    "test": "mocha-compat test/spec/**/*.test.js",
+    "compat": "nvs 14,12,10,8,6,4,0.12,0.10,0.8 -- mocha-compat test/spec/**/*.test.js",
+    "lint": "eslint .",
+    "format": "prettier --write '**/*.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:kmalakoff/node-semvers.git"
+  },
+  "keywords": [
+    "node",
+    "version",
+    "versions",
+    "semver",
+    "range",
+    "engine"
+  ],
+  "author": "Kevin Malakoff <kmalakoff@gmail.com> (https://github.com/kmalakoff)",
+  "license": "MIT",
+  "homepage": "https://github.com/kmalakoff/node-semvers",
+  "dependencies": {
+    "commander": "^2.20.3",
+    "end-of-stream": "^1.4.4",
+    "lodash.findlast": "^4.6.0",
+    "lodash.isarray": "^4.0.0",
+    "lodash.isnan": "^3.0.2",
+    "semver": "^6.3.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "cross-spawn-cb": "^0.2.1",
+    "eslint": "^7.0.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "mocha-compat": "^3.5.5",
+    "nvs": "^0.2.0",
+    "prettier": "^2.0.5"
+  }
+}
