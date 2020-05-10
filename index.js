@@ -53,10 +53,11 @@ NodeVersions.load = function load(options, callback) {
 NodeVersions.prototype.resolve = function resolve(expression, options) {
   options = options || {};
   var parsed = parseExpression.call(this, expression, options.now || new Date());
+  var version;
 
   // single result, try a match
   if (parsed) {
-    var version = findLast(this.versions, function (x) {
+    version = findLast(this.versions, function (x) {
       for (var key in parsed) {
         if (x[key] !== parsed[key]) return false;
       }
@@ -66,9 +67,12 @@ NodeVersions.prototype.resolve = function resolve(expression, options) {
   }
 
   // try an expression
-  return this.versions.filter(function (v) {
-    return semver.satisfies(v.version, expression);
-  });
+  var results = [];
+  for (var index = 0; index < this.versions.length; index++) {
+    version = this.versions[index];
+    !semver.satisfies(version.version, expression) || results.push(version);
+  }
+  return results;
 };
 
 module.exports = NodeVersions;
