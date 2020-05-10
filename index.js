@@ -1,11 +1,19 @@
 var semver = require('semver');
 var findLast = require('lodash.findlast');
+var filter = require('lodash.filter');
 
 var parseExpression = require('./lib/parseExpression');
 var fetchHTTP = require('./lib/fetchHTTP');
 var fetchCache = require('./lib/fetchCache');
 var normalizeSchedule = require('./lib/normalizeSchedule');
 var normalizeVersion = require('./lib/normalizeVersion');
+
+function minorKey(version) {
+  return version.major + '.' + version.minor;
+}
+function majorKey(version) {
+  return version.major;
+}
 
 function NodeVersions(versions, schedule) {
   if (!versions) throw new Error('Missing option: versions');
@@ -54,10 +62,10 @@ NodeVersions.prototype.resolve = function resolve(expression, options) {
   options = options || {};
   if (typeof expression === 'number') expression = '' + expression;
   if (typeof expression !== 'string') return null;
-
-  var parsed = parseExpression.call(this, expression, options.now || new Date());
+  expression = expression.trim();
 
   // single result, try a match
+  var parsed = parseExpression.call(this, expression, options.now || new Date());
   if (parsed) {
     var version = findLast(this.versions, function (x) {
       for (var key in parsed) {
@@ -68,12 +76,24 @@ NodeVersions.prototype.resolve = function resolve(expression, options) {
     if (version) return version;
   }
 
-  // try an expression
+  // unfiltered expression
+  if (typeof options.range === 'undefined' || options.range === 'patch') {
+    return filter(this.versions, function (version) {
+      return semver.satisfies(version.version, expression);
+    });
+  }
+
+  // filtered expression
   var results = [];
-  for (var index = 0; index < this.versions.length; index++) {
+  var founds = {};
+  var key = options.range === 'minor' ? minorKey : majorKey;
+  for (var index = this.versions.length - 1; index >= 0; index--) {
     // eslint-disable-next-line no-redeclare
     var version = this.versions[index];
-    !semver.satisfies(version.version, expression) || results.push(version);
+    if (!semver.satisfies(version.version, expression)) continue;
+    if (founds[key(version)]) continue;
+    founds[key(version)] = true;
+    results.unshift(version);
   }
   return results;
 };
