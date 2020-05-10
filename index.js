@@ -1,6 +1,5 @@
 var semver = require('semver');
 var findLast = require('lodash.findlast');
-var isArray = require('lodash.isarray');
 
 var parseExpression = require('./lib/parseExpression');
 var fetchHTTP = require('./lib/fetchHTTP');
@@ -53,27 +52,10 @@ NodeVersions.load = function load(options, callback) {
 
 NodeVersions.prototype.resolve = function resolve(expression, options) {
   options = options || {};
-  var now = options.now || new Date();
-  var parsed = parseExpression.call(this, expression, now);
-
-  // multiple results
-  if (parsed && isArray(parsed)) {
-    var versions = [];
-    for (var index = 0; index < parsed.length; index++) {
-      var version = findLast(this.versions, function (x) {
-        for (var key in parsed[index]) {
-          if (x[key] !== parsed[index][key]) return false;
-        }
-        return true;
-      });
-      versions.push(version);
-    }
-    return versions;
-  }
+  var parsed = parseExpression.call(this, expression, options.now || new Date());
 
   // single result, try a match
   if (parsed) {
-    // eslint-disable-next-line no-redeclare
     var version = findLast(this.versions, function (x) {
       for (var key in parsed) {
         if (x[key] !== parsed[key]) return false;
