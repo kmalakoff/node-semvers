@@ -91,8 +91,23 @@ describe('resolve', function () {
       assert.deepEqual(versions[1], { name: 'v12.0.0', version: '12.0.0', major: 12, minor: 0, patch: 0, schedule: 'v12' });
     });
 
-    it('>=0.6', function () {
+    it('>=0.6 (default)', function () {
       var versions = semvers.resolve('>=0.6', { now: now });
+      assert.equal(versions.length, 433);
+    });
+
+    it('>=0.6 (range major)', function () {
+      var versions = semvers.resolve('>=0.6', { now: now, range: 'major' });
+      assert.equal(versions.length, 12);
+    });
+
+    it('>=0.6 (range minor)', function () {
+      var versions = semvers.resolve('>=0.6', { now: now, range: 'minor' });
+      assert.equal(versions.length, 161);
+    });
+
+    it('>=0.6 (range patch)', function () {
+      var versions = semvers.resolve('>=0.6', { now: now, range: 'patch' });
       assert.equal(versions.length, 433);
     });
 
