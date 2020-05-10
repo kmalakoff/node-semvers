@@ -128,12 +128,54 @@ describe('cli', function (done) {
     });
   });
 
-  it('>=0.6', function (done) {
+  it('>=0.6 (default)', function (done) {
     spawn(path.join(__dirname, '..', '..', 'bin', 'node-semvers'), ['>=0.6', '--cache', '--now', now.getTime()], { stdout: 'string' }, function (err, res) {
       assert.ok(!err);
       assert.equal(res.code, 0);
-      assert.equal(res.stdout.split('\n').length, 434);
+      assert.equal(res.stdout.split('\n').length - 1, 433);
       done();
     });
+  });
+
+  it('>=0.6 (range major)', function (done) {
+    spawn(
+      path.join(__dirname, '..', '..', 'bin', 'node-semvers'),
+      ['>=0.6', '--cache', '--now', now.getTime(), '--range', 'major'],
+      { stdout: 'string' },
+      function (err, res) {
+        assert.ok(!err);
+        assert.equal(res.code, 0);
+        assert.equal(res.stdout.split('\n').length - 1, 12);
+        done();
+      }
+    );
+  });
+
+  it('>=0.6 (range minor)', function (done) {
+    spawn(
+      path.join(__dirname, '..', '..', 'bin', 'node-semvers'),
+      ['>=0.6', '--cache', '--now', now.getTime(), '--range', 'minor'],
+      { stdout: 'string' },
+      function (err, res) {
+        assert.ok(!err);
+        assert.equal(res.code, 0);
+        assert.equal(res.stdout.split('\n').length - 1, 161);
+        done();
+      }
+    );
+  });
+
+  it('>=0.6 (range patch)', function (done) {
+    spawn(
+      path.join(__dirname, '..', '..', 'bin', 'node-semvers'),
+      ['>=0.6', '--cache', '--now', now.getTime(), '--range', 'patch'],
+      { stdout: 'string' },
+      function (err, res) {
+        assert.ok(!err);
+        assert.equal(res.code, 0);
+        assert.equal(res.stdout.split('\n').length - 1, 433);
+        done();
+      }
+    );
   });
 });
