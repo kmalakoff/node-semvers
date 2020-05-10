@@ -33,6 +33,11 @@ describe('resolve', function () {
     assert.deepEqual(version, { name: 'v12.14.1', version: '12.14.1', major: 12, minor: 14, patch: 1, schedule: 'v12', codename: 'erbium' });
   });
 
+  it('12.14', function () {
+    var version = semvers.resolve(12.14, { now: now });
+    assert.deepEqual(version, { name: 'v12.14.1', version: '12.14.1', major: 12, minor: 14, patch: 1, schedule: 'v12', codename: 'erbium' });
+  });
+
   it('12', function () {
     var version = semvers.resolve('12', { now: now });
     assert.deepEqual(version, { name: 'v12.16.3', version: '12.16.3', major: 12, minor: 16, patch: 3, schedule: 'v12', codename: 'erbium' });
@@ -40,6 +45,11 @@ describe('resolve', function () {
 
   it('v12', function () {
     var version = semvers.resolve('v12', { now: now });
+    assert.deepEqual(version, { name: 'v12.16.3', version: '12.16.3', major: 12, minor: 16, patch: 3, schedule: 'v12', codename: 'erbium' });
+  });
+
+  it('12', function () {
+    var version = semvers.resolve(12, { now: now });
     assert.deepEqual(version, { name: 'v12.16.3', version: '12.16.3', major: 12, minor: 16, patch: 3, schedule: 'v12', codename: 'erbium' });
   });
 
