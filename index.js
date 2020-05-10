@@ -52,12 +52,14 @@ NodeVersions.load = function load(options, callback) {
 
 NodeVersions.prototype.resolve = function resolve(expression, options) {
   options = options || {};
+  if (typeof expression === 'number') expression = '' + expression;
+  if (typeof expression !== 'string') return null;
+
   var parsed = parseExpression.call(this, expression, options.now || new Date());
-  var version;
 
   // single result, try a match
   if (parsed) {
-    version = findLast(this.versions, function (x) {
+    var version = findLast(this.versions, function (x) {
       for (var key in parsed) {
         if (x[key] !== parsed[key]) return false;
       }
@@ -69,7 +71,8 @@ NodeVersions.prototype.resolve = function resolve(expression, options) {
   // try an expression
   var results = [];
   for (var index = 0; index < this.versions.length; index++) {
-    version = this.versions[index];
+    // eslint-disable-next-line no-redeclare
+    var version = this.versions[index];
     !semver.satisfies(version.version, expression) || results.push(version);
   }
   return results;
