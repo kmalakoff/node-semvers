@@ -22,14 +22,12 @@ var NodeVersions = require('node-semvers')
 
 NodeVersions.load(function (err, semvers) {
   var version = semvers.resolve('lts');
-  assert.deepEqual(version, { name: 'v12.14.0', version: '12.14.0', major: 12, minor: 14, patch: 0, schedule: 'v12', codename: 'erbium' });
+  assert.equal(version, 'v12.14.0');
 });
 
 NodeVersions.load().then((semvers) => {
   const versions = semvers.resolve('10.0.0 || ~12.0.0');
-  assert.equal(versions.length, 2);
-  assert.deepEqual(versions[0], { name: 'v10.0.0', version: '10.0.0', major: 10, minor: 0, patch: 0, schedule: 'v10' });
-  assert.deepEqual(versions[1], { name: 'v12.0.0', version: '12.0.0', major: 12, minor: 0, patch: 0, schedule: 'v12' });
+  assert.deepEqual(versions, ['v10.0.0', 'v12.0.0']);
 });
 
 ```
