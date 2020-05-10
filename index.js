@@ -5,6 +5,7 @@ var parseExpression = require('./lib/parseExpression');
 var fetchHTTP = require('./lib/fetchHTTP');
 var fetchCache = require('./lib/fetchCache');
 var keyFunctions = require('./lib/keyFunctions');
+var lineFunctions = require('./lib/lineFunctions');
 var normalizeSchedule = require('./lib/normalizeSchedule');
 var normalizeVersion = require('./lib/normalizeVersion');
 
@@ -73,6 +74,7 @@ NodeVersions.prototype.resolve = function resolve(expression, options) {
   var range = options.range || '';
   var filters = { lts: !!~range.indexOf('lts') };
   filters.key = ~range.indexOf('major') ? keyFunctions.major : ~range.indexOf('minor') ? keyFunctions.minor : undefined;
+  filters.line = ~range.indexOf('even') ? lineFunctions.even : ~range.indexOf('odd') ? lineFunctions.odd : undefined;
 
   var results = [];
   var founds = {};
@@ -80,6 +82,7 @@ NodeVersions.prototype.resolve = function resolve(expression, options) {
     // eslint-disable-next-line no-redeclare
     var version = this.versions[index];
     if (filters.lts && !version.lts) continue;
+    if (filters.line && !filters.line(version)) continue;
     if (!semver.satisfies(version.version, expression)) continue;
     if (filters.key) {
       if (founds[filters.key(version)]) continue;
