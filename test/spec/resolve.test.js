@@ -2,6 +2,11 @@ var assert = require('assert');
 
 var NodeVersions = require('../..');
 
+function major(version) {
+  var parts = version.substr(1).split('.');
+  return parts[0] === '0' ? +parts[1] : +parts[0];
+}
+
 describe('resolve', function () {
   var now = new Date(Date.parse('2020-05-10T03:23:29.347Z'));
   var semvers = null;
@@ -110,6 +115,25 @@ describe('resolve', function () {
     it('>=0.6 (lts)', function () {
       var versions = semvers.resolve('>=0.6', { now: now, range: 'lts' });
       assert.equal(versions.length, 116);
+      for (var index = 0; index < versions.length; index++) {
+        assert.ok(major(versions[index]) % 2 === 0);
+      }
+    });
+
+    it('>=0.6 (even)', function () {
+      var versions = semvers.resolve('>=0.6', { now: now, range: 'even' });
+      assert.equal(versions.length, 302);
+      for (var index = 0; index < versions.length; index++) {
+        assert.ok(major(versions[index]) % 2 === 0);
+      }
+    });
+
+    it('>=0.6 (odd)', function () {
+      var versions = semvers.resolve('>=0.6', { now: now, range: 'odd' });
+      assert.equal(versions.length, 131);
+      for (var index = 0; index < versions.length; index++) {
+        assert.ok(major(versions[index]) % 2 === 1);
+      }
     });
 
     it('>=0.6 (range major)', function () {
@@ -120,6 +144,25 @@ describe('resolve', function () {
     it('>=0.6 (range major,lts)', function () {
       var versions = semvers.resolve('>=0.6', { now: now, range: 'major,lts' });
       assert.equal(versions.length, 5);
+      for (var index = 0; index < versions.length; index++) {
+        assert.ok(major(versions[index]) % 2 === 0);
+      }
+    });
+
+    it('>=0.6 (range major,even)', function () {
+      var versions = semvers.resolve('>=0.6', { now: now, range: 'major,even' });
+      assert.equal(versions.length, 10);
+      for (var index = 0; index < versions.length; index++) {
+        assert.ok(major(versions[index]) % 2 === 0);
+      }
+    });
+
+    it('>=0.6 (range major,odd)', function () {
+      var versions = semvers.resolve('>=0.6', { now: now, range: 'major,odd' });
+      assert.equal(versions.length, 8);
+      for (var index = 0; index < versions.length; index++) {
+        assert.ok(major(versions[index]) % 2 === 1);
+      }
     });
 
     it('>=0.6 (range minor)', function () {
@@ -130,6 +173,25 @@ describe('resolve', function () {
     it('>=0.6 (range minor,lts)', function () {
       var versions = semvers.resolve('>=0.6', { now: now, range: 'minor,lts' });
       assert.equal(versions.length, 38);
+      for (var index = 0; index < versions.length; index++) {
+        assert.ok(major(versions[index]) % 2 === 0);
+      }
+    });
+
+    it('>=0.6 (range minor,even)', function () {
+      var versions = semvers.resolve('>=0.6', { now: now, range: 'minor,even' });
+      assert.equal(versions.length, 206);
+      for (var index = 0; index < versions.length; index++) {
+        assert.ok(major(versions[index]) % 2 === 0);
+      }
+    });
+
+    it('>=0.6 (range minor,odd)', function () {
+      var versions = semvers.resolve('>=0.6', { now: now, range: 'minor,odd' });
+      assert.equal(versions.length, 110);
+      for (var index = 0; index < versions.length; index++) {
+        assert.ok(major(versions[index]) % 2 === 1);
+      }
     });
 
     it('>=0.6 (range patch)', function () {
@@ -140,6 +202,25 @@ describe('resolve', function () {
     it('>=0.6 (range patch,lts)', function () {
       var versions = semvers.resolve('>=0.6', { now: now, range: 'patch,lts' });
       assert.equal(versions.length, 116);
+      for (var index = 0; index < versions.length; index++) {
+        assert.ok(major(versions[index]) % 2 === 0);
+      }
+    });
+
+    it('>=0.6 (range patch,even)', function () {
+      var versions = semvers.resolve('>=0.6', { now: now, range: 'patch,even' });
+      assert.equal(versions.length, 302);
+      for (var index = 0; index < versions.length; index++) {
+        assert.ok(major(versions[index]) % 2 === 0);
+      }
+    });
+
+    it('>=0.6 (range patch,odd)', function () {
+      var versions = semvers.resolve('>=0.6', { now: now, range: 'patch,odd' });
+      assert.equal(versions.length, 131);
+      for (var index = 0; index < versions.length; index++) {
+        assert.ok(major(versions[index]) % 2 === 1);
+      }
     });
   });
 
