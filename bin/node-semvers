@@ -3,7 +3,9 @@
 var program = require('commander');
 var isArray = require('lodash.isarray');
 var isNaN = require('lodash.isnan');
+var isObject = require('lodash.isobject');
 
+program.option('p, --path [path]', 'path within version including raw for unprocessed version', 'version');
 program.option('r, --range [range]', 'range type of major, minor, or patch with filters of lts, even, odd for version string expressions', 'patch');
 program.option('c, --cache', 'use cached information rather than http for looking up version information');
 program.option('n, --now [date]', 'use a specific time as a Date.parse', function (x) {
@@ -49,9 +51,13 @@ NodeVersions.load(program, function (err, semvers) {
     return process.exit(-1);
   }
 
+  function stringify(value) {
+    return isObject(value) ? JSON.stringify(value) : value;
+  }
+
   if (isArray(version)) {
-    for (var index = 0; index < version.length; index++) console.log(version[index]);
-  } else console.log(version);
+    for (var index = 0; index < version.length; index++) console.log(stringify(version[index]));
+  } else console.log(stringify(version));
 
   process.exit(0);
 });
