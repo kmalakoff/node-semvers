@@ -136,7 +136,23 @@ describe('cli', function (done) {
         done();
       });
     });
+
+    it('stable (path: raw)', function (done) {
+      spawn(
+        path.join(__dirname, '..', '..', 'bin', 'node-semvers'),
+        ['stable', '--cache', '--now', now.getTime(), '--path', 'raw'],
+        { stdout: 'string' },
+        function (err, res) {
+          assert.ok(!err);
+          assert.equal(res.code, 0);
+          var version = JSON.parse(res.stdout.split('\n')[0]);
+          assert.equal(version.version, 'v14.2.0');
+          done();
+        }
+      );
+    });
   });
+
   describe('happy path range', function (done) {
     it('10.x || >=12.0.0', function (done) {
       spawn(path.join(__dirname, '..', '..', 'bin', 'node-semvers'), ['10.0.0 || ~12.0.0', '--cache', '--now', now.getTime()], { stdout: 'string' }, function (
