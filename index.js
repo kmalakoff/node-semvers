@@ -16,13 +16,13 @@ function NodeVersions(versions, schedule) {
   this.schedules = [];
   for (var name in schedule) this.schedules.push(normalizeSchedule(name, schedule[name]));
   this.schedules = this.schedules.sort(function (a, b) {
-    return semver.gt(semver.coerce(a.name), semver.coerce(b.name)) ? 1 : -1;
+    return semver.gt(semver.coerce(a.semver), semver.coerce(b.semver)) ? 1 : -1;
   });
 
   this.versions = [];
   for (var index = 0; index < versions.length; index++) this.versions.push(normalizeVersion(versions[index], this.schedules));
   this.versions = this.versions.sort(function (a, b) {
-    return semver.gt(a.version, b.version) ? -1 : 1;
+    return semver.gt(a.semver, b.semver) ? -1 : 1;
   });
 }
 
@@ -57,6 +57,7 @@ NodeVersions.prototype.resolve = function resolve(expression, options) {
   if (typeof expression === 'number') expression = '' + expression;
   if (typeof expression !== 'string') return null;
   expression = expression.trim();
+  var path = options.path || 'version';
 
   // single result, try a match
   var parsed = parseExpression.call(this, expression, options.now || new Date());
@@ -67,7 +68,7 @@ NodeVersions.prototype.resolve = function resolve(expression, options) {
       }
       return true;
     });
-    if (version) return version.name;
+    if (version) return version[path];
   }
 
   // filtered expression
@@ -83,12 +84,12 @@ NodeVersions.prototype.resolve = function resolve(expression, options) {
     var version = this.versions[index];
     if (filters.lts && !version.lts) continue;
     if (filters.line && !filters.line(version)) continue;
-    if (!semver.satisfies(version.version, expression)) continue;
+    if (!semver.satisfies(version.semver, expression)) continue;
     if (filters.key) {
       if (founds[filters.key(version)]) continue;
       founds[filters.key(version)] = true;
     }
-    results.unshift(version.name);
+    results.unshift(version[path]);
   }
   return results;
 };
