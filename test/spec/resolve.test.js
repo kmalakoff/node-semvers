@@ -88,6 +88,12 @@ describe('resolve', function () {
       var version = semvers.resolve('stable', { now: now });
       assert.equal(version, 'v14.2.0');
     });
+
+    it('stable (raw)', function () {
+      var version = semvers.resolve('stable', { now: now, path: 'raw' });
+      assert.equal(version.version, 'v14.2.0');
+    });
+
     it('promise', function (done) {
       if (typeof Promise === 'undefined') return done(); // no promise support
 
