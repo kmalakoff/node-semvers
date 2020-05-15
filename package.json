@@ -1,6 +1,6 @@
 {
   "name": "node-semvers",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Utilities for managing versions of node including looking up codenames",
   "keywords": [
     "node",
@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "commander": "^2.20.3",
+    "end-of-stream": "^1.4.4",
     "lodash.filter": "^4.6.0",
     "lodash.find": "^4.6.0",
     "lodash.isarray": "^4.0.0",
