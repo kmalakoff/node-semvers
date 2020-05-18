@@ -44,7 +44,7 @@ NodeVersions.load = function load(options, callback) {
       });
     });
   } else {
-    return new Promise(function forEachPromise(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       load(options, function loadCallback(err, NodeVersions) {
         err ? reject(err) : resolve(NodeVersions);
       });

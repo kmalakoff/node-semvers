@@ -2,13 +2,13 @@
 
 var program = require('commander');
 var isArray = require('lodash.isarray');
-var isNaN = require('lodash.isnan');
 var isObject = require('lodash.isobject');
+var isNaN = require('../lib/isNaN');
 
-program.option('p, --path [path]', 'path within version including raw for unprocessed version', 'version');
-program.option('r, --range [range]', 'range type of major, minor, or patch with filters of lts, even, odd for version string expressions', 'patch');
-program.option('c, --cache', 'use cached information rather than http for looking up version information');
-program.option('n, --now [date]', 'use a specific time as a Date.parse', function (x) {
+program.option('-p, --path [path]', 'path within version including raw for unprocessed version', 'version');
+program.option('-r, --range [range]', 'range type of major, minor, or patch with filters of lts, even, odd for version string expressions', 'patch');
+program.option('-c, --cache', 'use cached information rather than http for looking up version information');
+program.option('-n, --now [date]', 'use a specific time as a Date.parse', function (x) {
   return new Date(isNaN(+x) ? Date.parse(x) : +x);
 });
 program.on('--help', function () {
