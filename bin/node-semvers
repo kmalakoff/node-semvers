@@ -1,17 +1,21 @@
 #!/usr/bin/env node
 
-var program = require('commander');
 var isArray = require('lodash.isarray');
 var isObject = require('lodash.isobject');
 var isNaN = require('../lib/isNaN');
 
-program.option('-p, --path [path]', 'path within version including raw for unprocessed version', 'version');
-program.option('-r, --range [range]', 'range type of major, minor, or patch with filters of lts, even, odd for version string expressions', 'patch');
-program.option('-c, --cache', 'use cached information rather than http for looking up version information');
-program.option('-n, --now [date]', 'use a specific time as a Date.parse', function (x) {
-  return new Date(isNaN(+x) ? Date.parse(x) : +x);
+var options = require('yargs-parser')(process.argv.slice(3), {
+  configuration: { 'halt-at-non-option': true },
+  alias: { path: ['p'], range: ['r'], cache: ['c'], now: ['n'] },
 });
-program.on('--help', function () {
+
+// define.option('-p, --path [path]', 'path within version including raw for unprocessed version', 'version');
+// define.option('-r, --range [range]', 'range type of major, minor, or patch with filters of lts, even, odd for version string expressions', 'patch');
+// define.option('-c, --cache', 'use cached information rather than http for looking up version information');
+// define.option('-n, --now [date]', 'use a specific time as a Date.parse');
+if (typeof options.now !== 'undefined') options.now = new Date(isNaN(+options.now) ? Date.parse(options.now) : +options.now);
+
+if (options.help) {
   console.log('');
   console.log('Example call:');
   console.log('  $ nv [version string]');
@@ -29,10 +33,10 @@ program.on('--help', function () {
   console.log('- latest       The most recent (non-LTS) version');
   console.log('- stable       Backwards-compatible alias for "lts"');
   console.log('- [expression] Engine and semver module expression like "10.1.x || >=12.0.0"');
-});
-program.parse(process.argv);
+  return process.exit(0);
+}
 
-var args = Array.prototype.slice.call(program.args, 0);
+var args = process.argv.slice(2, 3).concat(options._);
 if (args.length < 1) {
   console.log('Missing version string. Example usage: nv [version string]. Use nv --help for information on version strings');
   return process.exit(-1);
@@ -40,12 +44,13 @@ if (args.length < 1) {
 
 var NodeVersions = require('..');
 
-NodeVersions.load(program, function (err, semvers) {
+NodeVersions.load(options, function (err, semvers) {
   if (err) {
     console.log(err.message);
     return process.exit(err.code || -1);
   }
-  var version = semvers.resolve(args.join(' '), program);
+
+  var version = semvers.resolve(args[0], options);
   if (!version || (isArray(version) && !version.length)) {
     console.log('Unrecognized: ' + args[0]);
     return process.exit(-1);
