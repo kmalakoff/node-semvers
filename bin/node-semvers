@@ -1,19 +1,18 @@
 #!/usr/bin/env node
 
-var isArray = require('lodash.isarray');
-var isObject = require('lodash.isobject');
+var getopts = require('getopts-compat');
 var isNaN = require('../lib/isNaN');
 
-var options = require('yargs-parser')(process.argv.slice(3), {
-  configuration: { 'halt-at-non-option': true },
-  alias: { path: ['p'], range: ['r'], cache: ['c'], now: ['n'] },
+var options = getopts(process.argv.slice(3), {
+  alias: { path: 'p', range: 'r', cache: 'c', now: 'n' },
+  stopEarly: true,
 });
+if (typeof options.now !== 'undefined') options.now = new Date(isNaN(+options.now) ? Date.parse(options.now) : +options.now);
 
 // define.option('-p, --path [path]', 'path within version including raw for unprocessed version', 'version');
 // define.option('-r, --range [range]', 'range type of major, minor, or patch with filters of lts, even, odd for version string expressions', 'patch');
 // define.option('-c, --cache', 'use cached information rather than http for looking up version information');
 // define.option('-n, --now [date]', 'use a specific time as a Date.parse');
-if (typeof options.now !== 'undefined') options.now = new Date(isNaN(+options.now) ? Date.parse(options.now) : +options.now);
 
 if (options.help) {
   console.log('');
@@ -42,6 +41,8 @@ if (args.length < 1) {
   return process.exit(-1);
 }
 
+var isArray = require('lodash.isarray');
+var isObject = require('lodash.isobject');
 var NodeVersions = require('..');
 
 NodeVersions.load(options, function (err, semvers) {
