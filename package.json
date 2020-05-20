@@ -29,12 +29,12 @@
   },
   "dependencies": {
     "end-of-stream": "^1.4.4",
+    "getopts-compat": "^2.2.5",
     "lodash.filter": "^4.6.0",
     "lodash.find": "^4.6.0",
     "lodash.isarray": "^4.0.0",
     "lodash.isobject": "^3.0.2",
-    "semver": "^6.3.0",
-    "yargs-parser": "^16.1.0"
+    "semver": "^6.3.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
