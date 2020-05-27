@@ -42,7 +42,6 @@ if (args.length < 1) {
 }
 
 var isArray = require('isarray');
-var isObject = require('lodash.isobject');
 var NodeVersions = require('..');
 
 NodeVersions.load(options, function (err, semvers) {
@@ -58,7 +57,7 @@ NodeVersions.load(options, function (err, semvers) {
   }
 
   function stringify(value) {
-    return isObject(value) ? JSON.stringify(value) : value;
+    return (typeof value === 'string') ? value : JSON.stringify(value);
   }
 
   if (isArray(version)) {
