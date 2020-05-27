@@ -24,7 +24,8 @@
   "scripts": {
     "format": "eslint . --fix",
     "lint": "eslint .",
-    "test": "mocha-compat test/spec/**/*.test.js"
+    "test": "mocha-compat test/spec/**/*.test.js",
+    "postinstall": "bin/cache"
   },
   "dependencies": {
     "end-of-stream": "^1.4.4",
