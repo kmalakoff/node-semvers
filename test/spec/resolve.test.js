@@ -11,7 +11,7 @@ function major(version) {
 
 var INSTALLED_DIR = path.resolve(path.join(__dirname, '..', 'cache'));
 
-describe.only('resolve', function () {
+describe('resolve', function () {
   var now = new Date(Date.parse('2020-05-10T03:23:29.347Z'));
   var semvers = null;
 
