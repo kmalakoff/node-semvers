@@ -4,7 +4,7 @@ var getopts = require('getopts-compat');
 var isNaN = require('../lib/isNaN');
 
 var options = getopts(process.argv.slice(3), {
-  alias: { path: 'p', range: 'r', cache: 'c', now: 'n' },
+  alias: { path: 'p', range: 'r', now: 'n' },
   stopEarly: true,
 });
 if (typeof options.now !== 'undefined') options.now = new Date(isNaN(+options.now) ? Date.parse(options.now) : +options.now);
