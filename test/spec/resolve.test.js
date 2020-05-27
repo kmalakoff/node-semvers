@@ -1,4 +1,6 @@
 var assert = require('assert');
+var path = require('path');
+var rimraf = require('rimraf');
 
 var NodeVersions = require('../..');
 
@@ -7,14 +9,18 @@ function major(version) {
   return parts[0] === '0' ? +parts[1] : +parts[0];
 }
 
-describe('resolve', function () {
+var INSTALLED_DIR = path.resolve(path.join(__dirname, '..', 'cache'));
+
+describe.only('resolve', function () {
   var now = new Date(Date.parse('2020-05-10T03:23:29.347Z'));
   var semvers = null;
 
   before(function (callback) {
-    NodeVersions.load({ cache: true }, function (err, _semvers) {
-      semvers = _semvers;
-      callback(err);
+    rimraf(INSTALLED_DIR, function () {
+      NodeVersions.load(function (err, _semvers) {
+        semvers = _semvers;
+        callback(err);
+      });
     });
   });
 
@@ -54,7 +60,7 @@ describe('resolve', function () {
       assert.equal(version, 'v12.16.3');
     });
 
-    it('12', function () {
+    it('12 (number)', function () {
       var version = semvers.resolve(12, { now: now });
       assert.equal(version, 'v12.16.3');
     });
