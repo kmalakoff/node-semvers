@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+var constants = require('../lib/constants');
+var storeUpdate = require('../lib/store/update');
+
+var DISTS_URL = constants.DISTS_URL;
+var SCHEDULES_URL = constants.SCHEDULES_URL;
+
+function cache(callback) {
+  storeUpdate(DISTS_URL, function(err) {
+    err ? callback(err) : storeUpdate(SCHEDULES_URL, callback)
+  })
+}
+
+cache(function(err) {
+  if (err) {
+    console.log('Failed to cache dists and schedules. Error: ' + err.message)
+    process.exit(-1)
+  }
+  else {
+    console.log('Successfully cached dists and schedules')
+    process.exit(0)
+  }
+})
