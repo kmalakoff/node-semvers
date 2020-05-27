@@ -11,7 +11,6 @@ if (typeof options.now !== 'undefined') options.now = new Date(isNaN(+options.no
 
 // define.option('-p, --path [path]', 'path within version including raw for unprocessed version', 'version');
 // define.option('-r, --range [range]', 'range type of major, minor, or patch with filters of lts, even, odd for version string expressions', 'patch');
-// define.option('-c, --cache', 'use cached information rather than http for looking up version information');
 // define.option('-n, --now [date]', 'use a specific time as a Date.parse');
 
 if (options.help) {
