@@ -1,5 +1,4 @@
 var semver = require('semver');
-var find = require('lodash.find');
 
 var parseExpression = require('./lib/parseExpression');
 var fetch = require('./lib/fetch');
@@ -8,6 +7,7 @@ var keyFunctions = require('./lib/keyFunctions');
 var lineFunctions = require('./lib/lineFunctions');
 var normalizeSchedule = require('./lib/normalizeSchedule');
 var normalizeVersion = require('./lib/normalizeVersion');
+var match = require('./lib/match');
 
 function NodeVersions(versions, schedule) {
   if (!versions) throw new Error('Missing option: versions');
@@ -54,20 +54,24 @@ NodeVersions.load = function load(options, callback) {
 
 NodeVersions.prototype.resolve = function resolve(expression, options) {
   options = options || {};
+  var path = options.path || 'version';
+
+  // normalize
   if (typeof expression === 'number') expression = '' + expression;
   if (typeof expression !== 'string') return null;
   expression = expression.trim();
-  var path = options.path || 'version';
 
   // single result, try a match
-  var parsed = parseExpression.call(this, expression, options.now || new Date());
-  if (parsed) {
-    var version = find(this.versions, function (x) {
-      for (var key in parsed) {
-        if (x[key] !== parsed[key]) return false;
-      }
-      return true;
-    });
+  var query = parseExpression.call(this, expression, options.now || new Date());
+  if (query) {
+    var version = null;
+    for (var index=0; index<this.versions.length; index++) {
+      var test = this.versions[index];
+      if (options.now && options.now < test.date) continue
+      if (!match(test, query)) continue;
+      version = test;
+      break;
+    }
     if (version) return version[path];
   }
 
@@ -79,17 +83,19 @@ NodeVersions.prototype.resolve = function resolve(expression, options) {
 
   var results = [];
   var founds = {};
+  // eslint-disable-next-line no-redeclare
   for (var index = 0; index < this.versions.length; index++) {
     // eslint-disable-next-line no-redeclare
-    var version = this.versions[index];
-    if (filters.lts && !version.lts) continue;
-    if (filters.line && !filters.line(version)) continue;
-    if (!semver.satisfies(version.semver, expression)) continue;
+    var test = this.versions[index];
+    if (options.now && options.now < test.date) continue;
+    if (filters.lts && !test.lts) continue;
+    if (filters.line && !filters.line(test)) continue;
+    if (!semver.satisfies(test.semver, expression)) continue;
     if (filters.key) {
-      if (founds[filters.key(version)]) continue;
-      founds[filters.key(version)] = true;
+      if (founds[filters.key(test)]) continue;
+      founds[filters.key(test)] = true;
     }
-    results.unshift(version[path]);
+    results.unshift(test[path]);
   }
   return results;
 };

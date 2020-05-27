@@ -1,8 +1,10 @@
 var assert = require('assert');
 var path = require('path');
+var rimraf = require('rimraf');
 var spawn = require('cross-spawn-cb');
 
 var CLI = path.join(__dirname, '..', '..', 'bin', 'node-semvers');
+var INSTALLED_DIR = path.resolve(path.join(__dirname, '..', 'cache'));
 
 function major(version) {
   var parts = version.substr(1).split('.');
@@ -11,6 +13,10 @@ function major(version) {
 
 describe('cli', function (done) {
   var now = new Date(Date.parse('2020-05-10T03:23:29.347Z'));
+
+  before(function (callback) {
+    rimraf(INSTALLED_DIR, callback.bind(null, null));
+  });
 
   describe('happy path', function (done) {
     it('12.14.0', function (done) {
