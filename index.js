@@ -1,13 +1,16 @@
 var semver = require('semver');
 
-var parseExpression = require('./lib/parseExpression');
-var fetch = require('./lib/fetch');
-var fetchCache = require('./lib/fetchCache');
+var constants = require('./lib/constants');
 var keyFunctions = require('./lib/keyFunctions');
 var lineFunctions = require('./lib/lineFunctions');
 var normalizeSchedule = require('./lib/normalizeSchedule');
 var normalizeVersion = require('./lib/normalizeVersion');
 var match = require('./lib/match');
+var parseExpression = require('./lib/parseExpression');
+var storeGet = require('./lib/store/get');
+
+var DISTS_URL = constants.DISTS_URL;
+var SCHEDULES_URL = constants.SCHEDULES_URL;
 
 function NodeVersions(versions, schedule) {
   if (!versions) throw new Error('Missing option: versions');
@@ -34,12 +37,10 @@ NodeVersions.load = function load(options, callback) {
 
   if (typeof callback === 'function') {
     options = options || {};
-    var selectedFetch = options.cache ? fetchCache : fetch;
-
-    selectedFetch('https://nodejs.org/dist/index.json', function (err, versions) {
+    storeGet(DISTS_URL, function (err, versions) {
       if (err) return callback(err);
 
-      selectedFetch('https://raw.githubusercontent.com/nodejs/Release/master/schedule.json', function (err, schedule) {
+      storeGet(SCHEDULES_URL, function (err, schedule) {
         err ? callback(err) : callback(null, new NodeVersions(versions, schedule));
       });
     });
@@ -65,9 +66,9 @@ NodeVersions.prototype.resolve = function resolve(expression, options) {
   var query = parseExpression.call(this, expression, options.now || new Date());
   if (query) {
     var version = null;
-    for (var index=0; index<this.versions.length; index++) {
+    for (var index = 0; index < this.versions.length; index++) {
       var test = this.versions[index];
-      if (options.now && options.now < test.date) continue
+      if (options.now && options.now < test.date) continue;
       if (!match(test, query)) continue;
       version = test;
       break;
