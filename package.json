@@ -1,6 +1,6 @@
 {
   "name": "node-semvers",
-  "version": "0.4.12",
+  "version": "0.4.13",
   "description": "Utilities for managing versions of node including looking up codenames",
   "keywords": [
     "node",
@@ -28,7 +28,7 @@
     "postinstall": "node bin/cache"
   },
   "dependencies": {
-    "end-of-stream": "^1.4.4",
+    "fetch-json-cache": "^0.1.0",
     "getopts-compat": "^2.2.5",
     "isarray": "^2.0.5",
     "semver": "^6.3.0"
