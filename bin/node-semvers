@@ -59,6 +59,7 @@ NodeVersions.load(options, function (err, semvers) {
     return (typeof value === 'string') ? value : JSON.stringify(value);
   }
 
+  console.log('versions:')
   if (isArray(version)) {
     for (var index = 0; index < version.length; index++) console.log(stringify(version[index]));
   } else console.log(stringify(version));
