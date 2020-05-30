@@ -1,4 +1,5 @@
 var semver = require('semver');
+var Cache = require('fetch-json-cache');
 
 var constants = require('./lib/constants');
 var keyFunctions = require('./lib/keyFunctions');
@@ -7,10 +8,6 @@ var normalizeSchedule = require('./lib/normalizeSchedule');
 var normalizeVersion = require('./lib/normalizeVersion');
 var match = require('./lib/match');
 var parseExpression = require('./lib/parseExpression');
-var storeGet = require('./lib/store/get');
-
-var DISTS_URL = constants.DISTS_URL;
-var SCHEDULES_URL = constants.SCHEDULES_URL;
 
 function NodeVersions(versions, schedule) {
   if (!versions) throw new Error('Missing option: versions');
@@ -37,10 +34,12 @@ NodeVersions.load = function load(options, callback) {
 
   if (typeof callback === 'function') {
     options = options || {};
-    storeGet(DISTS_URL, function (err, versions) {
+
+    var cache = new Cache(options.cacheDirectory || constants.CACHE_DIRECTORY);
+    cache.get(constants.DISTS_URL, function (err, versions) {
       if (err) return callback(err);
 
-      storeGet(SCHEDULES_URL, function (err, schedule) {
+      cache.get(constants.SCHEDULES_URL, function (err, schedule) {
         err ? callback(err) : callback(null, new NodeVersions(versions, schedule));
       });
     });
