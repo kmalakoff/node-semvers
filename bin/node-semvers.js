@@ -44,6 +44,10 @@ var isNaN = require('../lib/isNaN');
   var isArray = require('isarray');
   var NodeVersions = require('..');
 
+  function stringify(value) {
+    return typeof value === 'string' ? value : JSON.stringify(value);
+  }
+
   NodeVersions.load(options, function (err, semvers) {
     if (err) {
       console.log(err.message);
@@ -54,10 +58,6 @@ var isNaN = require('../lib/isNaN');
     if (!version || (isArray(version) && !version.length)) {
       console.log('Unrecognized: ' + args[0]);
       return process.exit(-1);
-    }
-
-    function stringify(value) {
-      return typeof value === 'string' ? value : JSON.stringify(value);
     }
 
     console.log('versions:');
