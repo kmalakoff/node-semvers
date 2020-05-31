@@ -32,7 +32,7 @@ var isNaN = require('../lib/isNaN');
     console.log('- latest       The most recent (non-LTS) version');
     console.log('- stable       Backwards-compatible alias for "lts"');
     console.log('- [expression] Engine and semver module expression like "10.1.x || >=12.0.0"');
-    return process.exit(0);
+    return;
   }
 
   var args = process.argv.slice(2, 3).concat(options._);
