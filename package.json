@@ -35,7 +35,8 @@
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "cross-spawn-cb": "^0.2.4",
+    "cr": "^0.1.0",
+    "cross-spawn-cb": "^0.3.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^14.1.1",
