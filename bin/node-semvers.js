@@ -51,7 +51,7 @@ var isNaN = require('../lib/isNaN');
   NodeVersions.load(options, function (err, semvers) {
     if (err) {
       console.log(err.message);
-      sprocess.exit(err.code || -1);
+      process.exit(err.code || -1);
     }
 
     var version = semvers.resolve(args[0], options);
@@ -64,7 +64,5 @@ var isNaN = require('../lib/isNaN');
     if (isArray(version)) {
       for (var index = 0; index < version.length; index++) console.log(stringify(version[index]));
     } else console.log(stringify(version));
-
-    process.exit(0);
   });
 })();
