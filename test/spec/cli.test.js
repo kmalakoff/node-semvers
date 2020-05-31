@@ -4,7 +4,6 @@ var rimraf = require('rimraf');
 var spawn = require('cross-spawn-cb');
 
 var CLI = path.join(__dirname, '..', '..', 'bin', 'node-semvers.js');
-var EOL = process.platform === 'win32' ? '\r\n' : '\n';
 var INSTALLED_DIR = path.resolve(path.join(__dirname, '..', 'cache'));
 
 function major(version) {
