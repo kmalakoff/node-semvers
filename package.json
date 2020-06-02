@@ -26,7 +26,7 @@
     "lint": "eslint .",
     "test": "mocha-compat test/spec/**/*.test.js --no-timeouts",
     "postinstall": "node bin/cache.js",
-    "prepublishOnly": "dtd \"npm run lint\" \"depcheck --ignores='depcheck'\""
+    "prepublishOnly": "dtd \"npm run lint\" \"depcheck\""
   },
   "dependencies": {
     "exit": "^0.1.2",
