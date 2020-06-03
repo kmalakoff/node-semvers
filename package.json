@@ -23,10 +23,10 @@
   },
   "scripts": {
     "format": "prettier --write .",
-    "lint": "eslint .",
-    "test": "mocha-compat test/spec/**/*.test.js --no-timeouts",
     "postinstall": "node bin/cache.js",
-    "prepublishOnly": "dtd \"npm run lint\" \"depcheck\""
+    "lint": "eslint .",
+    "prepublishOnly": "dtd \"npm run lint\" \"depcheck\"",
+    "test": "mocha-compat test/spec/**/*.test.js --no-timeouts"
   },
   "dependencies": {
     "exit": "^0.1.2",
