@@ -1,6 +1,6 @@
 {
   "name": "node-semvers",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Utilities for managing versions of node including looking up codenames",
   "keywords": [
     "node",
@@ -26,11 +26,12 @@
     "postinstall": "node bin/cache.js",
     "lint": "eslint .",
     "prepublishOnly": "dtd \"npm run lint\" \"depcheck\"",
-    "test": "mocha-compat test/spec/**/*.test.js --no-timeouts"
+    "test": "mocha-compat test/spec/**/*.test.js --no-timeouts",
+    "test:engines": "nvu engines npm test"
   },
   "dependencies": {
     "exit": "^0.1.2",
-    "fetch-json-cache": "^0.1.8",
+    "fetch-json-cache": "^0.1.10",
     "getopts-compat": "^2.2.5",
     "isarray": "^2.0.5",
     "semver": "^5.7.1"
@@ -49,10 +50,11 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "mocha-compat": "^3.5.5",
-    "prettier": "^2.3.2",
+    "node-version-use": "^0.2.0",
+    "prettier": "^2.4.1",
     "rimraf": "^2.7.1"
   },
   "engines": {
-    "node": ">=0.10"
+    "node": ">=0.8"
   }
 }
