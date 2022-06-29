@@ -26,8 +26,7 @@
     "postinstall": "node bin/cache.js",
     "lint": "eslint .",
     "prepublishOnly": "dtd \"npm run lint\" \"depcheck\"",
-    "test": "mocha-compat test/spec/**/*.test.js --no-timeouts",
-    "test:engines": "nvu engines npm test"
+    "test": "mocha-compat test/spec/**/*.test.js --no-timeouts"
   },
   "dependencies": {
     "exit": "^0.1.2",
@@ -39,18 +38,16 @@
   "devDependencies": {
     "@typescript-eslint/parser": "^5.30.0",
     "cr": "^0.1.0",
-    "cross-spawn-cb": "^0.5.2",
+    "cross-spawn-cb": "^0.5.9",
     "depcheck": "^1.4.3",
-    "dis-dat": "^0.1.5",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
+    "dis-dat": "^0.1.6",
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.2.3",
+    "eslint-plugin-promise": "^6.0.0",
     "mocha-compat": "^3.5.5",
-    "node-version-use": "^0.2.2",
     "prettier": "^2.7.1",
     "rimraf": "^2.7.1"
   },
