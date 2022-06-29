@@ -22,7 +22,8 @@
     "nsv": "./bin/node-semvers.js"
   },
   "files": [
-    "lib"
+    "lib",
+    "bin"
   ],
   "scripts": {
     "format": "prettier --write .",
