@@ -17,10 +17,13 @@
   },
   "license": "MIT",
   "author": "Kevin Malakoff <kmalakoff@gmail.com> (https://github.com/kmalakoff)",
-  "main": "index.js",
+  "main": "lib/index.js",
   "bin": {
     "nsv": "./bin/node-semvers.js"
   },
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "format": "prettier --write .",
     "postinstall": "node bin/cache.js",
