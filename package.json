@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "exit": "^0.1.2",
-    "fetch-json-cache": "^0.1.10",
+    "fetch-json-cache": "^0.1.11",
     "getopts-compat": "^2.2.5",
     "isarray": "^2.0.5",
     "semver": "^5.7.1"
@@ -44,7 +44,7 @@
     "cr": "^0.1.0",
     "cross-spawn-cb": "^0.5.9",
     "depcheck": "^1.4.3",
-    "dis-dat": "^0.1.6",
+    "dis-dat": "^0.1.7",
     "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard": "^17.0.0",
