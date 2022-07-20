@@ -21,7 +21,7 @@ describe('cli', function (done) {
 
   describe('happy path', function (done) {
     it('12.14.0', function (done) {
-      spawn(CLI, ['12.14.0', '--now', now.getTime()], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['12.14.0', '--now', now.getTime()], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
         assert.equal(version, 'v12.14.0');
@@ -30,7 +30,7 @@ describe('cli', function (done) {
     });
 
     it('v12.14.0', function (done) {
-      spawn(CLI, ['v12.14.0', '--now', now.getTime()], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['v12.14.0', '--now', now.getTime()], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
         assert.equal(version, 'v12.14.0');
@@ -39,7 +39,7 @@ describe('cli', function (done) {
     });
 
     it('12.14', function (done) {
-      spawn(CLI, ['12.14', '--now', now.getTime()], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['12.14', '--now', now.getTime()], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
         assert.equal(version, 'v12.14.1');
@@ -48,7 +48,7 @@ describe('cli', function (done) {
     });
 
     it('v12.14', function (done) {
-      spawn(CLI, ['v12.14', '--now', now.getTime()], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['v12.14', '--now', now.getTime()], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
         assert.equal(version, 'v12.14.1');
@@ -57,7 +57,7 @@ describe('cli', function (done) {
     });
 
     it('12', function (done) {
-      spawn(CLI, ['12', '--now', now.getTime()], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['12', '--now', now.getTime()], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
         assert.equal(version, 'v12.16.3');
@@ -66,7 +66,7 @@ describe('cli', function (done) {
     });
 
     it('v12', function (done) {
-      spawn(CLI, ['v12', '--now', now.getTime()], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['v12', '--now', now.getTime()], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
         assert.equal(version, 'v12.16.3');
@@ -75,7 +75,7 @@ describe('cli', function (done) {
     });
 
     it('lts', function (done) {
-      spawn(CLI, ['lts', '--now', now.getTime()], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['lts', '--now', now.getTime()], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
         assert.equal(version, 'v14.2.0');
@@ -84,7 +84,7 @@ describe('cli', function (done) {
     });
 
     it('lts/dubnium', function (done) {
-      spawn(CLI, ['lts/dubnium', '--now', now.getTime()], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['lts/dubnium', '--now', now.getTime()], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
         assert.equal(version, 'v10.20.1');
@@ -93,7 +93,7 @@ describe('cli', function (done) {
     });
 
     it('dubnium', function (done) {
-      spawn(CLI, ['dubnium', '--now', now.getTime()], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['dubnium', '--now', now.getTime()], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
         assert.equal(version, 'v10.20.1');
@@ -102,7 +102,7 @@ describe('cli', function (done) {
     });
 
     it('lts/*', function (done) {
-      spawn(CLI, ['lts/*', '--now', now.getTime()], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['lts/*', '--now', now.getTime()], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
         assert.equal(version, 'v14.2.0');
@@ -111,7 +111,7 @@ describe('cli', function (done) {
     });
 
     it('latest', function (done) {
-      spawn(CLI, ['latest', '--now', now.getTime()], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['latest', '--now', now.getTime()], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
         assert.equal(version, 'v13.14.0');
@@ -120,7 +120,7 @@ describe('cli', function (done) {
     });
 
     it('stable', function (done) {
-      spawn(CLI, ['stable', '--now', now.getTime()], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['stable', '--now', now.getTime()], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
         assert.equal(version, 'v14.2.0');
@@ -129,7 +129,7 @@ describe('cli', function (done) {
     });
 
     it('stable (path: raw)', function (done) {
-      spawn(CLI, ['stable', '--now', now.getTime(), '--path', 'raw'], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['stable', '--now', now.getTime(), '--path', 'raw'], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var version = JSON.parse(cr(res.stdout).split('versions:\n').pop().split('\n')[0]);
         assert.equal(version.version, 'v14.2.0');
@@ -140,7 +140,7 @@ describe('cli', function (done) {
 
   describe('happy path range', function (done) {
     it('10.x || >=12.0.0', function (done) {
-      spawn(CLI, ['10.0.0 || ~12.0.0', '--now', now.getTime()], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['10.0.0 || ~12.0.0', '--now', now.getTime()], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
         assert.deepEqual(versions, ['v10.0.0', 'v12.0.0']);
@@ -149,7 +149,7 @@ describe('cli', function (done) {
     });
 
     it('>=0.6 (default)', function (done) {
-      spawn(CLI, ['>=0.6', '--now', now.getTime()], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['>=0.6', '--now', now.getTime()], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
         assert.deepEqual(versions.length, 433);
@@ -158,7 +158,7 @@ describe('cli', function (done) {
     });
 
     it('>=0.6 (lts)', function (done) {
-      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'lts'], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'lts'], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
         assert.deepEqual(versions.length, 116);
@@ -170,7 +170,7 @@ describe('cli', function (done) {
     });
 
     it('>=0.6 (even)', function (done) {
-      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'even'], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'even'], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
         assert.deepEqual(versions.length, 302);
@@ -182,7 +182,7 @@ describe('cli', function (done) {
     });
 
     it('>=0.6 (odd)', function (done) {
-      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'odd'], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'odd'], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
         assert.deepEqual(versions.length, 131);
@@ -194,7 +194,7 @@ describe('cli', function (done) {
     });
 
     it('>=0.6 (range major)', function (done) {
-      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'major'], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'major'], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
         assert.deepEqual(versions.length, 18);
@@ -203,7 +203,7 @@ describe('cli', function (done) {
     });
 
     it('>=0.6 (range major,lts)', function (done) {
-      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'major,lts'], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'major,lts'], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
         assert.deepEqual(versions.length, 5);
@@ -215,7 +215,7 @@ describe('cli', function (done) {
     });
 
     it('>=0.6 (range major,even)', function (done) {
-      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'major,even'], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'major,even'], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
         assert.deepEqual(versions.length, 10);
@@ -227,7 +227,7 @@ describe('cli', function (done) {
     });
 
     it('>=0.6 (range major,odd)', function (done) {
-      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'major,odd'], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'major,odd'], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
         assert.deepEqual(versions.length, 8);
@@ -239,7 +239,7 @@ describe('cli', function (done) {
     });
 
     it('>=0.6 (range minor)', function (done) {
-      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'minor'], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'minor'], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
         assert.deepEqual(versions.length, 316);
@@ -248,7 +248,7 @@ describe('cli', function (done) {
     });
 
     it('>=0.6 (range minor,lts)', function (done) {
-      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'minor,lts'], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'minor,lts'], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
         assert.deepEqual(versions.length, 38);
@@ -260,7 +260,7 @@ describe('cli', function (done) {
     });
 
     it('>=0.6 (range minor,even)', function (done) {
-      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'minor,even'], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'minor,even'], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
         assert.deepEqual(versions.length, 206);
@@ -272,7 +272,7 @@ describe('cli', function (done) {
     });
 
     it('>=0.6 (range minor,odd)', function (done) {
-      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'minor,odd'], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'minor,odd'], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
         assert.deepEqual(versions.length, 110);
@@ -284,7 +284,7 @@ describe('cli', function (done) {
     });
 
     it('>=0.6 (range patch)', function (done) {
-      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'patch'], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'patch'], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
         assert.deepEqual(versions.length, 433);
@@ -293,7 +293,7 @@ describe('cli', function (done) {
     });
 
     it('>=0.6 (range patch,lts)', function (done) {
-      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'patch,lts'], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'patch,lts'], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
         assert.deepEqual(versions.length, 116);
@@ -305,7 +305,7 @@ describe('cli', function (done) {
     });
 
     it('>=0.6 (range patch,even)', function (done) {
-      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'patch,even'], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'patch,even'], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
         assert.deepEqual(versions.length, 302);
@@ -317,7 +317,7 @@ describe('cli', function (done) {
     });
 
     it('>=0.6 (range patch,odd)', function (done) {
-      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'patch,odd'], { stdout: 'string' }, function (err, res) {
+      spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'patch,odd'], { encoding: 'utf8' }, function (err, res) {
         assert.ok(!err);
         var versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
         assert.deepEqual(versions.length, 131);
