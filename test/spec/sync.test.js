@@ -11,7 +11,7 @@ function major(version) {
 
 var INSTALLED_DIR = path.resolve(path.join(__dirname, '..', 'cache'));
 
-describe('async', function () {
+describe('sync', function () {
   var now = new Date(Date.parse('2020-05-10T03:23:29.347Z'));
 
   before(function (callback) {
@@ -21,7 +21,7 @@ describe('async', function () {
   });
 
   describe('happy path', function () {
-    it('12.14.0', function () {
+    it.only('12.14.0', function () {
       var semvers = NodeVersions.loadSync();
       var version = semvers.resolve('12.14.0', { now: now });
       assert.equal(version, 'v12.14.0');
