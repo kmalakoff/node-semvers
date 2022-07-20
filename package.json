@@ -1,6 +1,6 @@
 {
   "name": "node-semvers",
-  "version": "0.5.6",
+  "version": "0.6.0",
   "description": "Utilities for managing versions of node including looking up codenames",
   "keywords": [
     "node",
