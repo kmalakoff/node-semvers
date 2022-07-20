@@ -29,23 +29,22 @@
     "format": "prettier --write .",
     "postinstall": "node bin/cache.js",
     "lint": "eslint .",
-    "prepublishOnly": "dtd \"npm run lint\" \"depcheck\"",
+    "prepublishOnly": "npm run lint && depcheck",
     "test": "mocha-compat test/spec/**/*.test.js --no-timeouts"
   },
   "dependencies": {
     "exit": "^0.1.2",
-    "fetch-json-cache": "^0.1.12",
+    "fetch-json-cache": "^0.2.0",
     "getopts-compat": "^2.2.5",
     "isarray": "^2.0.5",
     "semver": "^5.7.1"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^5.30.5",
+    "@typescript-eslint/parser": "^5.30.7",
     "cr": "^0.1.0",
-    "cross-spawn-cb": "^0.5.12",
+    "cross-spawn-cb": "^0.6.3",
     "depcheck": "^1.4.3",
-    "dis-dat": "^0.1.7",
-    "eslint": "^8.19.0",
+    "eslint": "^8.20.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.26.0",
