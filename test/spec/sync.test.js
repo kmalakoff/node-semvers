@@ -21,7 +21,7 @@ describe('sync', function () {
   });
 
   describe('happy path', function () {
-    it.only('12.14.0', function () {
+    it('12.14.0', function () {
       var semvers = NodeVersions.loadSync();
       var version = semvers.resolve('12.14.0', { now: now });
       assert.equal(version, 'v12.14.0');
