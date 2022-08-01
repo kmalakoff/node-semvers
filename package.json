@@ -36,17 +36,17 @@
   },
   "dependencies": {
     "exit": "^0.1.2",
-    "fetch-json-cache": "^0.2.2",
+    "fetch-json-cache": "^0.2.3",
     "getopts-compat": "^2.2.5",
     "isarray": "^2.0.5",
     "semver": "^5.7.1"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^5.30.7",
+    "@typescript-eslint/parser": "^5.31.0",
     "cr": "^0.1.0",
-    "cross-spawn-cb": "^0.6.6",
+    "cross-spawn-cb": "^0.6.7",
     "depcheck": "^1.4.3",
-    "eslint": "^8.20.0",
+    "eslint": "^8.21.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.26.0",
