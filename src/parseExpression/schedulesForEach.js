@@ -1,6 +1,6 @@
 module.exports = function schedulesForEach(schedules, filter, fn) {
-  for (var index = 0; index < schedules.length; index++) {
-    var schedule = schedules[index];
+  for (let index = 0; index < schedules.length; index++) {
+    const schedule = schedules[index];
     !filter(schedule) || fn(schedule);
   }
 };

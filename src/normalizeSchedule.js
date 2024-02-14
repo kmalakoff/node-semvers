@@ -1,5 +1,5 @@
 module.exports = function normalizeSchedule(name, raw) {
-  var schedule = {
+  const schedule = {
     name: name,
     semver: name.slice(1),
     raw: raw,
