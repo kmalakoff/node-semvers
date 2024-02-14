@@ -1,13 +1,13 @@
-#!/usr/bin/env node
+import exit from 'exit';
+import getopts from 'getopts-compat';
+import NodeVersions from './index.js';
 
-var getopts = require('getopts-compat');
-var exit = require('exit');
-var isArray = require('isarray');
-var NodeVersions = require('..');
-var isNaN = require('../lib/isNaN');
+import isArray from 'isarray';
+// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
+import isNaN from './isNaN.js';
 
-(function () {
-  var options = getopts(process.argv.slice(3), {
+export default (argv) => {
+  const options = getopts(argv.slice(1), {
     alias: { path: 'p', range: 'r', now: 'n' },
     stopEarly: true,
   });
@@ -38,7 +38,7 @@ var isNaN = require('../lib/isNaN');
     return;
   }
 
-  var args = process.argv.slice(2, 3).concat(options._);
+  const args = argv.slice(0, 1).concat(options._);
   if (args.length < 1) {
     console.log('Missing version string. Example usage: nv [version string]. Use nv --help for information on version strings');
     return exit(-1);
@@ -48,22 +48,22 @@ var isNaN = require('../lib/isNaN');
     return typeof value === 'string' ? value : JSON.stringify(value);
   }
 
-  NodeVersions.load(options, function (err, semvers) {
+  NodeVersions.load(options, (err, semvers) => {
     if (err) {
       console.log(err.message);
       return exit(err.code || -1);
     }
 
-    var version = semvers.resolve(args[0], options);
+    const version = semvers.resolve(args[0], options);
     if (!version || (isArray(version) && !version.length)) {
-      console.log('Unrecognized: ' + args[0]);
+      console.log(`Unrecognized: ${args[0]}`);
       return exit(-1);
     }
 
     console.log('versions:');
     if (isArray(version)) {
-      for (var index = 0; index < version.length; index++) console.log(stringify(version[index]));
+      for (let index = 0; index < version.length; index++) console.log(stringify(version[index]));
     } else console.log(stringify(version));
     exit(0);
   });
-})();
+};
