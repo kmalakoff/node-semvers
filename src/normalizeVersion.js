@@ -1,10 +1,10 @@
 module.exports = function normalizeVersion(raw, schedules) {
-  var parts = raw.version.substr(1).split('.');
+  const parts = raw.version.substr(1).split('.');
 
-  var version = {
+  const version = {
     version: raw.version,
-    name: parts[0] !== 0 ? 'v' + +parts[0] : 'v' + +parts[0] + '.' + +parts[1],
-    semver: parts[0] + '.' + +parts[1] + '.' + +parts[2],
+    name: parts[0] !== 0 ? `v${+parts[0]}` : `v${+parts[0]}.${+parts[1]}`,
+    semver: `${parts[0]}.${+parts[1]}.${+parts[2]}`,
     major: +parts[0],
     minor: +parts[1],
     patch: +parts[2],
@@ -13,9 +13,9 @@ module.exports = function normalizeVersion(raw, schedules) {
     raw: raw,
   };
 
-  var schedule = null;
-  for (var index = 0; index < schedules.length; index++) {
-    var test = schedules[index];
+  let schedule = null;
+  for (let index = 0; index < schedules.length; index++) {
+    const test = schedules[index];
     if (test.name === version.name) {
       schedule = test;
       break;
