@@ -1,1 +1,1 @@
-ignores: ["depcheck"]
+ignores: ["node-semvers", "depcheck", "ts-dev-stack", "@types/*"]
