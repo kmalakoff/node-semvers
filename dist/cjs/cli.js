@@ -10,7 +10,7 @@ Object.defineProperty(exports, "default", {
 });
 var _exit = /*#__PURE__*/ _interop_require_default(require("exit"));
 var _getoptscompat = /*#__PURE__*/ _interop_require_default(require("getopts-compat"));
-var _index = /*#__PURE__*/ _interop_require_default(require("./index.js"));
+var _NodeVersions = /*#__PURE__*/ _interop_require_default(require("./NodeVersions.js"));
 var _isarray = /*#__PURE__*/ _interop_require_default(require("isarray"));
 var _isNaN = /*#__PURE__*/ _interop_require_default(require("./isNaN.js"));
 function _interop_require_default(obj) {
@@ -59,7 +59,7 @@ var _default = function(argv) {
         console.log("Missing version string. Example usage: nv [version string]. Use nv --help for information on version strings");
         return (0, _exit.default)(-1);
     }
-    _index.default.load(options, function(err, semvers) {
+    _NodeVersions.default.load(options, function(err, semvers) {
         if (err) {
             console.log(err.message);
             return (0, _exit.default)(err.code || -1);
@@ -76,9 +76,4 @@ var _default = function(argv) {
         (0, _exit.default)(0);
     });
 };
-
-if ((typeof exports.default === 'function' || (typeof exports.default === 'object' && exports.default !== null)) && typeof exports.default.__esModule === 'undefined') {
-  Object.defineProperty(exports.default, '__esModule', { value: true });
-  for (var key in exports) exports.default[key] = exports[key];
-  module.exports = exports.default;
-}
+/* CJS INTEROP */ if (exports.__esModule && exports.default) { Object.defineProperty(exports.default, '__esModule', { value: true }); for (var key in exports) exports.default[key] = exports[key]; module.exports = exports.default; }
