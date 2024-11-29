@@ -4,7 +4,7 @@ delete process.env.NODE_OPTIONS;
 
 const assert = require('assert');
 const path = require('path');
-const rimraf = require('rimraf');
+const rimraf2 = require('rimraf2');
 
 const NodeVersions = require('node-semvers');
 
@@ -20,7 +20,7 @@ describe('resolve', () => {
   let semvers = null;
 
   before((callback) => {
-    rimraf(INSTALLED_DIR, () => {
+    rimraf2(INSTALLED_DIR, { disableGlob: true }, () => {
       NodeVersions.load((err, _semvers) => {
         semvers = _semvers;
         callback(err);
