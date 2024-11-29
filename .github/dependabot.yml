@@ -3,10 +3,9 @@ updates:
   - package-ecosystem: npm
     directory: '/'
     schedule:
-      interval: daily
+      interval: weekly
     ignore:
       - dependency-name: 'semver'
-      - dependency-name: 'rimraf'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:

@@ -4,7 +4,7 @@ delete process.env.NODE_OPTIONS;
 
 const assert = require('assert');
 const path = require('path');
-const rimraf = require('rimraf');
+const rimraf2 = require('rimraf2');
 
 const NodeVersions = require('node-semvers');
 
@@ -19,7 +19,7 @@ describe('sync', () => {
   const now = new Date(Date.parse('2020-05-10T03:23:29.347Z'));
 
   before((callback) => {
-    rimraf(INSTALLED_DIR, () => {
+    rimraf2(INSTALLED_DIR, { disableGlob: true }, () => {
       NodeVersions.load(callback);
     });
   });
