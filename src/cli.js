@@ -1,6 +1,6 @@
 import exit from 'exit';
 import getopts from 'getopts-compat';
-import NodeVersions from './index.js';
+import NodeVersions from './NodeVersions.js';
 
 import isArray from 'isarray';
 // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>

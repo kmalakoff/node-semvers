@@ -1,6 +1,6 @@
-export = NodeVersions;
-declare function NodeVersions(versions: any, schedule: any): void;
-declare class NodeVersions {
+export default class NodeVersions {
+    static load(options: any, callback: any): Promise<any>;
+    static loadSync(options: any): NodeVersions;
     constructor(versions: any, schedule: any);
     schedules: {
         name: any;
@@ -19,8 +19,4 @@ declare class NodeVersions {
         raw: any;
     }[];
     resolve(expression: any, options: any): any;
-}
-declare namespace NodeVersions {
-    function load(options: any, callback: any): Promise<any>;
-    function loadSync(options: any): NodeVersions;
 }

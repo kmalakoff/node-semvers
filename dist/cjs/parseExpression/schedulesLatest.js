@@ -1,5 +1,5 @@
 "use strict";
-var schedulesForEach = require("./schedulesForEach");
+var schedulesForEach = require('./schedulesForEach');
 module.exports = function schedulesLatest(schedules, filter) {
     var latest = null;
     schedulesForEach(schedules, filter, function(schedule) {
@@ -7,9 +7,4 @@ module.exports = function schedulesLatest(schedules, filter) {
     });
     return latest;
 };
-
-if ((typeof exports.default === 'function' || (typeof exports.default === 'object' && exports.default !== null)) && typeof exports.default.__esModule === 'undefined') {
-  Object.defineProperty(exports.default, '__esModule', { value: true });
-  for (var key in exports) exports.default[key] = exports[key];
-  module.exports = exports.default;
-}
+/* CJS INTEROP */ if (exports.__esModule && exports.default) { Object.defineProperty(exports.default, '__esModule', { value: true }); for (var key in exports) exports.default[key] = exports[key]; module.exports = exports.default; }

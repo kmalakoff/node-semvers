@@ -1,18 +1,18 @@
 // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 "use strict";
-var isNaN = require("../isNaN");
-var isLTSFn = require("./isLTSFn");
-var isLatestFn = require("./isLatestFn");
-var schedulesLatest = require("./schedulesLatest");
+var isNaN = require('../isNaN');
+var isLTSFn = require('./isLTSFn');
+var isLatestFn = require('./isLatestFn');
+var schedulesLatest = require('./schedulesLatest');
 module.exports = function parseExpression(expression, now) {
-    if (expression[0] === "v" && !isNaN(+expression.substr(1, 1))) expression = expression.substr(1);
-    if (expression.substr(0, 4) === "lts/") expression = expression.substr(4) === "*" ? "lts" : expression.substr(4);
-    if (expression === "stable") expression = "lts";
-    if (typeof expression === "number") return {
+    if (expression[0] === 'v' && !isNaN(+expression.substr(1, 1))) expression = expression.substr(1);
+    if (expression.substr(0, 4) === 'lts/') expression = expression.substr(4) === '*' ? 'lts' : expression.substr(4);
+    if (expression === 'stable') expression = 'lts';
+    if (typeof expression === 'number') return {
         major: expression
     };
-    if (~expression.indexOf(".")) {
-        var parts = expression.split(".");
+    if (~expression.indexOf('.')) {
+        var parts = expression.split('.');
         if (parts.length === 1) return isNaN(+parts[0]) ? null : {
             major: +parts[0]
         };
@@ -29,13 +29,13 @@ module.exports = function parseExpression(expression, now) {
     if (!isNaN(+expression)) return {
         major: +expression
     };
-    if (expression === "lts") {
+    if (expression === 'lts') {
         var lts = schedulesLatest(this.schedules, isLTSFn(now));
         return lts ? {
             name: lts.name
         } : null;
     }
-    if (expression === "latest") {
+    if (expression === 'latest') {
         var latest = schedulesLatest(this.schedules, isLatestFn(now));
         return latest ? {
             name: latest.name
@@ -45,9 +45,4 @@ module.exports = function parseExpression(expression, now) {
         codename: expression.toLowerCase()
     };
 };
-
-if ((typeof exports.default === 'function' || (typeof exports.default === 'object' && exports.default !== null)) && typeof exports.default.__esModule === 'undefined') {
-  Object.defineProperty(exports.default, '__esModule', { value: true });
-  for (var key in exports) exports.default[key] = exports[key];
-  module.exports = exports.default;
-}
+/* CJS INTEROP */ if (exports.__esModule && exports.default) { Object.defineProperty(exports.default, '__esModule', { value: true }); for (var key in exports) exports.default[key] = exports[key]; module.exports = exports.default; }
