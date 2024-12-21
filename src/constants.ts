@@ -4,7 +4,7 @@ import url from 'url';
 import packageRoot from './lib/packageRoot.js';
 
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
-const root = packageRoot(__dirname, 'node-semvers');
+const root = packageRoot(__dirname);
 
 export default {
   CACHE_DIRECTORY: path.resolve(path.join(root, '.cache')),
