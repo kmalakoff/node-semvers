@@ -1,6 +1,7 @@
 import exit from 'exit';
 import Cache from 'fetch-json-cache';
-import constants from '../constants';
+// @ts-ignore
+import constants from '../constants.cjs';
 
 export default () => {
   const cache = new Cache(constants.CACHE_DIRECTORY);
