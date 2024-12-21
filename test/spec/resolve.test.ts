@@ -8,7 +8,7 @@ import url from 'url';
 import rimraf2 from 'rimraf2';
 
 // @ts-ignore
-import NodeVersions from 'node-semvers';
+import NodeVersions, { type Version } from 'node-semvers';
 
 function major(version) {
   const parts = version.substr(1).split('.');

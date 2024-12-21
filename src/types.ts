@@ -1,3 +1,18 @@
+export interface LoadOptions {
+  cacheDirectory?: string;
+  now?: Date;
+}
+
+export interface LoadError extends Error {
+  code?: number;
+}
+
+export interface ResolveOptions {
+  now?: Date;
+  range?: string;
+  path?: string;
+}
+
 export interface ScheduleRaw {
   version: string;
   name: string;
