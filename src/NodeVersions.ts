@@ -9,7 +9,9 @@ import normalizeSchedule from './lib/normalizeSchedule.js';
 import normalizeVersion from './lib/normalizeVersion.js';
 import parseExpression from './parseExpression/index.js';
 
-import type { Schedule, ScheduleRaw, Version, VersionRaw } from './types.js';
+import type { LoadError, LoadOptions, ResolveOptions, Schedule, ScheduleRaw, Version, VersionRaw } from './types.js';
+
+export type LoadCallback = (error?: LoadError, semvers?: NodeVersions) => void;
 
 export default class NodeVersions {
   versions: Version[];
@@ -28,7 +30,7 @@ export default class NodeVersions {
     this.versions = this.versions.sort((a, b) => (semver.gt(a.semver, b.semver) ? -1 : 1));
   }
 
-  static load(options, callback) {
+  static load(options?: LoadOptions | LoadCallback, callback?: LoadCallback): undefined | Promise<NodeVersions> {
     if (typeof options === 'function') {
       callback = options;
       options = null;
@@ -37,7 +39,7 @@ export default class NodeVersions {
     if (typeof callback === 'function') {
       options = options || {};
 
-      const cache = new Cache(options.cacheDirectory || constants.CACHE_DIRECTORY);
+      const cache = new Cache((options as LoadOptions).cacheDirectory || constants.CACHE_DIRECTORY);
       cache.get(constants.DISTS_URL, (err, versions: VersionRaw[]) => {
         if (err) return callback(err);
 
@@ -54,7 +56,7 @@ export default class NodeVersions {
     }
   }
 
-  static loadSync(options) {
+  static loadSync(options?: LoadOptions): NodeVersions | null {
     options = options || {};
     const cache = new Cache(options.cacheDirectory || constants.CACHE_DIRECTORY);
     const versions = cache.getSync(constants.DISTS_URL) as VersionRaw[];
@@ -63,7 +65,7 @@ export default class NodeVersions {
     return new NodeVersions(versions, schedule);
   }
 
-  resolve(expression, options) {
+  resolve(expression: string | number | Date, options?: ResolveOptions): string | string[] | Version | Version[] | null {
     options = options || {};
     const path = options.path || 'version';
 

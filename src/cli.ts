@@ -1,6 +1,6 @@
 import exit from 'exit';
 import getopts from 'getopts-compat';
-import NodeVersions from './NodeVersions.js';
+import NodeVersions, { type LoadOptions, type ResolveOptions } from './index.js';
 
 import isArray from 'isarray';
 // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
@@ -48,21 +48,21 @@ export default (argv) => {
     return typeof value === 'string' ? value : JSON.stringify(value);
   }
 
-  NodeVersions.load(options, (err, semvers) => {
+  NodeVersions.load(options as LoadOptions, (err, semvers) => {
     if (err) {
       console.log(err.message);
       return exit(err.code || -1);
     }
 
-    const version = semvers.resolve(args[0], options);
-    if (!version || (isArray(version) && !version.length)) {
+    const version = semvers.resolve(args[0], options as ResolveOptions);
+    if (!version || (isArray(version) && !(version as string[]).length)) {
       console.log(`Unrecognized: ${args[0]}`);
       return exit(-1);
     }
 
     console.log('versions:');
     if (isArray(version)) {
-      for (let index = 0; index < version.length; index++) console.log(stringify(version[index]));
+      for (let index = 0; index < (version as string[]).length; index++) console.log(stringify(version[index]));
     } else console.log(stringify(version));
     exit(0);
   });

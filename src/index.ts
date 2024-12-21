@@ -1,2 +1,2 @@
 export * from './types.js';
-export { default } from './NodeVersions.js';
+export { default, type LoadCallback } from './NodeVersions.js';
