@@ -46,11 +46,12 @@
     "postinstall": "node scripts/postinstall.cjs",
     "test": "tsds test:node --no-timeouts",
     "test:engines": "nvu engines npm test",
-    "version": ""
+    "version": "tsds version"
   },
   "dependencies": {
     "exit": "^0.1.2",
     "fetch-json-cache": "^1.2.1",
+    "fs-access-sync-compat": "^1.0.2",
     "getopts-compat": "^2.2.5",
     "isarray": "^2.0.5",
     "semver": "^5.7.1"
@@ -67,7 +68,7 @@
     "rimraf2": "^2.8.2",
     "rollup": "^4.29.1",
     "rollup-plugin-node-externals": "^8.0.0",
-    "ts-dev-stack": "^1.4.2",
+    "ts-dev-stack": "^1.4.3",
     "ts-swc-rollup-plugin": "^1.4.0"
   },
   "packageManager": "npm@11.0.0+sha512.11dff29565d2297c74e7c594a9762581bde969f0aa5cbe6f5b3644bf008a16c065ece61094d9ffbb81125be38df8e1ba43eb8244b3d30c61eb797e9a2440e3ec",
