@@ -8,7 +8,7 @@ import url from 'url';
 import rimraf2 from 'rimraf2';
 
 // @ts-ignore
-import NodeVersions from 'node-semvers';
+import NodeVersions, { type Version } from 'node-semvers';
 
 function major(version) {
   const parts = version.substr(1).split('.');
@@ -115,7 +115,7 @@ describe('sync', () => {
     it('stable (raw)', () => {
       const semvers = NodeVersions.loadSync();
       const version = semvers.resolve('stable', { now: now, path: 'raw' });
-      assert.equal(version.version, 'v14.2.0');
+      assert.equal((version as Version).version, 'v14.2.0');
     });
   });
 
@@ -129,14 +129,14 @@ describe('sync', () => {
     it('>=0.6 (default)', () => {
       const semvers = NodeVersions.loadSync();
       const versions = semvers.resolve('>=0.6', { now: now });
-      assert.equal(versions.length, 433);
+      assert.equal((versions as Version[]).length, 433);
     });
 
     it('>=0.6 (lts)', () => {
       const semvers = NodeVersions.loadSync();
       const versions = semvers.resolve('>=0.6', { now: now, range: 'lts' });
-      assert.equal(versions.length, 116);
-      for (let index = 0; index < versions.length; index++) {
+      assert.equal((versions as Version[]).length, 116);
+      for (let index = 0; index < (versions as Version[]).length; index++) {
         assert.ok(major(versions[index]) % 2 === 0);
       }
     });
@@ -144,8 +144,8 @@ describe('sync', () => {
     it('>=0.6 (even)', () => {
       const semvers = NodeVersions.loadSync();
       const versions = semvers.resolve('>=0.6', { now: now, range: 'even' });
-      assert.equal(versions.length, 302);
-      for (let index = 0; index < versions.length; index++) {
+      assert.equal((versions as Version[]).length, 302);
+      for (let index = 0; index < (versions as Version[]).length; index++) {
         assert.ok(major(versions[index]) % 2 === 0);
       }
     });
@@ -153,8 +153,8 @@ describe('sync', () => {
     it('>=0.6 (odd)', () => {
       const semvers = NodeVersions.loadSync();
       const versions = semvers.resolve('>=0.6', { now: now, range: 'odd' });
-      assert.equal(versions.length, 131);
-      for (let index = 0; index < versions.length; index++) {
+      assert.equal((versions as Version[]).length, 131);
+      for (let index = 0; index < (versions as Version[]).length; index++) {
         assert.ok(major(versions[index]) % 2 === 1);
       }
     });
@@ -162,14 +162,14 @@ describe('sync', () => {
     it('>=0.6 (range major)', () => {
       const semvers = NodeVersions.loadSync();
       const versions = semvers.resolve('>=0.6', { now: now, range: 'major' });
-      assert.equal(versions.length, 18);
+      assert.equal((versions as Version[]).length, 18);
     });
 
     it('>=0.6 (range major,lts)', () => {
       const semvers = NodeVersions.loadSync();
       const versions = semvers.resolve('>=0.6', { now: now, range: 'major,lts' });
-      assert.equal(versions.length, 5);
-      for (let index = 0; index < versions.length; index++) {
+      assert.equal((versions as Version[]).length, 5);
+      for (let index = 0; index < (versions as Version[]).length; index++) {
         assert.ok(major(versions[index]) % 2 === 0);
       }
     });
@@ -177,8 +177,8 @@ describe('sync', () => {
     it('>=0.6 (range major,even)', () => {
       const semvers = NodeVersions.loadSync();
       const versions = semvers.resolve('>=0.6', { now: now, range: 'major,even' });
-      assert.equal(versions.length, 10);
-      for (let index = 0; index < versions.length; index++) {
+      assert.equal((versions as Version[]).length, 10);
+      for (let index = 0; index < (versions as Version[]).length; index++) {
         assert.ok(major(versions[index]) % 2 === 0);
       }
     });
@@ -186,8 +186,8 @@ describe('sync', () => {
     it('>=0.6 (range major,odd)', () => {
       const semvers = NodeVersions.loadSync();
       const versions = semvers.resolve('>=0.6', { now: now, range: 'major,odd' });
-      assert.equal(versions.length, 8);
-      for (let index = 0; index < versions.length; index++) {
+      assert.equal((versions as Version[]).length, 8);
+      for (let index = 0; index < (versions as Version[]).length; index++) {
         assert.ok(major(versions[index]) % 2 === 1);
       }
     });
@@ -195,14 +195,14 @@ describe('sync', () => {
     it('>=0.6 (range minor)', () => {
       const semvers = NodeVersions.loadSync();
       const versions = semvers.resolve('>=0.6', { now: now, range: 'minor' });
-      assert.equal(versions.length, 316);
+      assert.equal((versions as Version[]).length, 316);
     });
 
     it('>=0.6 (range minor,lts)', () => {
       const semvers = NodeVersions.loadSync();
       const versions = semvers.resolve('>=0.6', { now: now, range: 'minor,lts' });
-      assert.equal(versions.length, 38);
-      for (let index = 0; index < versions.length; index++) {
+      assert.equal((versions as Version[]).length, 38);
+      for (let index = 0; index < (versions as Version[]).length; index++) {
         assert.ok(major(versions[index]) % 2 === 0);
       }
     });
@@ -210,8 +210,8 @@ describe('sync', () => {
     it('>=0.6 (range minor,even)', () => {
       const semvers = NodeVersions.loadSync();
       const versions = semvers.resolve('>=0.6', { now: now, range: 'minor,even' });
-      assert.equal(versions.length, 206);
-      for (let index = 0; index < versions.length; index++) {
+      assert.equal((versions as Version[]).length, 206);
+      for (let index = 0; index < (versions as Version[]).length; index++) {
         assert.ok(major(versions[index]) % 2 === 0);
       }
     });
@@ -219,8 +219,8 @@ describe('sync', () => {
     it('>=0.6 (range minor,odd)', () => {
       const semvers = NodeVersions.loadSync();
       const versions = semvers.resolve('>=0.6', { now: now, range: 'minor,odd' });
-      assert.equal(versions.length, 110);
-      for (let index = 0; index < versions.length; index++) {
+      assert.equal((versions as Version[]).length, 110);
+      for (let index = 0; index < (versions as Version[]).length; index++) {
         assert.ok(major(versions[index]) % 2 === 1);
       }
     });
@@ -228,14 +228,14 @@ describe('sync', () => {
     it('>=0.6 (range patch)', () => {
       const semvers = NodeVersions.loadSync();
       const versions = semvers.resolve('>=0.6', { now: now, range: 'patch' });
-      assert.equal(versions.length, 433);
+      assert.equal((versions as Version[]).length, 433);
     });
 
     it('>=0.6 (range patch,lts)', () => {
       const semvers = NodeVersions.loadSync();
       const versions = semvers.resolve('>=0.6', { now: now, range: 'patch,lts' });
-      assert.equal(versions.length, 116);
-      for (let index = 0; index < versions.length; index++) {
+      assert.equal((versions as Version[]).length, 116);
+      for (let index = 0; index < (versions as Version[]).length; index++) {
         assert.ok(major(versions[index]) % 2 === 0);
       }
     });
@@ -243,8 +243,8 @@ describe('sync', () => {
     it('>=0.6 (range patch,even)', () => {
       const semvers = NodeVersions.loadSync();
       const versions = semvers.resolve('>=0.6', { now: now, range: 'patch,even' });
-      assert.equal(versions.length, 302);
-      for (let index = 0; index < versions.length; index++) {
+      assert.equal((versions as Version[]).length, 302);
+      for (let index = 0; index < (versions as Version[]).length; index++) {
         assert.ok(major(versions[index]) % 2 === 0);
       }
     });
@@ -252,8 +252,8 @@ describe('sync', () => {
     it('>=0.6 (range patch,odd)', () => {
       const semvers = NodeVersions.loadSync();
       const versions = semvers.resolve('>=0.6', { now: now, range: 'patch,odd' });
-      assert.equal(versions.length, 131);
-      for (let index = 0; index < versions.length; index++) {
+      assert.equal((versions as Version[]).length, 131);
+      for (let index = 0; index < (versions as Version[]).length; index++) {
         assert.ok(major(versions[index]) % 2 === 1);
       }
     });
