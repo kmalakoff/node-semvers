@@ -2,17 +2,20 @@
 // biome-ignore lint/performance/noDelete: <explanation>
 delete process.env.NODE_OPTIONS;
 
-const assert = require('assert');
-const path = require('path');
-const rimraf2 = require('rimraf2');
+import assert from 'assert';
+import path from 'path';
+import url from 'url';
+import rimraf2 from 'rimraf2';
 
-const NodeVersions = require('node-semvers');
+// @ts-ignore
+import NodeVersions from 'node-semvers';
 
 function major(version) {
   const parts = version.substr(1).split('.');
   return parts[0] === '0' ? +parts[1] : +parts[0];
 }
 
+const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
 const INSTALLED_DIR = path.resolve(path.join(__dirname, '..', 'cache'));
 
 describe('sync', () => {
