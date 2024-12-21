@@ -4,7 +4,7 @@ import NodeVersions from './NodeVersions.js';
 
 import isArray from 'isarray';
 // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
-import isNaN from './isNaN.js';
+import isNaN from './lib/isNaN.js';
 
 export default (argv) => {
   const options = getopts(argv.slice(1), {
