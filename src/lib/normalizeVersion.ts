@@ -1,9 +1,11 @@
-module.exports = function normalizeVersion(raw, schedules) {
+import type { Schedule, Version, VersionRaw } from '../types.js';
+
+export default function normalizeVersion(raw: VersionRaw, schedules: Schedule[]): Version {
   const parts = raw.version.substr(1).split('.');
 
   const version = {
     version: raw.version,
-    name: parts[0] !== 0 ? `v${+parts[0]}` : `v${+parts[0]}.${+parts[1]}`,
+    name: parts[0] !== '0' ? `v${+parts[0]}` : `v${+parts[0]}.${+parts[1]}`,
     semver: `${parts[0]}.${+parts[1]}.${+parts[2]}`,
     major: +parts[0],
     minor: +parts[1],
@@ -11,7 +13,7 @@ module.exports = function normalizeVersion(raw, schedules) {
     lts: raw.lts,
     date: new Date(raw.date),
     raw: raw,
-  };
+  } as Version;
 
   let schedule = null;
   for (let index = 0; index < schedules.length; index++) {
@@ -23,4 +25,4 @@ module.exports = function normalizeVersion(raw, schedules) {
   }
   if (schedule && raw.lts) version.codename = schedule.codename;
   return version;
-};
+}

@@ -1,10 +1,10 @@
 // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
-const isNaN = require('../isNaN');
-const isLTSFn = require('./isLTSFn');
-const isLatestFn = require('./isLatestFn');
-const schedulesLatest = require('./schedulesLatest');
+import isNaN from '../lib/isNaN.js';
+import isLTSFn from './isLTSFn.js';
+import isLatestFn from './isLatestFn.js';
+import schedulesLatest from './schedulesLatest.js';
 
-module.exports = function parseExpression(expression, now) {
+export default function parseExpression(expression, now) {
   if (expression[0] === 'v' && !isNaN(+expression.substr(1, 1))) expression = expression.substr(1);
   if (expression.substr(0, 4) === 'lts/') expression = expression.substr(4) === '*' ? 'lts' : expression.substr(4);
   if (expression === 'stable') expression = 'lts';
@@ -26,4 +26,4 @@ module.exports = function parseExpression(expression, now) {
     return latest ? { name: latest.name } : null;
   }
   return { codename: expression.toLowerCase() };
-};
+}

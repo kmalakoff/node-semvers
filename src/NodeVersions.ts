@@ -1,16 +1,21 @@
 import Cache from 'fetch-json-cache';
 import semver from 'semver';
 
-import constants from './constants';
-import keyFunctions from './keyFunctions';
-import lineFunctions from './lineFunctions';
-import match from './match';
-import normalizeSchedule from './normalizeSchedule';
-import normalizeVersion from './normalizeVersion';
-import parseExpression from './parseExpression';
+import constants from './constants.js';
+import { major, minor } from './lib/keyFunctions.js';
+import { even, odd } from './lib/lineFunctions.js';
+import match from './lib/match.js';
+import normalizeSchedule from './lib/normalizeSchedule.js';
+import normalizeVersion from './lib/normalizeVersion.js';
+import parseExpression from './parseExpression/index.js';
+
+import type { Schedule, ScheduleRaw, Version, VersionRaw } from './types.js';
 
 export default class NodeVersions {
-  constructor(versions, schedule) {
+  versions: Version[];
+  schedules: Schedule[];
+
+  constructor(versions: VersionRaw[], schedule: ScheduleRaw[]) {
     if (!versions) throw new Error('Missing option: versions');
     if (!schedule) throw new Error('Missing option: schedule');
 
@@ -33,10 +38,10 @@ export default class NodeVersions {
       options = options || {};
 
       const cache = new Cache(options.cacheDirectory || constants.CACHE_DIRECTORY);
-      cache.get(constants.DISTS_URL, (err, versions) => {
+      cache.get(constants.DISTS_URL, (err, versions: VersionRaw[]) => {
         if (err) return callback(err);
 
-        cache.get(constants.SCHEDULES_URL, (err, schedule) => {
+        cache.get(constants.SCHEDULES_URL, (err, schedule: ScheduleRaw[]) => {
           err ? callback(err) : callback(null, new NodeVersions(versions, schedule));
         });
       });
@@ -52,8 +57,8 @@ export default class NodeVersions {
   static loadSync(options) {
     options = options || {};
     const cache = new Cache(options.cacheDirectory || constants.CACHE_DIRECTORY);
-    const versions = cache.getSync(constants.DISTS_URL);
-    const schedule = cache.getSync(constants.SCHEDULES_URL);
+    const versions = cache.getSync(constants.DISTS_URL) as VersionRaw[];
+    const schedule = cache.getSync(constants.SCHEDULES_URL) as ScheduleRaw[];
     if (!versions || !schedule) return null;
     return new NodeVersions(versions, schedule);
   }
@@ -83,9 +88,9 @@ export default class NodeVersions {
 
     // filtered expression
     const range = options.range || '';
-    const filters = { lts: !!~range.indexOf('lts') };
-    filters.key = ~range.indexOf('major') ? keyFunctions.major : ~range.indexOf('minor') ? keyFunctions.minor : undefined;
-    filters.line = ~range.indexOf('even') ? lineFunctions.even : ~range.indexOf('odd') ? lineFunctions.odd : undefined;
+    const filters = { lts: !!~range.indexOf('lts'), key: undefined, line: undefined };
+    filters.key = ~range.indexOf('major') ? major : ~range.indexOf('minor') ? minor : undefined;
+    filters.line = ~range.indexOf('even') ? even : ~range.indexOf('odd') ? odd : undefined;
 
     const results = [];
     const founds = {};
