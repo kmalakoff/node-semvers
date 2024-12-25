@@ -1,18 +1,19 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('exit'), require('fetch-json-cache'), require('path'), require('url'), require('fs'), require('fs-access-sync-compat')) :
-  typeof define === 'function' && define.amd ? define(['exit', 'fetch-json-cache', 'path', 'url', 'fs', 'fs-access-sync-compat'], factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.tsdsBuild = factory(global.exit, global.Cache, global.path, global.url, global.fs, global.accessSync));
-})(this, (function (exit, Cache, path, url, fs, accessSync) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('exit'), require('fetch-json-cache'), require('path'), require('url'), require('fs')) :
+  typeof define === 'function' && define.amd ? define(['exit', 'fetch-json-cache', 'path', 'url', 'fs'], factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.tsdsBuild = factory(global.exit, global.Cache, global.path, global.url, global.fs));
+})(this, (function (exit, Cache, path, url, fs) { 'use strict';
 
   var _documentCurrentScript = typeof document !== 'undefined' ? document.currentScript : null;
-  function existsSync(path) {
+  function existsSyncPolyfill(path) {
       try {
-          accessSync(path);
+          fs.accessSync(path);
           return true;
-      } catch (_err) {
+      } catch (_) {
           return false;
       }
   }
+  var existsSync = fs.accessSync ? existsSyncPolyfill : fs.existsSync;
 
   function packageRoot(dir) {
       var packagePath = path.join(dir, 'package.json');
