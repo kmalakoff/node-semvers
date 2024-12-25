@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "exit": "^0.1.2",
-    "fetch-json-cache": "^1.2.2",
+    "fetch-json-cache": "^1.2.3",
     "getopts-compat": "^2.2.5",
     "isarray": "^2.0.5",
     "pinkie-promise": "^2.0.1",
