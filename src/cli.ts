@@ -1,10 +1,10 @@
 import exit from 'exit';
 import getopts from 'getopts-compat';
 import NodeVersions, { type LoadOptions, type ResolveOptions } from './index.js';
-
-import isArray from 'isarray';
 // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 import isNaN from './lib/isNaN.js';
+
+import isArray from 'isarray';
 
 export default (argv) => {
   const options = getopts(argv.slice(1), {

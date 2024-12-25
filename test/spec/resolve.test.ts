@@ -1,5 +1,4 @@
 // remove NODE_OPTIONS from ts-dev-stack
-// biome-ignore lint/performance/noDelete: <explanation>
 delete process.env.NODE_OPTIONS;
 
 import assert from 'assert';
@@ -108,8 +107,6 @@ describe('resolve', () => {
     });
 
     it('promise', (done) => {
-      if (typeof Promise === 'undefined') return done(); // no promise support
-
       NodeVersions.load()
         .then((semvers) => {
           const version = semvers.resolve('lts/*', { now: now });
