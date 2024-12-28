@@ -1,20 +1,10 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('exit'), require('fetch-json-cache'), require('path'), require('url'), require('fs')) :
-  typeof define === 'function' && define.amd ? define(['exit', 'fetch-json-cache', 'path', 'url', 'fs'], factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.tsdsBuild = factory(global.exit, global.Cache, global.path, global.url, global.fs));
-})(this, (function (exit, Cache, path, url, fs) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('fetch-json-cache'), require('path'), require('url'), require('fs'), require('fs-exists-sync')) :
+  typeof define === 'function' && define.amd ? define(['fetch-json-cache', 'path', 'url', 'fs', 'fs-exists-sync'], factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.tsdsBuild = factory(global.Cache, global.path, global.url, global.fs, global.existsSync));
+})(this, (function (Cache, path, url, fs, existsSync) { 'use strict';
 
   var _documentCurrentScript = typeof document !== 'undefined' ? document.currentScript : null;
-  function existsSyncPolyfill(path) {
-      try {
-          fs.accessSync(path);
-          return true;
-      } catch (_) {
-          return false;
-      }
-  }
-  var existsSync = fs.accessSync ? existsSyncPolyfill : fs.existsSync;
-
   function packageRoot(dir) {
       var packagePath = path.join(dir, 'package.json');
       if (existsSync(packagePath) && JSON.parse(fs.readFileSync(packagePath, 'utf8')).name) return dir;
@@ -45,9 +35,9 @@
       cacheJSON(function(err) {
           if (err) {
               console.log("Failed to cache dists and schedules. Error: ".concat(err.message));
-              return exit(err.code || -1);
+              return process.exit(err.code || -1);
           }
-          exit(0);
+          process.exit(0);
       });
   }
 

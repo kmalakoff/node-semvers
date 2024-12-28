@@ -1,4 +1,3 @@
-import exit from 'exit';
 import Cache from 'fetch-json-cache';
 // @ts-ignore
 import constants from '../constants.cjs';
@@ -15,8 +14,8 @@ export default () => {
   cacheJSON((err) => {
     if (err) {
       console.log(`Failed to cache dists and schedules. Error: ${err.message}`);
-      return exit(err.code || -1);
+      return process.exit(err.code || -1);
     }
-    exit(0);
+    process.exit(0);
   });
 };
