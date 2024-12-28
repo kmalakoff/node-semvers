@@ -50,9 +50,9 @@
   "dependencies": {
     "exit": "^0.1.2",
     "fetch-json-cache": "^1.2.3",
-    "fs-exists-sync": "^0.1.0",
     "getopts-compat": "^2.2.5",
     "isarray": "^2.0.5",
+    "module-root-sync": "^0.1.1",
     "pinkie-promise": "^2.0.1",
     "semver": "^5.7.1"
   },
@@ -68,7 +68,7 @@
     "rimraf2": "^2.8.2",
     "rollup": "^4.29.1",
     "rollup-plugin-node-externals": "^8.0.0",
-    "ts-swc-rollup-plugin": "^1.6.4"
+    "ts-swc-rollup-plugin": "^1.6.5"
   },
   "engines": {
     "node": ">=0.8"
