@@ -27,9 +27,8 @@ NodeVersions.load(function (err, semvers) {
   assert.equal(version, 'v12.14.0');
 });
 
-NodeVersions.load().then((semvers) => {
-  const versions = semvers.resolve('10.0.0 || ~12.0.0');
-  assert.deepEqual(versions, ['v10.0.0', 'v12.0.0']);
-});
+const semvers = await NodeVersions.load()
+const versions = semvers.resolve('10.0.0 || ~12.0.0');
+assert.deepEqual(versions, ['v10.0.0', 'v12.0.0']);
 
 ```

@@ -12,7 +12,7 @@ tsconfig.config.compilerOptions.target = 'ES4';
 
 export default {
   output: {
-    format: 'umd',
+    format: 'cjs',
     name: 'tsdsBuild',
   },
   plugins: [commonjs({ extensions: '.cts' }), externals({ deps: false, devDeps: false, builtinsPrefix: 'strip' }), swc({ tsconfig })],

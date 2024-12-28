@@ -1,6 +1,4 @@
 import Cache from 'fetch-json-cache';
-// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
-import Promise from 'pinkie-promise';
 import semver from 'semver';
 
 import constants from './constants.js';
