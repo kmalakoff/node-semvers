@@ -6,10 +6,10 @@ var url = require('url');
 var moduleRoot = require('module-root-sync');
 
 var _documentCurrentScript = typeof document !== 'undefined' ? document.currentScript : null;
-var __dirname$1 = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath((typeof document === 'undefined' ? require('u' + 'rl').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.tagName.toUpperCase() === 'SCRIPT' && _documentCurrentScript.src || new URL('postinstall.cjs', document.baseURI).href))));
+var __dirname$1 = path.dirname(typeof __filename === 'undefined' ? url.fileURLToPath((typeof document === 'undefined' ? require('u' + 'rl').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.tagName.toUpperCase() === 'SCRIPT' && _documentCurrentScript.src || new URL('postinstall.cjs', document.baseURI).href))) : __filename);
 var root = moduleRoot(__dirname$1);
 var constants = {
-    CACHE_DIRECTORY: path.resolve(path.join(root, '.cache')),
+    CACHE_PATH: path.resolve(path.join(root, '.cache')),
     DISTS_URL: 'https://nodejs.org/dist/index.json',
     SCHEDULES_URL: 'https://raw.githubusercontent.com/nodejs/Release/master/schedule.json'
 };
@@ -24,7 +24,7 @@ function postinstall() {
             }, callback);
         });
     };
-    var cache = new Cache(constants.CACHE_DIRECTORY);
+    var cache = new Cache(constants.CACHE_PATH);
     cacheJSON(function(err) {
         if (err) {
             console.log("Failed to cache dists and schedules. Error: ".concat(err.message));
