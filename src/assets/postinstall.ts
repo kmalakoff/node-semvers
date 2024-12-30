@@ -3,7 +3,7 @@ import Cache from 'fetch-json-cache';
 import constants from '../constants.cjs';
 
 export default () => {
-  const cache = new Cache(constants.CACHE_DIRECTORY);
+  const cache = new Cache(constants.CACHE_PATH);
 
   function cacheJSON(callback) {
     cache.get(constants.DISTS_URL, { force: true }, (err) => {
