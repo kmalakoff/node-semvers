@@ -1,5 +1,5 @@
 export interface LoadOptions {
-  cacheDirectory?: string;
+  cachePath?: string;
   now?: Date;
 }
 

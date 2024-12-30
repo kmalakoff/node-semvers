@@ -35,11 +35,10 @@ export default class NodeVersions {
       callback = options;
       options = null;
     }
+    options = options || {};
 
-    if (typeof callback === 'function') {
-      options = options || {};
-
-      const cache = new Cache((options as LoadOptions).cacheDirectory || constants.CACHE_DIRECTORY);
+    function worker(options, callback) {
+      const cache = new Cache((options as LoadOptions).cachePath || constants.CACHE_PATH);
       cache.get(constants.DISTS_URL, (err, versions: VersionRaw[]) => {
         if (err) return callback(err);
 
@@ -47,18 +46,19 @@ export default class NodeVersions {
           err ? callback(err) : callback(null, new NodeVersions(versions, schedule));
         });
       });
-    } else {
-      return new Promise((resolve, reject) => {
-        NodeVersions.load(options, function loadCallback(err, NodeVersions) {
-          err ? reject(err) : resolve(NodeVersions);
-        });
-      });
     }
+
+    if (typeof callback === 'function') return worker(options, callback) as undefined;
+    return new Promise((resolve, reject) =>
+      worker(options, (err, versions) => {
+        err ? reject(err) : resolve(versions);
+      })
+    );
   }
 
   static loadSync(options?: LoadOptions): NodeVersions | null {
     options = options || {};
-    const cache = new Cache(options.cacheDirectory || constants.CACHE_DIRECTORY);
+    const cache = new Cache(options.cachePath || constants.CACHE_PATH);
     const versions = cache.getSync(constants.DISTS_URL) as VersionRaw[];
     const schedule = cache.getSync(constants.SCHEDULES_URL) as ScheduleRaw[];
     if (!versions || !schedule) return null;
