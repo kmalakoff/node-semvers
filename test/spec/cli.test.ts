@@ -35,9 +35,7 @@ describe('cli', () => {
   })();
 
   describe('clean directory', () => {
-    before((callback) => {
-      rimraf2(INSTALLED_DIR, { disableGlob: true }, callback.bind(null, null));
-    });
+    before((cb) => rimraf2(INSTALLED_DIR, { disableGlob: true }, cb.bind(null, null)));
     const now = new Date(Date.parse('2020-05-10T03:23:29.347Z'));
 
     describe('happy path', () => {
