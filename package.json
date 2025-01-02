@@ -41,7 +41,7 @@
   "scripts": {
     "build": "tsds build",
     "deploy": "tsds deploy",
-    "format": "biome check --write --unsafe src/ && biome check --config-path biome.es5.json --write --unsafe assets/",
+    "format": "biome check --write --unsafe src/ && biome check --config-path biome.es5.json --write --unsafe assets/ scripts/",
     "postinstall": "node scripts/postinstall.cjs",
     "test": "tsds test:node --no-timeouts",
     "test:engines": "nvu engines npm test",
