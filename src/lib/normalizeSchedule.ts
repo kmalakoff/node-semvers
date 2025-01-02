@@ -1,4 +1,4 @@
-import type { Schedule, ScheduleRaw } from '../types.js';
+import type { Schedule, ScheduleRaw } from '../types';
 
 export default function normalizeSchedule(name: string, raw: ScheduleRaw): Schedule {
   const schedule = {
