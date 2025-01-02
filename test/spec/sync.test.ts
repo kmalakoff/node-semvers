@@ -1,12 +1,10 @@
 // remove NODE_OPTIONS from ts-dev-stack
 delete process.env.NODE_OPTIONS;
 
-// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
-import Promise from 'pinkie-promise';
-
 import assert from 'assert';
 import path from 'path';
 import url from 'url';
+import Pinkie from 'pinkie-promise';
 import rimraf2 from 'rimraf2';
 
 // @ts-ignore
@@ -23,14 +21,15 @@ const INSTALLED_DIR = path.resolve(path.join(__dirname, '..', 'cache'));
 describe('sync', () => {
   (() => {
     // patch and restore promise
-    const root = typeof global !== 'undefined' ? global : window;
+    // @ts-ignore
     let rootPromise: Promise;
     before(() => {
-      rootPromise = root.Promise;
-      root.Promise = Promise;
+      rootPromise = global.Promise;
+      // @ts-ignore
+      global.Promise = Pinkie;
     });
     after(() => {
-      root.Promise = rootPromise;
+      global.Promise = rootPromise;
     });
   })();
 

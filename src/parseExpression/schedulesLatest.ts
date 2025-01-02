@@ -1,4 +1,4 @@
-import schedulesForEach from './schedulesForEach.js';
+import schedulesForEach from './schedulesForEach';
 
 export default function schedulesLatest(schedules, filter) {
   let latest = null;

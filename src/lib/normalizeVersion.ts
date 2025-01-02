@@ -1,4 +1,4 @@
-import type { Schedule, Version, VersionRaw } from '../types.js';
+import type { Schedule, Version, VersionRaw } from '../types';
 
 export default function normalizeVersion(raw: VersionRaw, schedules: Schedule[]): Version {
   const parts = raw.version.substr(1).split('.');
