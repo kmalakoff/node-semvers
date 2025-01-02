@@ -1,8 +1,8 @@
 import exit from 'exit';
 import getopts from 'getopts-compat';
-import NodeVersions, { type LoadOptions, type ResolveOptions } from './index.js';
+import NodeVersions, { type LoadOptions, type ResolveOptions } from './index';
 // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
-import isNaN from './lib/isNaN.js';
+import isNaN from './lib/isNaN';
 
 import isArray from 'isarray';
 

@@ -1,8 +1,8 @@
 // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
-import isNaN from '../lib/isNaN.js';
-import isLTSFn from './isLTSFn.js';
-import isLatestFn from './isLatestFn.js';
-import schedulesLatest from './schedulesLatest.js';
+import isNaN from '../lib/isNaN';
+import isLTSFn from './isLTSFn';
+import isLatestFn from './isLatestFn';
+import schedulesLatest from './schedulesLatest';
 
 export default function parseExpression(expression, now) {
   if (expression[0] === 'v' && !isNaN(+expression.substr(1, 1))) expression = expression.substr(1);
