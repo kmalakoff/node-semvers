@@ -1,15 +1,15 @@
 import Cache from 'fetch-json-cache';
 import semver from 'semver';
 
-import constants from './constants.js';
-import { major, minor } from './lib/keyFunctions.js';
-import { even, odd } from './lib/lineFunctions.js';
-import match from './lib/match.js';
-import normalizeSchedule from './lib/normalizeSchedule.js';
-import normalizeVersion from './lib/normalizeVersion.js';
-import parseExpression from './parseExpression/index.js';
+import constants from './constants';
+import { major, minor } from './lib/keyFunctions';
+import { even, odd } from './lib/lineFunctions';
+import match from './lib/match';
+import normalizeSchedule from './lib/normalizeSchedule';
+import normalizeVersion from './lib/normalizeVersion';
+import parseExpression from './parseExpression/index';
 
-import type { LoadError, LoadOptions, ResolveOptions, Schedule, ScheduleRaw, Version, VersionRaw } from './types.js';
+import type { LoadError, LoadOptions, ResolveOptions, Schedule, ScheduleRaw, Version, VersionRaw } from './types';
 
 export type LoadCallback = (error?: LoadError, semvers?: NodeVersions) => void;
 
@@ -49,11 +49,7 @@ export default class NodeVersions {
     }
 
     if (typeof callback === 'function') return worker(options, callback) as undefined;
-    return new Promise((resolve, reject) =>
-      worker(options, (err, versions) => {
-        err ? reject(err) : resolve(versions);
-      })
-    );
+    return new Promise((resolve, reject) => worker(options, (err, versions) => (err ? reject(err) : resolve(versions))));
   }
 
   static loadSync(options?: LoadOptions): NodeVersions | null {
