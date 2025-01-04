@@ -41,7 +41,8 @@
   "scripts": {
     "build": "tsds build",
     "deploy": "tsds deploy",
-    "format": "biome check --write --unsafe src/ && biome check --config-path biome.es5.json --write --unsafe assets/ scripts/",
+    "docs": "tsds docs",
+    "format": "biome check --write --unsafe src/ test/ && biome check --config-path biome.es5.json --write --unsafe assets/ scripts/",
     "postinstall": "node scripts/postinstall.cjs",
     "test": "tsds test:node --no-timeouts",
     "test:engines": "nvu engines npm test",
@@ -49,7 +50,7 @@
   },
   "dependencies": {
     "exit": "^0.1.2",
-    "fetch-json-cache": "^1.2.5",
+    "fetch-json-cache": "^1.2.6",
     "getopts-compat": "^2.2.5",
     "isarray": "^2.0.5",
     "semver": "^5.7.1"
@@ -59,7 +60,7 @@
     "@types/mocha": "^10.0.10",
     "@types/node": "^22.10.4",
     "cr": "^0.1.0",
-    "cross-spawn-cb": "^2.0.3",
+    "cross-spawn-cb": "^2.0.4",
     "pinkie-promise": "^2.0.1",
     "rimraf2": "^2.8.2",
     "rollup": "^4.29.1"
