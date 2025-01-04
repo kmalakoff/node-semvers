@@ -16,7 +16,7 @@ function major(version) {
 }
 
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
-const INSTALLED_DIR = path.resolve(path.join(__dirname, '..', 'cache'));
+const INSTALLED_DIR = path.join(path.join(__dirname, '..', 'cache'));
 
 describe('sync', () => {
   (() => {
