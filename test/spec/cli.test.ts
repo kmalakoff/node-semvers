@@ -11,7 +11,7 @@ import rimraf2 from 'rimraf2';
 
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
 const CLI = path.join(__dirname, '..', '..', 'bin', 'cli.cjs');
-const INSTALLED_DIR = path.resolve(path.join(__dirname, '..', 'cache'));
+const INSTALLED_DIR = path.join(path.join(__dirname, '..', 'cache'));
 
 function major(version) {
   const parts = version.substr(1).split('.');
