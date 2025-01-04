@@ -13,7 +13,7 @@
   "homepage": "https://github.com/kmalakoff/node-semvers",
   "repository": {
     "type": "git",
-    "url": "git@github.com:kmalakoff/node-semvers.git"
+    "url": "git+ssh://git@github.com/kmalakoff/node-semvers.git"
   },
   "license": "MIT",
   "author": "Kevin Malakoff <kmalakoff@gmail.com> (https://github.com/kmalakoff)",
@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "exit": "^0.1.2",
-    "fetch-json-cache": "^1.2.6",
+    "fetch-json-cache": "^1.2.8",
     "getopts-compat": "^2.2.5",
     "isarray": "^2.0.5",
     "semver": "^5.7.1"
