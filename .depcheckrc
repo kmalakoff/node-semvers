@@ -1,1 +1,1 @@
-ignores: ["node-semvers", "depcheck", "@types/*", "@biomejs/*", "rollup"]
+ignores: ["node-semvers", "rollup"]
