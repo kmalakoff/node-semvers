@@ -51,14 +51,13 @@
     "semver": "^5.7.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "@types/mocha": "^10.0.10",
-    "@types/node": "^22.10.5",
-    "cr": "^0.1.0",
-    "cross-spawn-cb": "^2.1.2",
-    "pinkie-promise": "^2.0.1",
-    "rimraf2": "^2.8.2",
-    "rollup": "^4.30.1"
+    "@types/mocha": "*",
+    "@types/node": "*",
+    "cr": "*",
+    "cross-spawn-cb": "*",
+    "pinkie-promise": "*",
+    "rimraf2": "*",
+    "rollup": "*"
   },
   "engines": {
     "node": ">=0.8"
