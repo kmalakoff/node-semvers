@@ -49,100 +49,95 @@ describe('resolve', () => {
 
     describe('happy path', () => {
       it('12.14.0', () => {
-        const version = semvers.resolve('12.14.0', { now: now });
+        const version = semvers.resolve('12.14.0', { now });
         assert.equal(version, 'v12.14.0');
       });
 
       it('v12.14.0', () => {
-        const version = semvers.resolve('v12.14.0', { now: now });
+        const version = semvers.resolve('v12.14.0', { now });
         assert.equal(version, 'v12.14.0');
       });
 
       it('12.14', () => {
-        const version = semvers.resolve('12.14', { now: now });
+        const version = semvers.resolve('12.14', { now });
         assert.equal(version, 'v12.14.1');
       });
 
       it('v12.14', () => {
-        const version = semvers.resolve('v12.14', { now: now });
+        const version = semvers.resolve('v12.14', { now });
         assert.equal(version, 'v12.14.1');
       });
 
       it('12.14', () => {
-        const version = semvers.resolve(12.14, { now: now });
+        const version = semvers.resolve(12.14, { now });
         assert.equal(version, 'v12.14.1');
       });
 
       it('12', () => {
-        const version = semvers.resolve('12', { now: now });
+        const version = semvers.resolve('12', { now });
         assert.equal(version, 'v12.16.3');
       });
 
       it('v12', () => {
-        const version = semvers.resolve('v12', { now: now });
+        const version = semvers.resolve('v12', { now });
         assert.equal(version, 'v12.16.3');
       });
 
       it('12 (number)', () => {
-        const version = semvers.resolve(12, { now: now });
+        const version = semvers.resolve(12, { now });
         assert.equal(version, 'v12.16.3');
       });
 
       it('lts', () => {
-        const version = semvers.resolve('lts', { now: now });
+        const version = semvers.resolve('lts', { now });
         assert.equal(version, 'v14.2.0');
       });
 
-      it('lts/dubnium', () => {
-        const version = semvers.resolve('lts/dubnium', { now: now });
-        assert.equal(version, 'v10.20.1');
-      });
-
       it('dubnium', () => {
-        const version = semvers.resolve('dubnium', { now: now });
+        const version = semvers.resolve('dubnium', { now });
         assert.equal(version, 'v10.20.1');
       });
 
       it('lts/*', () => {
-        const version = semvers.resolve('lts/*', { now: now });
+        const version = semvers.resolve('lts/*', { now });
         assert.equal(version, 'v14.2.0');
       });
 
       it('latest', () => {
-        const version = semvers.resolve('latest', { now: now });
+        const version = semvers.resolve('latest', { now });
         assert.equal(version, 'v13.14.0');
       });
 
       it('stable', () => {
-        const version = semvers.resolve('stable', { now: now });
+        const version = semvers.resolve('stable', { now });
         assert.equal(version, 'v14.2.0');
       });
 
       it('stable (raw)', () => {
-        const version = semvers.resolve('stable', { now: now, path: 'raw' });
+        const version = semvers.resolve('stable', { now, path: 'raw' });
         assert.equal(version.version, 'v14.2.0');
       });
 
       it('promise', async () => {
         const semvers = await NodeVersions.load();
-        const version = semvers.resolve('lts/*', { now: now });
+        const version = semvers.resolve('lts/*', { now });
         assert.equal(version, 'v14.2.0');
       });
     });
 
     describe('happy path range', () => {
       it('10.x || >=12.0.0', () => {
-        const versions = semvers.resolve('10.0.0 || ~12.0.0', { now: now });
+        const versions = semvers.resolve('10.0.0 || ~12.0.0', { now });
         assert.deepEqual(versions, ['v10.0.0', 'v12.0.0']);
       });
 
       it('>=0.6 (default)', () => {
-        const versions = semvers.resolve('>=0.6', { now: now });
+        const versions = semvers.resolve('>=0.6', { now });
         assert.equal(versions.length, 433);
       });
 
       it('>=0.6 (lts)', () => {
-        const versions = semvers.resolve('>=0.6', { now: now, range: 'lts' });
+        const versions = semvers.resolve('>=0.6', { now, range: 'lts' });
         assert.equal(versions.length, 116);
         for (let index = 0; index < versions.length; index++) {
           assert.ok(major(versions[index]) % 2 === 0);
@@ -150,7 +145,7 @@ describe('resolve', () => {
       });
 
       it('>=0.6 (even)', () => {
-        const versions = semvers.resolve('>=0.6', { now: now, range: 'even' });
+        const versions = semvers.resolve('>=0.6', { now, range: 'even' });
         assert.equal(versions.length, 302);
         for (let index = 0; index < versions.length; index++) {
           assert.ok(major(versions[index]) % 2 === 0);
@@ -158,7 +153,7 @@ describe('resolve', () => {
       });
 
       it('>=0.6 (odd)', () => {
-        const versions = semvers.resolve('>=0.6', { now: now, range: 'odd' });
+        const versions = semvers.resolve('>=0.6', { now, range: 'odd' });
         assert.equal(versions.length, 131);
         for (let index = 0; index < versions.length; index++) {
           assert.ok(major(versions[index]) % 2 === 1);
@@ -166,12 +161,12 @@ describe('resolve', () => {
       });
 
       it('>=0.6 (range major)', () => {
-        const versions = semvers.resolve('>=0.6', { now: now, range: 'major' });
+        const versions = semvers.resolve('>=0.6', { now, range: 'major' });
         assert.equal(versions.length, 18);
       });
 
       it('>=0.6 (range major,lts)', () => {
-        const versions = semvers.resolve('>=0.6', { now: now, range: 'major,lts' });
+        const versions = semvers.resolve('>=0.6', { now, range: 'major,lts' });
         assert.equal(versions.length, 5);
         for (let index = 0; index < versions.length; index++) {
           assert.ok(major(versions[index]) % 2 === 0);
@@ -179,7 +174,7 @@ describe('resolve', () => {
       });
 
       it('>=0.6 (range major,even)', () => {
-        const versions = semvers.resolve('>=0.6', { now: now, range: 'major,even' });
+        const versions = semvers.resolve('>=0.6', { now, range: 'major,even' });
         assert.equal(versions.length, 10);
         for (let index = 0; index < versions.length; index++) {
           assert.ok(major(versions[index]) % 2 === 0);
@@ -187,7 +182,7 @@ describe('resolve', () => {
       });
 
       it('>=0.6 (range major,odd)', () => {
-        const versions = semvers.resolve('>=0.6', { now: now, range: 'major,odd' });
+        const versions = semvers.resolve('>=0.6', { now, range: 'major,odd' });
         assert.equal(versions.length, 8);
         for (let index = 0; index < versions.length; index++) {
           assert.ok(major(versions[index]) % 2 === 1);
@@ -195,12 +190,12 @@ describe('resolve', () => {
       });
 
       it('>=0.6 (range minor)', () => {
-        const versions = semvers.resolve('>=0.6', { now: now, range: 'minor' });
+        const versions = semvers.resolve('>=0.6', { now, range: 'minor' });
         assert.equal(versions.length, 316);
       });
 
       it('>=0.6 (range minor,lts)', () => {
-        const versions = semvers.resolve('>=0.6', { now: now, range: 'minor,lts' });
+        const versions = semvers.resolve('>=0.6', { now, range: 'minor,lts' });
         assert.equal(versions.length, 38);
         for (let index = 0; index < versions.length; index++) {
           assert.ok(major(versions[index]) % 2 === 0);
@@ -208,7 +203,7 @@ describe('resolve', () => {
       });
 
       it('>=0.6 (range minor,even)', () => {
-        const versions = semvers.resolve('>=0.6', { now: now, range: 'minor,even' });
+        const versions = semvers.resolve('>=0.6', { now, range: 'minor,even' });
         assert.equal(versions.length, 206);
         for (let index = 0; index < versions.length; index++) {
           assert.ok(major(versions[index]) % 2 === 0);
@@ -216,7 +211,7 @@ describe('resolve', () => {
       });
 
       it('>=0.6 (range minor,odd)', () => {
-        const versions = semvers.resolve('>=0.6', { now: now, range: 'minor,odd' });
+        const versions = semvers.resolve('>=0.6', { now, range: 'minor,odd' });
         assert.equal(versions.length, 110);
         for (let index = 0; index < versions.length; index++) {
           assert.ok(major(versions[index]) % 2 === 1);
@@ -224,12 +219,12 @@ describe('resolve', () => {
       });
 
       it('>=0.6 (range patch)', () => {
-        const versions = semvers.resolve('>=0.6', { now: now, range: 'patch' });
+        const versions = semvers.resolve('>=0.6', { now, range: 'patch' });
         assert.equal(versions.length, 433);
       });
 
       it('>=0.6 (range patch,lts)', () => {
-        const versions = semvers.resolve('>=0.6', { now: now, range: 'patch,lts' });
+        const versions = semvers.resolve('>=0.6', { now, range: 'patch,lts' });
         assert.equal(versions.length, 116);
         for (let index = 0; index < versions.length; index++) {
           assert.ok(major(versions[index]) % 2 === 0);
@@ -237,7 +232,7 @@ describe('resolve', () => {
       });
 
       it('>=0.6 (range patch,even)', () => {
-        const versions = semvers.resolve('>=0.6', { now: now, range: 'patch,even' });
+        const versions = semvers.resolve('>=0.6', { now, range: 'patch,even' });
         assert.equal(versions.length, 302);
         for (let index = 0; index < versions.length; index++) {
           assert.ok(major(versions[index]) % 2 === 0);
@@ -245,7 +240,7 @@ describe('resolve', () => {
       });
 
       it('>=0.6 (range patch,odd)', () => {
-        const versions = semvers.resolve('>=0.6', { now: now, range: 'patch,odd' });
+        const versions = semvers.resolve('>=0.6', { now, range: 'patch,odd' });
         assert.equal(versions.length, 131);
         for (let index = 0; index < versions.length; index++) {
           assert.ok(major(versions[index]) % 2 === 1);
@@ -255,17 +250,17 @@ describe('resolve', () => {
 
     describe('unhappy path', () => {
       it('null', () => {
-        const version = semvers.resolve(null, { now: now });
+        const version = semvers.resolve(null, { now });
         assert.ok(!version);
       });
 
       it('undefined', () => {
-        const version = semvers.resolve(undefined, { now: now });
+        const version = semvers.resolve(undefined, { now });
         assert.ok(!version);
       });
 
       it('date', () => {
-        const version = semvers.resolve(new Date(), { now: now });
+        const version = semvers.resolve(new Date(), { now });
         assert.ok(!version);
       });
     });
