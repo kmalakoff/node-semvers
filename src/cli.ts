@@ -6,6 +6,8 @@ import isNaN from './lib/isNaN';
 
 import isArray from 'isarray';
 
+const ERROR_CODE = 11;
+
 export default (argv) => {
   const options = getopts(argv.slice(1), {
     alias: { path: 'p', range: 'r', now: 'n' },
@@ -41,7 +43,7 @@ export default (argv) => {
   const args = argv.slice(0, 1).concat(options._);
   if (args.length < 1) {
     console.log('Missing version string. Example usage: nv [version string]. Use nv --help for information on version strings');
-    return exit(10);
+    return exit(ERROR_CODE);
   }
 
   function stringify(value) {
@@ -51,13 +53,13 @@ export default (argv) => {
   NodeVersions.load(options as LoadOptions, (err, semvers) => {
     if (err) {
       console.log(err.message);
-      return exit(11);
+      return exit(ERROR_CODE);
     }
 
     const version = semvers.resolve(args[0], options as ResolveOptions);
     if (!version || (isArray(version) && !(version as string[]).length)) {
       console.log(`Unrecognized: ${args[0]}`);
-      return exit(12);
+      return exit(ERROR_CODE);
     }
 
     console.log('versions:');
