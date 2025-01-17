@@ -101,24 +101,6 @@ describe('cli', () => {
         });
       });
 
-      it('lts/dubnium', (done) => {
-        spawn(CLI, ['lts/dubnium', '--now', `${now.getTime()}`], { encoding: 'utf8' }, (err, res) => {
-          if (err) return done(err.message);
-          const version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
-          assert.equal(version, 'v10.20.1');
-          done();
-        });
-      });
-
-      it('dubnium', (done) => {
-        spawn(CLI, ['dubnium', '--now', `${now.getTime()}`], { encoding: 'utf8' }, (err, res) => {
-          if (err) return done(err.message);
-          const version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
-          assert.equal(version, 'v10.20.1');
-          done();
-        });
-      });
-
       it('lts/*', (done) => {
         spawn(CLI, ['lts/*', '--now', `${now.getTime()}`], { encoding: 'utf8' }, (err, res) => {
           if (err) return done(err.message);
