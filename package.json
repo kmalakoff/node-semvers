@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "exit": "^0.1.2",
-    "fetch-json-cache": "^1.2.39",
+    "fetch-json-cache": "^1.2.40",
     "getopts-compat": "^2.2.6",
     "isarray": "^2.0.5",
     "semver": "^5.7.1"
