@@ -2,13 +2,12 @@
 delete process.env.NODE_OPTIONS;
 
 import assert from 'assert';
-import path from 'path';
-import url from 'url';
-import Pinkie from 'pinkie-promise';
-import rimraf2 from 'rimraf2';
-
 // @ts-ignore
 import NodeVersions, { type Version } from 'node-semvers';
+import path from 'path';
+import Pinkie from 'pinkie-promise';
+import rimraf2 from 'rimraf2';
+import url from 'url';
 
 function major(version) {
   const parts = version.substr(1).split('.');

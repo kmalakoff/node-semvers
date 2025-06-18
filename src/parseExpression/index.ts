@@ -1,7 +1,7 @@
-// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
+// biome-ignore lint/suspicious/noShadowRestrictedNames: Legacy
 import isNaN from '../lib/isNaN.js';
-import isLTSFn from './isLTSFn.js';
 import isLatestFn from './isLatestFn.js';
+import isLTSFn from './isLTSFn.js';
 import schedulesLatest from './schedulesLatest.js';
 
 export default function parseExpression(expression, now) {
