@@ -1,10 +1,9 @@
 import exit from 'exit';
 import getopts from 'getopts-compat';
-import NodeVersions, { type LoadOptions, type ResolveOptions } from './index.js';
-// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
-import isNaN from './lib/isNaN.js';
-
 import isArray from 'isarray';
+import NodeVersions, { type LoadOptions, type ResolveOptions } from './index.js';
+// biome-ignore lint/suspicious/noShadowRestrictedNames: Legacy
+import isNaN from './lib/isNaN.js';
 
 const ERROR_CODE = 11;
 
