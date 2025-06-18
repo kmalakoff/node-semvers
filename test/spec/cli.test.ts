@@ -2,12 +2,12 @@
 delete process.env.NODE_OPTIONS;
 
 import assert from 'assert';
-import path from 'path';
-import url from 'url';
 import cr from 'cr';
 import spawn from 'cross-spawn-cb';
+import path from 'path';
 import Pinkie from 'pinkie-promise';
 import rimraf2 from 'rimraf2';
+import url from 'url';
 
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
 const CLI = path.join(__dirname, '..', '..', 'bin', 'cli.cjs');
