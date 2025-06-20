@@ -28,7 +28,7 @@
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.cts",
   "bin": {
-    "nsv": "./bin/cli"
+    "nsv": "./bin/cli.js"
   },
   "files": [
     "dist",
@@ -61,7 +61,7 @@
     "rollup": "*"
   },
   "engines": {
-    "node": ">=0.8"
+    "node": "16"
   },
   "tsds": {
     "source": "src/index.ts"
