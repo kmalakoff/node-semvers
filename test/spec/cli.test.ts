@@ -10,7 +10,7 @@ import rimraf2 from 'rimraf2';
 import url from 'url';
 
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
-const CLI = path.join(__dirname, '..', '..', 'bin', 'cli.cjs');
+const CLI = path.join(__dirname, '..', '..', 'bin', 'cli');
 const INSTALLED_DIR = path.join(path.join(__dirname, '..', 'cache'));
 
 function major(version) {
@@ -21,15 +21,13 @@ function major(version) {
 describe('cli', () => {
   (() => {
     // patch and restore promise
-    // @ts-ignore
-    let rootPromise: Promise;
+    if (typeof global === 'undefined') return;
+    const globalPromise = global.Promise;
     before(() => {
-      rootPromise = global.Promise;
-      // @ts-ignore
       global.Promise = Pinkie;
     });
     after(() => {
-      global.Promise = rootPromise;
+      global.Promise = globalPromise;
     });
   })();
 
