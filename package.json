@@ -28,7 +28,7 @@
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.cts",
   "bin": {
-    "nsv": "./bin/cli.cjs"
+    "nsv": "./bin/cli"
   },
   "files": [
     "dist",
@@ -40,8 +40,8 @@
     "build": "tsds build",
     "format": "biome check --write --unsafe src/ test/ && biome check --config-path biome.es5.json --write --unsafe assets/ scripts/",
     "postinstall": "node scripts/postinstall.cjs",
-    "test": "tsds test:node --no-timeouts",
-    "test:engines": "nvu engines npm test",
+    "test": "mocha --no-timeouts test/**/*.test.*",
+    "test:engines": "nvu engines tsds test:node --no-timeouts",
     "version": "tsds version"
   },
   "dependencies": {
