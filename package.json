@@ -61,7 +61,7 @@
     "rollup": "*"
   },
   "engines": {
-    "node": "16"
+    "node": ">=0.8"
   },
   "tsds": {
     "source": "src/index.ts"
