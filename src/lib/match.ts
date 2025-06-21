@@ -1,4 +1,4 @@
-export default function match(test, query) {
+export default function match(test: object, query: object): boolean {
   for (const key in query) {
     if (test[key] !== query[key]) return false;
   }
