@@ -1,7 +1,9 @@
-export const major = function major(version) {
-  return version.major === 0 ? `${version.major}.${version.minor}` : version.major;
-};
+import type { Version } from '../types.ts';
 
-export const minor = function minor(version) {
+export function major(version: Version): string {
+  return version.major === 0 ? `${version.major}.${version.minor}` : `${version.major}`;
+}
+
+export function minor(version: Version): string {
   return version.major === 0 ? `${version.major}.${version.minor}.${version.patch}` : `${version.major}.${version.minor}`;
-};
+}

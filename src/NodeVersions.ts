@@ -39,7 +39,7 @@ export default class NodeVersions {
 
     function worker(options, callback) {
       const cache = new Cache((options as LoadOptions).cachePath || CACHE_PATH);
-      cache.get(DISTS_URL, (err, versions: VersionRaw[]) => {
+      cache.get<VersionRaw[]>(DISTS_URL, (err, versions): undefined => {
         if (err) return callback(err);
 
         cache.get(SCHEDULES_URL, (err, schedule: ScheduleRaw[]) => {
@@ -55,8 +55,8 @@ export default class NodeVersions {
   static loadSync(options?: LoadOptions): NodeVersions | null {
     options = options || {};
     const cache = new Cache(options.cachePath || CACHE_PATH);
-    const versions = cache.getSync(DISTS_URL) as VersionRaw[];
-    const schedule = cache.getSync(SCHEDULES_URL) as ScheduleRaw[];
+    const versions = cache.getSync<VersionRaw[]>(DISTS_URL);
+    const schedule = cache.getSync<ScheduleRaw[]>(SCHEDULES_URL);
     if (!versions || !schedule) return null;
     return new NodeVersions(versions, schedule);
   }
