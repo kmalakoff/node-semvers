@@ -61,3 +61,19 @@ export interface Version {
   raw: VersionRaw;
   codename: string;
 }
+
+export interface ParsedVersion {
+  major: number;
+  minor?: number;
+  patch?: number;
+}
+
+export interface ParsedCodename {
+  codename: string;
+}
+
+export interface ParsedName {
+  name: string;
+}
+
+export type ParsedExpression = ParsedVersion | ParsedCodename | ParsedName;
