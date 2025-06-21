@@ -28,7 +28,7 @@
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.cts",
   "bin": {
-    "nsv": "./bin/cli.js"
+    "nsv": "bin/cli.js"
   },
   "files": [
     "dist",
