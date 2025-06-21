@@ -7,7 +7,7 @@ import isNaN from './lib/isNaN.ts';
 
 const ERROR_CODE = 11;
 
-export default (argv) => {
+export default (argv: string[]): undefined => {
   const options = getopts(argv.slice(1), {
     alias: { path: 'p', range: 'r', now: 'n' },
     stopEarly: true,

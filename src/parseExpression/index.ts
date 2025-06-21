@@ -1,10 +1,11 @@
 // biome-ignore lint/suspicious/noShadowRestrictedNames: Legacy
 import isNaN from '../lib/isNaN.ts';
+import type { ParsedExpression } from '../types.ts';
 import isLatestFn from './isLatestFn.ts';
 import isLTSFn from './isLTSFn.ts';
 import schedulesLatest from './schedulesLatest.ts';
 
-export default function parseExpression(expression, now) {
+export default function parseExpression(expression: string, now: Date): ParsedExpression {
   if (expression[0] === 'v' && !isNaN(+expression.substr(1, 1))) expression = expression.substr(1);
   if (expression.substr(0, 4) === 'lts/') expression = expression.substr(4) === '*' ? 'lts' : expression.substr(4);
   if (expression === 'stable') expression = 'lts';
