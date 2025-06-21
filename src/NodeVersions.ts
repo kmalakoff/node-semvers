@@ -1,15 +1,15 @@
 import Cache from 'fetch-json-cache';
 import semver from 'semver';
 
-import constants from './constants.js';
-import { major, minor } from './lib/keyFunctions.js';
-import { even, odd } from './lib/lineFunctions.js';
-import match from './lib/match.js';
-import normalizeSchedule from './lib/normalizeSchedule.js';
-import normalizeVersion from './lib/normalizeVersion.js';
-import parseExpression from './parseExpression/index.js';
+import constants from './constants.ts';
+import { major, minor } from './lib/keyFunctions.ts';
+import { even, odd } from './lib/lineFunctions.ts';
+import match from './lib/match.ts';
+import normalizeSchedule from './lib/normalizeSchedule.ts';
+import normalizeVersion from './lib/normalizeVersion.ts';
+import parseExpression from './parseExpression/index.ts';
 
-import type { LoadError, LoadOptions, ResolveOptions, Schedule, ScheduleRaw, Version, VersionRaw } from './types.js';
+import type { LoadError, LoadOptions, ResolveOptions, Schedule, ScheduleRaw, Version, VersionRaw } from './types.ts';
 
 export type LoadCallback = (error?: LoadError, semvers?: NodeVersions) => void;
 
