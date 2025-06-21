@@ -1,7 +1,7 @@
 import Cache from 'fetch-json-cache';
 import semver from 'semver';
 
-import constants from './constants.ts';
+import { CACHE_PATH, DISTS_URL, SCHEDULES_URL } from './constants.ts';
 import { major, minor } from './lib/keyFunctions.ts';
 import { even, odd } from './lib/lineFunctions.ts';
 import match from './lib/match.ts';
@@ -38,11 +38,11 @@ export default class NodeVersions {
     options = options || {};
 
     function worker(options, callback) {
-      const cache = new Cache((options as LoadOptions).cachePath || constants.CACHE_PATH);
-      cache.get(constants.DISTS_URL, (err, versions: VersionRaw[]) => {
+      const cache = new Cache((options as LoadOptions).cachePath || CACHE_PATH);
+      cache.get(DISTS_URL, (err, versions: VersionRaw[]) => {
         if (err) return callback(err);
 
-        cache.get(constants.SCHEDULES_URL, (err, schedule: ScheduleRaw[]) => {
+        cache.get(SCHEDULES_URL, (err, schedule: ScheduleRaw[]) => {
           err ? callback(err) : callback(null, new NodeVersions(versions, schedule));
         });
       });
@@ -54,9 +54,9 @@ export default class NodeVersions {
 
   static loadSync(options?: LoadOptions): NodeVersions | null {
     options = options || {};
-    const cache = new Cache(options.cachePath || constants.CACHE_PATH);
-    const versions = cache.getSync(constants.DISTS_URL) as VersionRaw[];
-    const schedule = cache.getSync(constants.SCHEDULES_URL) as ScheduleRaw[];
+    const cache = new Cache(options.cachePath || CACHE_PATH);
+    const versions = cache.getSync(DISTS_URL) as VersionRaw[];
+    const schedule = cache.getSync(SCHEDULES_URL) as ScheduleRaw[];
     if (!versions || !schedule) return null;
     return new NodeVersions(versions, schedule);
   }
