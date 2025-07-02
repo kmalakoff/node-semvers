@@ -1,9 +1,10 @@
 import exit from 'exit';
 import getopts from 'getopts-compat';
-import isArray from 'isarray';
 import NodeVersions, { type LoadOptions, type ResolveOptions } from './index.ts';
 // biome-ignore lint/suspicious/noShadowRestrictedNames: Legacy
 import isNaN from './lib/isNaN.ts';
+
+const isArray = Array.isArray || ((x) => Object.prototype.toString.call(x) === '[object Array]');
 
 const ERROR_CODE = 11;
 
