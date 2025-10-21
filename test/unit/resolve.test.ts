@@ -2,7 +2,6 @@
 delete process.env.NODE_OPTIONS;
 
 import assert from 'assert';
-// @ts-ignore
 import NodeVersions from 'node-semvers';
 import path from 'path';
 import Pinkie from 'pinkie-promise';
