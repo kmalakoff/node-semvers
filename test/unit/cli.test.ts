@@ -4,14 +4,16 @@ delete process.env.NODE_OPTIONS;
 import assert from 'assert';
 import cr from 'cr';
 import spawn from 'cross-spawn-cb';
+import fs from 'fs';
 import path from 'path';
 import Pinkie from 'pinkie-promise';
 import rimraf2 from 'rimraf2';
 import url from 'url';
 
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
-const CLI = path.join(__dirname, '..', '..', 'bin', 'cli.js');
+const CLI = path.join(__dirname, '..', '..', 'bin', 'cli.cjs');
 const INSTALLED_DIR = path.join(path.join(__dirname, '..', 'cache'));
+const PKG_VERSION = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'package.json'), 'utf8')).version;
 
 function major(version) {
   const parts = version.substr(1).split('.');
@@ -30,6 +32,60 @@ describe('cli', () => {
       global.Promise = globalPromise;
     });
   })();
+
+  describe('version and help', () => {
+    it('--version', (done) => {
+      spawn(CLI, ['--version'], { encoding: 'utf8' }, (err, res) => {
+        if (err) {
+          done(err.message);
+          return;
+        }
+        const output = cr(res.stdout).trim();
+        assert.equal(output, PKG_VERSION);
+        done();
+      });
+    });
+
+    it('-v', (done) => {
+      spawn(CLI, ['-v'], { encoding: 'utf8' }, (err, res) => {
+        if (err) {
+          done(err.message);
+          return;
+        }
+        const output = cr(res.stdout).trim();
+        assert.equal(output, PKG_VERSION);
+        done();
+      });
+    });
+
+    it('--help', (done) => {
+      spawn(CLI, ['--help'], { encoding: 'utf8' }, (err, res) => {
+        if (err) {
+          done(err.message);
+          return;
+        }
+        const output = cr(res.stdout);
+        assert.ok(output.indexOf('Usage:') >= 0);
+        assert.ok(output.indexOf('Version Strings:') >= 0);
+        assert.ok(output.indexOf('--version') >= 0);
+        assert.ok(output.indexOf('--help') >= 0);
+        done();
+      });
+    });
+
+    it('-h', (done) => {
+      spawn(CLI, ['-h'], { encoding: 'utf8' }, (err, res) => {
+        if (err) {
+          done(err.message);
+          return;
+        }
+        const output = cr(res.stdout);
+        assert.ok(output.indexOf('Usage:') >= 0);
+        assert.ok(output.indexOf('Version Strings:') >= 0);
+        done();
+      });
+    });
+  });
 
   describe('clean directory', () => {
     before((cb) => rimraf2(INSTALLED_DIR, { disableGlob: true }, cb.bind(null, null)));

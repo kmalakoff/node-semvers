@@ -28,7 +28,7 @@
   "main": "dist/cjs/index.js",
   "types": "dist/cjs/index.d.ts",
   "bin": {
-    "nsv": "bin/cli.js"
+    "nsv": "bin/cli.cjs"
   },
   "files": [
     "dist",
@@ -40,7 +40,8 @@
     "build": "tsds build",
     "format": "biome check --write --unsafe src/ test/ && biome check --config-path biome.es5.json --write --unsafe assets/ scripts/",
     "postinstall": "node scripts/postinstall.cjs",
-    "test": "mocha --no-timeouts test/**/*.test.*",
+    "prepublishOnly": "tsds validate",
+    "test": "tsds test:node --no-timeouts",
     "test:engines": "nvu engines tsds test:node --no-timeouts",
     "version": "tsds version"
   },
@@ -51,13 +52,16 @@
     "semver": "^5.7.1"
   },
   "devDependencies": {
+    "@biomejs/biome": "*",
     "@types/mocha": "*",
     "@types/node": "*",
     "cr": "*",
     "cross-spawn-cb": "*",
+    "node-version-use": "*",
     "pinkie-promise": "*",
     "rimraf2": "*",
-    "rollup": "*"
+    "rollup": "*",
+    "ts-dev-stack": "*"
   },
   "engines": {
     "node": ">=0.8"
