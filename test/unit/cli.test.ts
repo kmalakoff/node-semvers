@@ -5,9 +5,9 @@ import assert from 'assert';
 import cr from 'cr';
 import spawn from 'cross-spawn-cb';
 import fs from 'fs';
+import { safeRm } from 'fs-remove-compat';
 import path from 'path';
 import Pinkie from 'pinkie-promise';
-import rimraf2 from 'rimraf2';
 import url from 'url';
 
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
@@ -88,7 +88,7 @@ describe('cli', () => {
   });
 
   describe('clean directory', () => {
-    before((cb) => rimraf2(INSTALLED_DIR, { disableGlob: true }, cb.bind(null, null)));
+    before((cb) => safeRm(INSTALLED_DIR, cb.bind(null, null)));
     const now = new Date(Date.parse('2020-05-10T03:23:29.347Z'));
 
     describe('happy path', () => {
