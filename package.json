@@ -39,7 +39,7 @@
   ],
   "scripts": {
     "build": "tsds build",
-    "format": "biome check --write --unsafe src/ test/ && biome check --config-path biome.es5.json --write --unsafe assets/ scripts/",
+    "format": "tsds format",
     "postinstall": "node scripts/postinstall.cjs",
     "prepublishOnly": "tsds validate",
     "test": "tsds test:node --no-timeouts",
@@ -53,7 +53,6 @@
     "semver": "^5.7.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "*",
     "@types/mocha": "*",
     "@types/node": "*",
     "cr": "*",
@@ -62,7 +61,8 @@
     "pinkie-promise": "*",
     "rimraf2": "*",
     "rollup": "*",
-    "ts-dev-stack": "*"
+    "ts-dev-stack": "*",
+    "tsds-config": "*"
   },
   "engines": {
     "node": ">=0.8"
