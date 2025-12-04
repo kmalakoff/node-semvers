@@ -2,10 +2,10 @@
 delete process.env.NODE_OPTIONS;
 
 import assert from 'assert';
+import { safeRm } from 'fs-remove-compat';
 import NodeVersions from 'node-semvers';
 import path from 'path';
 import Pinkie from 'pinkie-promise';
-import rimraf2 from 'rimraf2';
 import url from 'url';
 
 function major(version) {
@@ -33,7 +33,7 @@ describe('resolve', () => {
     let semvers = null;
 
     before((callback) => {
-      rimraf2(INSTALLED_DIR, { disableGlob: true }, () => {
+      safeRm(INSTALLED_DIR, () => {
         NodeVersions.load((err, _semvers) => {
           semvers = _semvers;
           callback(err);
