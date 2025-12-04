@@ -57,9 +57,9 @@
     "@types/node": "*",
     "cr": "*",
     "cross-spawn-cb": "*",
+    "fs-remove-compat": "*",
     "node-version-use": "*",
     "pinkie-promise": "*",
-    "rimraf2": "*",
     "rollup": "*",
     "ts-dev-stack": "*",
     "tsds-config": "*"
