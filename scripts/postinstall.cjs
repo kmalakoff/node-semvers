@@ -1,18 +1,32 @@
 var Cache = require('fetch-json-cache');
 var constants = require('../assets/constants.cjs');
 
-function cache(callback) {
+function fetchWithRetry(cache, url, retries, callback) {
+  cache.get(url, { force: true }, function (err) {
+    if (err && retries > 0) {
+      setTimeout(function () {
+        fetchWithRetry(cache, url, retries - 1, callback);
+      }, 1000);
+    } else {
+      callback(err);
+    }
+  });
+}
+
+function cacheWithRetry(callback) {
   var cache = new Cache(constants.CACHE_PATH);
-  cache.get(constants.DISTS_URL, { force: true }, function (err) {
-    err ? callback(err) : cache.get(constants.SCHEDULES_URL, { force: true }, callback);
+  fetchWithRetry(cache, constants.DISTS_URL, 3, function (err) {
+    if (err) return callback(err);
+    fetchWithRetry(cache, constants.SCHEDULES_URL, 3, callback);
   });
 }
 
 // run patch
-cache(function (err) {
+cacheWithRetry(function (err) {
   if (err) {
-    console.log('postinstall failed. Error: ' + err.message);
-    process.exit(-1);
+    console.log('postinstall warning: ' + err.message);
+    console.log('Cache not updated after retries.');
+    process.exit(0);
   } else {
     console.log('postinstall succeeded');
     process.exit(0);
