@@ -37,7 +37,7 @@ describe('cli', () => {
     it('--version', (done) => {
       spawn(CLI, ['--version'], { encoding: 'utf8' }, (err, res) => {
         if (err) {
-          done(err.message);
+          done(err);
           return;
         }
         const output = cr(res.stdout).trim();
@@ -49,7 +49,7 @@ describe('cli', () => {
     it('-v', (done) => {
       spawn(CLI, ['-v'], { encoding: 'utf8' }, (err, res) => {
         if (err) {
-          done(err.message);
+          done(err);
           return;
         }
         const output = cr(res.stdout).trim();
@@ -61,7 +61,7 @@ describe('cli', () => {
     it('--help', (done) => {
       spawn(CLI, ['--help'], { encoding: 'utf8' }, (err, res) => {
         if (err) {
-          done(err.message);
+          done(err);
           return;
         }
         const output = cr(res.stdout);
@@ -76,7 +76,7 @@ describe('cli', () => {
     it('-h', (done) => {
       spawn(CLI, ['-h'], { encoding: 'utf8' }, (err, res) => {
         if (err) {
-          done(err.message);
+          done(err);
           return;
         }
         const output = cr(res.stdout);
@@ -95,7 +95,7 @@ describe('cli', () => {
       it('12.14.0', (done) => {
         spawn(CLI, ['12.14.0', '--now', `${now.getTime()}`], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
@@ -107,7 +107,7 @@ describe('cli', () => {
       it('v12.14.0', (done) => {
         spawn(CLI, ['v12.14.0', '--now', `${now.getTime()}`], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
@@ -119,7 +119,7 @@ describe('cli', () => {
       it('12.14', (done) => {
         spawn(CLI, ['12.14', '--now', `${now.getTime()}`], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
@@ -131,7 +131,7 @@ describe('cli', () => {
       it('v12.14', (done) => {
         spawn(CLI, ['v12.14', '--now', `${now.getTime()}`], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
@@ -143,7 +143,7 @@ describe('cli', () => {
       it('12', (done) => {
         spawn(CLI, ['12', '--now', `${now.getTime()}`], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
@@ -155,7 +155,7 @@ describe('cli', () => {
       it('v12', (done) => {
         spawn(CLI, ['v12', '--now', `${now.getTime()}`], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
@@ -167,7 +167,7 @@ describe('cli', () => {
       it('lts', (done) => {
         spawn(CLI, ['lts', '--now', `${now.getTime()}`], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
@@ -179,7 +179,7 @@ describe('cli', () => {
       it('lts/*', (done) => {
         spawn(CLI, ['lts/*', '--now', `${now.getTime()}`], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
@@ -191,7 +191,7 @@ describe('cli', () => {
       it('latest', (done) => {
         spawn(CLI, ['latest', '--now', `${now.getTime()}`], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
@@ -203,7 +203,7 @@ describe('cli', () => {
       it('stable', (done) => {
         spawn(CLI, ['stable', '--now', `${now.getTime()}`], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const version = cr(res.stdout).split('versions:\n').pop().split('\n')[0];
@@ -215,7 +215,7 @@ describe('cli', () => {
       it('stable (path: raw)', (done) => {
         spawn(CLI, ['stable', '--now', `${now.getTime()}`, '--path', 'raw'], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const version = JSON.parse(cr(res.stdout).split('versions:\n').pop().split('\n')[0]);
@@ -229,7 +229,7 @@ describe('cli', () => {
       it('10.x || >=12.0.0', (done) => {
         spawn(CLI, ['10.0.0 || ~12.0.0', '--now', `${now.getTime()}`], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
@@ -241,7 +241,7 @@ describe('cli', () => {
       it('>=0.6 (default)', (done) => {
         spawn(CLI, ['>=0.6', '--now', `${now.getTime()}`], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
@@ -253,7 +253,7 @@ describe('cli', () => {
       it('>=0.6 (lts)', (done) => {
         spawn(CLI, ['>=0.6', '--now', `${now.getTime()}`, '--range', 'lts'], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
@@ -268,7 +268,7 @@ describe('cli', () => {
       it('>=0.6 (even)', (done) => {
         spawn(CLI, ['>=0.6', '--now', `${now.getTime()}`, '--range', 'even'], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
@@ -283,7 +283,7 @@ describe('cli', () => {
       it('>=0.6 (odd)', (done) => {
         spawn(CLI, ['>=0.6', '--now', `${now.getTime()}`, '--range', 'odd'], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
@@ -298,7 +298,7 @@ describe('cli', () => {
       it('>=0.6 (range major)', (done) => {
         spawn(CLI, ['>=0.6', '--now', `${now.getTime()}`, '--range', 'major'], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
@@ -310,7 +310,7 @@ describe('cli', () => {
       it('>=0.6 (range major,lts)', (done) => {
         spawn(CLI, ['>=0.6', '--now', `${now.getTime()}`, '--range', 'major,lts'], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
@@ -325,7 +325,7 @@ describe('cli', () => {
       it('>=0.6 (range major,even)', (done) => {
         spawn(CLI, ['>=0.6', '--now', `${now.getTime()}`, '--range', 'major,even'], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
@@ -340,7 +340,7 @@ describe('cli', () => {
       it('>=0.6 (range major,odd)', (done) => {
         spawn(CLI, ['>=0.6', '--now', `${now.getTime()}`, '--range', 'major,odd'], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
@@ -355,7 +355,7 @@ describe('cli', () => {
       it('>=0.6 (range minor)', (done) => {
         spawn(CLI, ['>=0.6', '--now', `${now.getTime()}`, '--range', 'minor'], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
@@ -367,7 +367,7 @@ describe('cli', () => {
       it('>=0.6 (range minor,lts)', (done) => {
         spawn(CLI, ['>=0.6', '--now', `${now.getTime()}`, '--range', 'minor,lts'], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
@@ -382,7 +382,7 @@ describe('cli', () => {
       it('>=0.6 (range minor,even)', (done) => {
         spawn(CLI, ['>=0.6', '--now', `${now.getTime()}`, '--range', 'minor,even'], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
@@ -397,7 +397,7 @@ describe('cli', () => {
       it('>=0.6 (range minor,odd)', (done) => {
         spawn(CLI, ['>=0.6', '--now', `${now.getTime()}`, '--range', 'minor,odd'], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
@@ -412,7 +412,7 @@ describe('cli', () => {
       it('>=0.6 (range patch)', (done) => {
         spawn(CLI, ['>=0.6', '--now', `${now.getTime()}`, '--range', 'patch'], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
@@ -424,7 +424,7 @@ describe('cli', () => {
       it('>=0.6 (range patch,lts)', (done) => {
         spawn(CLI, ['>=0.6', '--now', `${now.getTime()}`, '--range', 'patch,lts'], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
@@ -439,7 +439,7 @@ describe('cli', () => {
       it('>=0.6 (range patch,even)', (done) => {
         spawn(CLI, ['>=0.6', '--now', `${now.getTime()}`, '--range', 'patch,even'], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
@@ -454,7 +454,7 @@ describe('cli', () => {
       it('>=0.6 (range patch,odd)', (done) => {
         spawn(CLI, ['>=0.6', '--now', `${now.getTime()}`, '--range', 'patch,odd'], { encoding: 'utf8' }, (err, res) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           const versions = cr(res.stdout).split('versions:\n').pop().split('\n').slice(0, -1);
