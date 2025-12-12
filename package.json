@@ -47,7 +47,7 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "exit-compat": "^1.0.1",
+    "exit-compat": "^1.0.2",
     "fetch-json-cache": "^1.3.11",
     "getopts-compat": "^2.2.6",
     "semver": "^5.7.1"
@@ -56,8 +56,8 @@
     "@types/mocha": "^10.0.10",
     "@types/node": "^25.0.1",
     "cr": "^0.1.0",
-    "cross-spawn-cb": "^2.4.12",
-    "fs-remove-compat": "^0.2.1",
+    "cross-spawn-cb": "^2.4.13",
+    "fs-remove-compat": "^0.2.2",
     "node-version-use": "^2.1.5",
     "pinkie-promise": "^2.0.1",
     "rollup": "^4.53.3",
