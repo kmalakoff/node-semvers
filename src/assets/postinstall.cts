@@ -1,10 +1,10 @@
-import exit from 'exit-compat';
-import Cache from 'fetch-json-cache';
-import { CACHE_PATH, DISTS_URL, SCHEDULES_URL } from '../constants.ts';
+const exit = require('exit-compat');
+const Cache = require('fetch-json-cache');
+const { CACHE_PATH, DISTS_URL, SCHEDULES_URL } = require('./constants.cts');
 
 type Callback = (err: Error | null) => void;
 
-function fetchWithRetry(cache: Cache, url: string, retries: number, callback: Callback): void {
+function fetchWithRetry(cache: typeof Cache.prototype, url: string, retries: number, callback: Callback): void {
   cache.get(url, { force: true }, (err: Error | null) => {
     if (err && retries > 0) {
       setTimeout(() => {
