@@ -4,7 +4,7 @@ const { CACHE_PATH, DISTS_URL, SCHEDULES_URL } = require('./constants.cts');
 
 type Callback = (err: Error | null) => void;
 
-function fetchWithRetry(cache: typeof Cache.prototype, url: string, retries: number, callback: Callback): void {
+function fetchWithRetry(cache: typeof Cache.prototype, url: string, retries: number, callback: Callback) {
   cache.get(url, { force: true }, (err: Error | null) => {
     if (err && retries > 0) {
       setTimeout(() => {
@@ -16,7 +16,7 @@ function fetchWithRetry(cache: typeof Cache.prototype, url: string, retries: num
   });
 }
 
-function cacheWithRetry(callback: Callback): void {
+function cacheWithRetry(callback: Callback) {
   const cache = new Cache(CACHE_PATH);
   fetchWithRetry(cache, DISTS_URL, 3, (err) => {
     if (err) return callback(err);
