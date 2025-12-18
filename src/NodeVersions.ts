@@ -30,7 +30,10 @@ export default class NodeVersions {
     this.versions = this.versions.sort((a, b) => (semver.gt(a.semver, b.semver) ? -1 : 1));
   }
 
-  static load(options?: LoadOptions | LoadCallback, callback?: LoadCallback): undefined | Promise<NodeVersions> {
+  static load(callback: LoadCallback): void;
+  static load(options: LoadOptions, callback: LoadCallback): void;
+  static load(options?: LoadOptions): Promise<NodeVersions>;
+  static load(options?: LoadOptions | LoadCallback, callback?: LoadCallback): void | Promise<NodeVersions> {
     if (typeof options === 'function') {
       callback = options;
       options = null;
@@ -39,7 +42,7 @@ export default class NodeVersions {
 
     function worker(options, callback) {
       const cache = new Cache((options as LoadOptions).cachePath || CACHE_PATH);
-      cache.get<VersionRaw[]>(DISTS_URL, (err, versions): undefined => {
+      cache.get<VersionRaw[]>(DISTS_URL, (err, versions): void => {
         if (err) return callback(err);
 
         cache.get(SCHEDULES_URL, (err, schedule: ScheduleRaw[]) => {
@@ -48,7 +51,7 @@ export default class NodeVersions {
       });
     }
 
-    if (typeof callback === 'function') return worker(options, callback) as undefined;
+    if (typeof callback === 'function') return worker(options, callback);
     return new Promise((resolve, reject) => worker(options, (err, versions) => (err ? reject(err) : resolve(versions))));
   }
 
