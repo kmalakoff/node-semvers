@@ -45,7 +45,7 @@ function printHelp(name: string): void {
   console.log('  -h, --help           Show this help message');
 }
 
-export default (argv: string[], name?: string): undefined => {
+export default (argv: string[], name?: string): void => {
   const cliName = name || 'nsv';
   const options = getopts(argv, {
     alias: { path: 'p', range: 'r', now: 'n', version: 'v', help: 'h' },
