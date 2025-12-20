@@ -34,15 +34,12 @@ export default class NodeVersions {
   static load(options: LoadOptions, callback: LoadCallback): void;
   static load(options?: LoadOptions): Promise<NodeVersions>;
   static load(options?: LoadOptions | LoadCallback, callback?: LoadCallback): void | Promise<NodeVersions> {
-    if (typeof options === 'function') {
-      callback = options;
-      options = null;
-    }
-    options = options || {};
+    callback = typeof options === 'function' ? options : callback;
+    options = typeof options === 'function' ? {} : ((options || {}) as LoadOptions);
 
     function worker(options, callback) {
-      const cache = new Cache((options as LoadOptions).cachePath || CACHE_PATH);
-      cache.get<VersionRaw[]>(DISTS_URL, (err, versions): void => {
+      const cache = new Cache(options.cachePath || CACHE_PATH);
+      cache.get<VersionRaw[]>(DISTS_URL, (err, versions) => {
         if (err) return callback(err);
 
         cache.get(SCHEDULES_URL, (err, schedule: ScheduleRaw[]) => {
@@ -56,8 +53,7 @@ export default class NodeVersions {
   }
 
   static loadSync(options?: LoadOptions): NodeVersions | null {
-    options = options || {};
-    const cache = new Cache(options.cachePath || CACHE_PATH);
+    const cache = new Cache(options?.cachePath || CACHE_PATH);
     const versions = cache.getSync<VersionRaw[]>(DISTS_URL);
     const schedule = cache.getSync<ScheduleRaw[]>(SCHEDULES_URL);
     if (!versions || !schedule) return null;
