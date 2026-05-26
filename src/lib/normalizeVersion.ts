@@ -15,7 +15,7 @@ export default function normalizeVersion(raw: VersionRaw, schedules: Schedule[])
     raw: raw,
   } as Version;
 
-  let schedule = null;
+  let schedule: Schedule | null = null;
   for (let index = 0; index < schedules.length; index++) {
     const test = schedules[index];
     if (test.name === version.name) {
@@ -23,6 +23,6 @@ export default function normalizeVersion(raw: VersionRaw, schedules: Schedule[])
       break;
     }
   }
-  if (schedule && raw.lts) version.codename = schedule.codename;
+  if (schedule && raw.lts) version.codename = schedule.codename || '';
   return version;
 }

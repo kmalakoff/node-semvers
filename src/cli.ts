@@ -73,22 +73,20 @@ export default (argv: string[], name?: string): void => {
     return;
   }
 
-  function stringify(value) {
+  function stringify(value: unknown) {
     return typeof value === 'string' ? value : JSON.stringify(value);
   }
 
   NodeVersions.load(options as LoadOptions, (err, semvers) => {
     if (err) {
       console.log(err.message);
-      exit(ERROR_CODE);
-      return;
+      return exit(ERROR_CODE);
     }
 
-    const version = semvers.resolve(args[0], options as ResolveOptions);
+    const version = semvers?.resolve(args[0], options as ResolveOptions);
     if (!version || (isArray(version) && !(version as string[]).length)) {
       console.log(`Unrecognized: ${args[0]}`);
-      exit(ERROR_CODE);
-      return;
+      return exit(ERROR_CODE);
     }
 
     console.log('versions:');

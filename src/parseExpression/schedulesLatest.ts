@@ -2,8 +2,8 @@ import type { Schedule } from '../types.ts';
 
 export type Filter = (item: Schedule) => boolean;
 
-export default function schedulesLatest(schedules: Schedule[], filter: Filter): Schedule {
-  let latest = null;
+export default function schedulesLatest(schedules: Schedule[], filter: Filter): Schedule | null {
+  let latest: Schedule | null = null;
   for (let index = 0; index < schedules.length; index++) {
     const schedule = schedules[index];
     if (!filter(schedule)) continue;
