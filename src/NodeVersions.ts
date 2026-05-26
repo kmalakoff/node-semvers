@@ -23,7 +23,7 @@ export default class NodeVersions {
 
     this.schedules = [];
     for (const name in schedule) this.schedules.push(normalizeSchedule(name, schedule[name]));
-    this.schedules = this.schedules.sort((a, b) => (semver.gt(semver.coerce(a.semver), semver.coerce(b.semver)) ? 1 : -1));
+    this.schedules = this.schedules.sort((a, b) => (semver.gt(semver.coerce(a.semver)?.version ?? '0.0.0', semver.coerce(b.semver)?.version ?? '0.0.0') ? 1 : -1));
 
     this.versions = [];
     for (let index = 0; index < versions.length; index++) this.versions.push(normalizeVersion(versions[index], this.schedules));
@@ -37,19 +37,25 @@ export default class NodeVersions {
     callback = typeof options === 'function' ? options : callback;
     options = typeof options === 'function' ? {} : ((options || {}) as LoadOptions);
 
-    function worker(options, callback) {
+    function worker(options: LoadOptions, callback: LoadCallback) {
       const cache = new Cache(options.cachePath || CACHE_PATH);
       cache.get<VersionRaw[]>(DISTS_URL, (err, versions) => {
         if (err) return callback(err);
 
-        cache.get(SCHEDULES_URL, (err, schedule: ScheduleRaw[]) => {
-          err ? callback(err) : callback(null, new NodeVersions(versions, schedule));
+        cache.get<ScheduleRaw[]>(SCHEDULES_URL, (err, schedule) => {
+          if (err || !versions || !schedule) return callback(err ?? new Error('Missing data'));
+          callback(undefined, new NodeVersions(versions, schedule));
         });
       });
     }
 
     if (typeof callback === 'function') return worker(options, callback);
-    return new Promise((resolve, reject) => worker(options, (err, versions) => (err ? reject(err) : resolve(versions))));
+    return new Promise((resolve, reject) =>
+      worker(options, (err?: LoadError, versions?: NodeVersions) => {
+        if (err || !versions) return reject(err ?? new Error('No versions returned'));
+        resolve(versions);
+      })
+    );
   }
 
   static loadSync(options?: LoadOptions): NodeVersions | null {
@@ -72,25 +78,29 @@ export default class NodeVersions {
     // single result, try a match
     const query = parseExpression.call(this, expression, options.now || new Date());
     if (query) {
-      let version = null;
+      let version: Version | null = null;
       for (let index = 0; index < this.versions.length; index++) {
         const test = this.versions[index];
         if (options.now && options.now < test.date) continue;
-        if (!match(test, query)) continue;
+        if (!match(test as unknown as Record<string, unknown>, query as unknown as Record<string, unknown>)) continue;
         version = test;
         break;
       }
-      if (version) return version[path];
+      if (version) return (version as unknown as Record<string, unknown>)[path] as string | Version;
     }
 
     // filtered expression
     const range = options.range || '';
-    const filters = { lts: !!~range.indexOf('lts'), key: undefined, line: undefined };
+    const filters: { lts: boolean; key: ((v: Version) => string) | undefined; line: ((v: Version) => boolean) | undefined } = {
+      lts: !!~range.indexOf('lts'),
+      key: undefined,
+      line: undefined,
+    };
     filters.key = ~range.indexOf('major') ? major : ~range.indexOf('minor') ? minor : undefined;
     filters.line = ~range.indexOf('even') ? even : ~range.indexOf('odd') ? odd : undefined;
 
-    const results = [];
-    const founds = {};
+    const results: unknown[] = [];
+    const founds: Record<string, boolean> = {};
 
     for (let index = 0; index < this.versions.length; index++) {
       const test = this.versions[index];
@@ -99,11 +109,12 @@ export default class NodeVersions {
       if (filters.line && !filters.line(test)) continue;
       if (!semver.satisfies(test.semver, expression)) continue;
       if (filters.key) {
-        if (founds[filters.key(test)]) continue;
-        founds[filters.key(test)] = true;
+        const k = filters.key(test);
+        if (founds[k]) continue;
+        founds[k] = true;
       }
-      results.unshift(test[path]);
+      results.unshift((test as unknown as Record<string, unknown>)[path]);
     }
-    return results;
+    return results as string[];
   }
 }

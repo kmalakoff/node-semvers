@@ -55,6 +55,7 @@
   "devDependencies": {
     "@types/mocha": "*",
     "@types/node": "*",
+    "@types/semver": "^7.7.1",
     "cr": "^0.1.0",
     "cross-spawn-cb": "^3.0.0",
     "fs-remove-compat": "^1.0.0",

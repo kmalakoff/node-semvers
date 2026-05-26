@@ -29,9 +29,9 @@ cacheWithRetry((err) => {
   if (err) {
     console.log(`postinstall warning: ${err.message}`);
     console.log('Cache not updated after retries.');
-    exit(0);
-  } else {
-    console.log('postinstall succeeded');
-    exit(0);
+    return exit(0);
   }
+
+  console.log('postinstall succeeded');
+  exit(0);
 });
