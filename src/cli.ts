@@ -3,7 +3,8 @@ import fs from 'fs';
 import getopts from 'getopts-compat';
 import path from 'path';
 import url from 'url';
-import NodeVersions, { type LoadOptions, type ResolveOptions } from './index.ts';
+import type NodeVersionsClass from './index.ts';
+import type { LoadOptions, ResolveOptions } from './index.ts';
 // biome-ignore lint/suspicious/noShadowRestrictedNames: Legacy
 import isNaN from './lib/isNaN.ts';
 
@@ -77,22 +78,46 @@ export default (argv: string[], name?: string): void => {
     return typeof value === 'string' ? value : JSON.stringify(value);
   }
 
-  NodeVersions.load(options as LoadOptions, (err, semvers) => {
-    if (err) {
-      console.log(err.message);
+  // deferred: index.ts pulls fetch-json-cache/semver. require() cannot load this ESM sibling below
+  // Node 20.19 (require(esm)), so the ESM half needs a real dynamic import; the CJS half's sibling
+  // is genuine CommonJS, so a plain synchronous require avoids depending on Promise, which isn't
+  // global before Node 0.12.
+  loadIndex((err, NodeVersions) => {
+    if (err || !NodeVersions) {
+      console.log(err ? err.message : 'Failed to load node-semvers');
       return exit(ERROR_CODE);
     }
 
-    const version = semvers?.resolve(args[0], options as ResolveOptions);
-    if (!version || (isArray(version) && !(version as string[]).length)) {
-      console.log(`Unrecognized: ${args[0]}`);
-      return exit(ERROR_CODE);
-    }
+    NodeVersions.load(options as LoadOptions, (err, semvers) => {
+      if (err) {
+        console.log(err.message);
+        return exit(ERROR_CODE);
+      }
 
-    console.log('versions:');
-    if (isArray(version)) {
-      for (let index = 0; index < (version as string[]).length; index++) console.log(stringify(version[index]));
-    } else console.log(stringify(version));
-    exit(0);
+      const version = semvers?.resolve(args[0], options as ResolveOptions);
+      if (!version || (isArray(version) && !(version as string[]).length)) {
+        console.log(`Unrecognized: ${args[0]}`);
+        return exit(ERROR_CODE);
+      }
+
+      console.log('versions:');
+      if (isArray(version)) {
+        for (let index = 0; index < (version as string[]).length; index++) console.log(stringify(version[index]));
+      } else console.log(stringify(version));
+      exit(0);
+    });
   });
 };
+
+function loadIndex(callback: (err: Error | null, NodeVersions?: typeof NodeVersionsClass) => void): void {
+  if (typeof require === 'undefined') {
+    import('./index.js').then((mod) => callback(null, mod.default || mod)).catch((err) => callback(err instanceof Error ? err : new Error(String(err))));
+  } else {
+    try {
+      const mod = require('./index.js');
+      callback(null, mod.default || mod);
+    } catch (err) {
+      callback(err instanceof Error ? err : new Error(String(err)));
+    }
+  }
+}
