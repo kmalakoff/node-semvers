@@ -1,1 +1,1 @@
-ignores: ["node-version-use", "ts-dev-stack", "node-semvers", "rollup"]
+ignores: ["node-semvers", "node-version-use", "ts-dev-stack", "rollup"]
