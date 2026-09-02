@@ -2,7 +2,7 @@
 
 Resolves individual and ranges for versions of Node.js by version numbers, version names, codenames, and expressions.
 
-Follows a similat convention to nave (with the addition of semver expressions):
+Follows a similar convention to [nave](https://github.com/isaacs/nave) with the addition of semver expressions:
 
 ```
 - x.y.z         A specific SemVer tuple
@@ -16,6 +16,7 @@ Follows a similat convention to nave (with the addition of semver expressions):
 - [expression]  Engine and semver module expression like "10.1.x || >=12.0.0"
 ```
 
+Usage:
 ```
 var assert = require('assert')
 var NodeVersions = require('node-semvers')
