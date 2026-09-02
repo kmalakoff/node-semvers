@@ -2,7 +2,7 @@ var semver = require('semver');
 var find = require('lodash.find');
 
 var parseExpression = require('./lib/parseExpression');
-var fetchHTTP = require('./lib/fetchHTTP');
+var fetch = require('./lib/fetch');
 var fetchCache = require('./lib/fetchCache');
 var keyFunctions = require('./lib/keyFunctions');
 var lineFunctions = require('./lib/lineFunctions');
@@ -34,12 +34,12 @@ NodeVersions.load = function load(options, callback) {
 
   if (typeof callback === 'function') {
     options = options || {};
-    var fetch = options.cache ? fetchCache : fetchHTTP;
+    var selectedFetch = options.cache ? fetchCache : fetch;
 
-    fetch('https://nodejs.org/dist/index.json', function (err, versions) {
+    selectedFetch('https://nodejs.org/dist/index.json', function (err, versions) {
       if (err) return callback(err);
 
-      fetch('https://raw.githubusercontent.com/nodejs/Release/master/schedule.json', function (err, schedule) {
+      selectedFetch('https://raw.githubusercontent.com/nodejs/Release/master/schedule.json', function (err, schedule) {
         err ? callback(err) : callback(null, new NodeVersions(versions, schedule));
       });
     });
