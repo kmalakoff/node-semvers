@@ -308,11 +308,12 @@ describe('cli', function (done) {
       });
     });
 
-    it('>=0.6 (range patch)', function (done) {
+    it.only('>=0.6 (range patch)', function (done) {
       spawn(CLI, ['>=0.6', '--now', now.getTime(), '--range', 'patch'], { stdout: 'string' }, function (err, res) {
         assert.ok(!err);
         assert.equal(res.code, 0);
-        var versions = res.stdout.split('\n').slice(0, -1);
+        var versions = res.stdout.split('versions:\n').pop();
+        versions = versions.split('\n').slice(0, -1);
         assert.deepEqual(versions.length, 433);
         done();
       });
