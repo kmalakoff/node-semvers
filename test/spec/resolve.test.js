@@ -103,7 +103,7 @@ describe('resolve', function () {
     it('promise', function (done) {
       if (typeof Promise === 'undefined') return done(); // no promise support
 
-      NodeVersions.load({ cache: true })
+      NodeVersions.load()
         .then(function (semvers) {
           var version = semvers.resolve('lts/*', { now: now });
           assert.equal(version, 'v14.2.0');
