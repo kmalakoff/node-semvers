@@ -2,7 +2,7 @@ var assert = require('assert');
 
 var NodeVersions = require('../..');
 
-describe('node-semvers', function () {
+describe('resolve', function () {
   var now = new Date(Date.parse('2020-05-10T03:23:29.347Z'));
   var semvers = null;
 
@@ -33,6 +33,11 @@ describe('node-semvers', function () {
     assert.deepEqual(version, { name: 'v12.14.1', version: '12.14.1', major: 12, minor: 14, patch: 1, schedule: 'v12', codename: 'erbium' });
   });
 
+  it('12.14', function () {
+    var version = semvers.resolve(12.14, { now: now });
+    assert.deepEqual(version, { name: 'v12.14.1', version: '12.14.1', major: 12, minor: 14, patch: 1, schedule: 'v12', codename: 'erbium' });
+  });
+
   it('12', function () {
     var version = semvers.resolve('12', { now: now });
     assert.deepEqual(version, { name: 'v12.16.3', version: '12.16.3', major: 12, minor: 16, patch: 3, schedule: 'v12', codename: 'erbium' });
@@ -40,6 +45,11 @@ describe('node-semvers', function () {
 
   it('v12', function () {
     var version = semvers.resolve('v12', { now: now });
+    assert.deepEqual(version, { name: 'v12.16.3', version: '12.16.3', major: 12, minor: 16, patch: 3, schedule: 'v12', codename: 'erbium' });
+  });
+
+  it('12', function () {
+    var version = semvers.resolve(12, { now: now });
     assert.deepEqual(version, { name: 'v12.16.3', version: '12.16.3', major: 12, minor: 16, patch: 3, schedule: 'v12', codename: 'erbium' });
   });
 
