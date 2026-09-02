@@ -1,6 +1,6 @@
 {
   "name": "node-semvers",
-  "version": "0.4.16",
+  "version": "0.4.18",
   "description": "Utilities for managing versions of node including looking up codenames",
   "keywords": [
     "node",
@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "exit": "^0.1.2",
-    "fetch-json-cache": "^0.1.4",
+    "fetch-json-cache": "^0.1.7",
     "getopts-compat": "^2.2.5",
     "isarray": "^2.0.5",
     "semver": "^5.7.1"
@@ -44,7 +44,7 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-import": "^2.21.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
