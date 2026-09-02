@@ -19,16 +19,16 @@
   "author": "Kevin Malakoff <kmalakoff@gmail.com> (https://github.com/kmalakoff)",
   "main": "index.js",
   "bin": {
-    "nsv": "./bin/node-semvers"
+    "nsv": "./bin/node-semvers.js"
   },
   "scripts": {
-    "format": "eslint . --fix",
+    "format": "prettier --write .",
     "lint": "eslint .",
     "test": "mocha-compat test/spec/**/*.test.js --no-timeouts",
-    "postinstall": "node bin/cache"
+    "postinstall": "node bin/cache.js"
   },
   "dependencies": {
-    "fetch-json-cache": "^0.1.2",
+    "fetch-json-cache": "^0.1.4",
     "getopts-compat": "^2.2.5",
     "isarray": "^2.0.5",
     "semver": "^5.7.1"
@@ -45,7 +45,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "mocha-compat": "^3.5.5",
     "prettier": "^2.0.5",
-    "rimraf": "^1.0.9"
+    "rimraf": "^2.7.1"
   },
   "engines": {
     "node": ">=0.8.0"
