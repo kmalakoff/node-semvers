@@ -12,7 +12,9 @@ function cacheJSON(callback) {
 }
 
 cacheJSON(function (err) {
-  if (!err) return process.exit(0);
-  console.log('Failed to cache dists and schedules. Error: ' + err.message);
-  process.exit(-1);
+  if (err) {
+    console.log('Failed to cache dists and schedules. Error: ' + err.message);
+    return process.exit(-1);
+  }
+  process.exit(0);
 });
