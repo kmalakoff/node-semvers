@@ -1,6 +1,9 @@
 #!/usr/bin/env node
 
 var getopts = require('getopts-compat');
+var exit = require('exit');
+var isArray = require('isarray');
+var NodeVersions = require('..');
 var isNaN = require('../lib/isNaN');
 
 (function () {
@@ -32,39 +35,35 @@ var isNaN = require('../lib/isNaN');
     console.log('- latest       The most recent (non-LTS) version');
     console.log('- stable       Backwards-compatible alias for "lts"');
     console.log('- [expression] Engine and semver module expression like "10.1.x || >=12.0.0"');
-    return process.exit(0);
+    return;
   }
 
   var args = process.argv.slice(2, 3).concat(options._);
   if (args.length < 1) {
     console.log('Missing version string. Example usage: nv [version string]. Use nv --help for information on version strings');
-    return process.exit(-1);
+    return exit(-1);
   }
 
-  var isArray = require('isarray');
-  var NodeVersions = require('..');
+  function stringify(value) {
+    return typeof value === 'string' ? value : JSON.stringify(value);
+  }
 
   NodeVersions.load(options, function (err, semvers) {
     if (err) {
       console.log(err.message);
-      sprocess.exit(err.code || -1);
+      return exit(err.code || -1);
     }
 
     var version = semvers.resolve(args[0], options);
     if (!version || (isArray(version) && !version.length)) {
       console.log('Unrecognized: ' + args[0]);
-      return process.exit(-1);
-    }
-
-    function stringify(value) {
-      return typeof value === 'string' ? value : JSON.stringify(value);
+      return exit(-1);
     }
 
     console.log('versions:');
     if (isArray(version)) {
       for (var index = 0; index < version.length; index++) console.log(stringify(version[index]));
     } else console.log(stringify(version));
-
-    process.exit(0);
+    exit(0);
   });
 })();
