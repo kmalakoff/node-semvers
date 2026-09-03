@@ -33,13 +33,12 @@
   },
   "files": [
     "dist",
-    "assets"
+    ".cache"
   ],
   "scripts": {
     "build": "tsds build",
-    "build:assets": "tsds validate && mkdir -p assets && cp -R dist/cjs/assets/*.cjs assets/",
+    "build:cache": "node scripts/generate-cache.mjs",
     "format": "tsds format",
-    "postinstall": "node assets/postinstall.cjs",
     "prepublishOnly": "tsds validate",
     "test": "tsds test:node --no-timeouts",
     "test:engines": "nvu engines tsds test:node --no-timeouts",

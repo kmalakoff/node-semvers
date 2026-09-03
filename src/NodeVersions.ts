@@ -1,4 +1,4 @@
-import Cache from 'fetch-json-cache';
+import Cache, { type CacheOptions } from 'fetch-json-cache';
 import semver from 'semver';
 
 import { CACHE_PATH, DISTS_URL, SCHEDULES_URL } from './constants.ts';
@@ -9,15 +9,22 @@ import normalizeSchedule from './lib/normalizeSchedule.ts';
 import normalizeVersion from './lib/normalizeVersion.ts';
 import parseExpression from './parseExpression/index.ts';
 
-import type { LoadError, LoadOptions, ResolveOptions, Schedule, ScheduleRaw, Version, VersionRaw } from './types.ts';
+import type { LoadError, LoadOptions, ResolveOptions, Schedule, ScheduleRawMap, Version, VersionRaw } from './types.ts';
 
 export type LoadCallback = (error?: LoadError, semvers?: NodeVersions) => void;
+
+type Wire = VersionRaw[] | ScheduleRawMap;
+
+// Only these fields are read, and the cache ships in the package, so store nothing else
+const cacheOptions: CacheOptions<Wire, Wire> = {
+  transform: (body, endpoint) => (endpoint === DISTS_URL && Array.isArray(body) ? body.map(({ version, date, lts }) => ({ version, date, lts })) : body),
+};
 
 export default class NodeVersions {
   versions: Version[];
   schedules: Schedule[];
 
-  constructor(versions: VersionRaw[], schedule: ScheduleRaw[]) {
+  constructor(versions: VersionRaw[], schedule: ScheduleRawMap) {
     if (!versions) throw new Error('Missing option: versions');
     if (!schedule) throw new Error('Missing option: schedule');
 
@@ -38,11 +45,11 @@ export default class NodeVersions {
     options = typeof options === 'function' ? {} : ((options || {}) as LoadOptions);
 
     function worker(options: LoadOptions, callback: LoadCallback) {
-      const cache = new Cache(options.cachePath || CACHE_PATH);
+      const cache = new Cache(options.cachePath || CACHE_PATH, cacheOptions);
       cache.get<VersionRaw[]>(DISTS_URL, (err, versions) => {
         if (err) return callback(err);
 
-        cache.get<ScheduleRaw[]>(SCHEDULES_URL, (err, schedule) => {
+        cache.get<ScheduleRawMap>(SCHEDULES_URL, (err, schedule) => {
           if (err || !versions || !schedule) return callback(err ?? new Error('Missing data'));
           callback(undefined, new NodeVersions(versions, schedule));
         });
@@ -59,9 +66,9 @@ export default class NodeVersions {
   }
 
   static loadSync(options?: LoadOptions): NodeVersions | null {
-    const cache = new Cache(options?.cachePath || CACHE_PATH);
+    const cache = new Cache(options?.cachePath || CACHE_PATH, cacheOptions);
     const versions = cache.getSync<VersionRaw[]>(DISTS_URL);
-    const schedule = cache.getSync<ScheduleRaw[]>(SCHEDULES_URL);
+    const schedule = cache.getSync<ScheduleRawMap>(SCHEDULES_URL);
     if (!versions || !schedule) return null;
     return new NodeVersions(versions, schedule);
   }

@@ -1,8 +1,10 @@
-import Module from 'module';
+import path from 'path';
+import url from 'url';
 
-const _require = typeof require === 'undefined' ? Module.createRequire(import.meta.url) : require;
-const constants = _require('../../assets/constants.cjs');
+const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
 
-export const CACHE_PATH = constants.CACHE_PATH as string;
-export const DISTS_URL = constants.DISTS_URL as string;
-export const SCHEDULES_URL = constants.SCHEDULES_URL as string;
+// Seeded at build time by scripts/generate-cache.mjs and shipped in the package, so loadSync works
+// on a fresh install. Refreshed at runtime by fetch-json-cache's etag revalidation.
+export const CACHE_PATH = path.join(__dirname, '..', '..', '.cache');
+export const DISTS_URL = 'https://nodejs.org/dist/index.json';
+export const SCHEDULES_URL = 'https://raw.githubusercontent.com/nodejs/Release/master/schedule.json';

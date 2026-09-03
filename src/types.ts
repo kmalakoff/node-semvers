@@ -13,17 +13,23 @@ export interface ResolveOptions {
   path?: string;
 }
 
-export interface ScheduleRaw {
+// The wire shapes, as nodejs.org/dist/index.json and nodejs/Release/schedule.json send them.
+// Distinct from the normalized Version/Schedule this package exposes.
+export interface VersionRaw {
   version: string;
-  name: string;
-  semver: string;
   date: string;
+  lts: string | false;
+}
+
+export interface ScheduleRaw {
   start: string;
   end: string;
-  codename?: string;
-  lts: string;
+  lts?: string;
   maintenance?: string;
+  codename?: string;
 }
+
+export type ScheduleRawMap = { [name: string]: ScheduleRaw };
 
 export interface Schedule {
   name: string;
@@ -36,19 +42,6 @@ export interface Schedule {
   maintenance?: Date;
 }
 
-export interface VersionRaw {
-  version: string;
-  name: string;
-  semver: string;
-  major: number;
-  minor: number;
-  patch: number;
-  lts: string;
-  date: Date;
-  raw: ScheduleRaw;
-  codename: string;
-}
-
 export interface Version {
   version: string;
   name: string;
@@ -56,7 +49,7 @@ export interface Version {
   major: number;
   minor: number;
   patch: number;
-  lts: string;
+  lts: string | false;
   date: Date;
   raw: VersionRaw;
   codename: string;
