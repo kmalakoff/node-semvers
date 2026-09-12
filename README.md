@@ -1,6 +1,10 @@
-## node-semvers
+# node-semvers
 
 Resolves individual and ranges for versions of Node.js by version numbers, version names, codenames, and expressions.
+
+```bash
+npm install node-semvers
+```
 
 Follows a similar convention to [nave](https://github.com/isaacs/nave) with the addition of semver expressions:
 
@@ -16,19 +20,21 @@ Follows a similar convention to [nave](https://github.com/isaacs/nave) with the 
 - [expression]  Engine and semver module expression like "10.1.x || >=12.0.0"
 ```
 
-Usage:
+## Usage
 
-```
-var assert = require('assert')
+```js
 var NodeVersions = require('node-semvers')
 
 NodeVersions.load(function (err, semvers) {
+  if (err) throw err;
   var version = semvers.resolve('lts');
-  assert.equal(version, 'v12.14.0');
+  console.log(version);
 });
 
-const semvers = await NodeVersions.load()
-const versions = semvers.resolve('10.0.0 || ~12.0.0');
-assert.deepEqual(versions, ['v10.0.0', 'v12.0.0']);
+NodeVersions.load().then(function (semvers) {
+  console.log(semvers.resolve('10.0.0 || ~12.0.0'));
+});
 
 ```
+
+The resolved version names and LTS schedule change as Node.js publishes releases. The `nsv` executable accepts the same expressions, for example `nsv 'lts/*'` or `nsv '>=18'`.
