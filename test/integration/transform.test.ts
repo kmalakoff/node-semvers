@@ -4,29 +4,25 @@ delete process.env.NODE_OPTIONS;
 // Reaches the network: fetches the version index from nodejs.org
 import assert from 'assert';
 import fs from 'fs';
-import { safeRm } from 'fs-remove-compat';
 import NodeVersions from 'node-semvers';
 import path from 'path';
-import url from 'url';
+import useCache from '../lib/cache.ts';
 
-const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
-const CACHE_DIR = path.join(__dirname, '..', 'cache-transform');
 const FIELDS = ['version', 'date', 'lts'];
 
 describe('cache transform', () => {
-  before((callback) => safeRm(CACHE_DIR, callback));
-  after((callback) => safeRm(CACHE_DIR, callback));
+  const cachePath = useCache('transform');
 
   // A cold cache forces a real fetch, so this proves the transform runs rather than reading a
   // seed that was already trimmed elsewhere.
   it('stores only the fields this package reads', (done) => {
-    NodeVersions.load({ cachePath: CACHE_DIR }, (err) => {
+    NodeVersions.load({ cachePath }, (err) => {
       if (err) return done(err);
 
-      const files = fs.readdirSync(CACHE_DIR);
+      const files = fs.readdirSync(cachePath);
       let index = null;
       for (let i = 0; i < files.length; i++) {
-        const record = JSON.parse(fs.readFileSync(path.join(CACHE_DIR, files[i]), 'utf8'));
+        const record = JSON.parse(fs.readFileSync(path.join(cachePath, files[i]), 'utf8'));
         if (Object.prototype.toString.call(record.body) === '[object Array]') index = record.body;
       }
 
@@ -38,13 +34,13 @@ describe('cache transform', () => {
   });
 
   it('leaves the schedule untouched', (done) => {
-    NodeVersions.load({ cachePath: CACHE_DIR }, (err) => {
+    NodeVersions.load({ cachePath }, (err) => {
       if (err) return done(err);
 
-      const files = fs.readdirSync(CACHE_DIR);
+      const files = fs.readdirSync(cachePath);
       let schedule = null;
       for (let i = 0; i < files.length; i++) {
-        const record = JSON.parse(fs.readFileSync(path.join(CACHE_DIR, files[i]), 'utf8'));
+        const record = JSON.parse(fs.readFileSync(path.join(cachePath, files[i]), 'utf8'));
         if (Object.prototype.toString.call(record.body) !== '[object Array]') schedule = record.body;
       }
 

@@ -2,21 +2,17 @@
 delete process.env.NODE_OPTIONS;
 
 import assert from 'assert';
-import { safeRm } from 'fs-remove-compat';
 import NodeVersions, { type Version } from 'node-semvers';
-import path from 'path';
 import Pinkie from 'pinkie-promise';
-import url from 'url';
+import useCache from '../lib/cache.ts';
 
 function major(version: string) {
   const parts = version.substr(1).split('.');
   return parts[0] === '0' ? +parts[1] : +parts[0];
 }
 
-const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
-const INSTALLED_DIR = path.join(path.join(__dirname, '..', 'cache'));
-
 describe('resolve', () => {
+  const cachePath = useCache('resolve');
   (() => {
     // patch and restore promise
     if (typeof global === 'undefined') return;
@@ -33,11 +29,9 @@ describe('resolve', () => {
     let semvers: NodeVersions | undefined;
 
     before((callback) => {
-      safeRm(INSTALLED_DIR, () => {
-        NodeVersions.load((err, _semvers) => {
-          semvers = _semvers;
-          callback(err);
-        });
+      NodeVersions.load({ cachePath }, (err, _semvers) => {
+        semvers = _semvers;
+        callback(err);
       });
     });
 
@@ -115,7 +109,7 @@ describe('resolve', () => {
       });
 
       it('promise', async () => {
-        const semvers = await NodeVersions.load();
+        const semvers = await NodeVersions.load({ cachePath });
         const version = semvers?.resolve('lts/*', { now });
         assert.equal(version, 'v14.2.0');
       });
