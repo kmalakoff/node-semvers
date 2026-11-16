@@ -83,7 +83,7 @@ describe('sync', () => {
       it('lts', () => {
         const semvers = NodeVersions.loadSync({ cachePath });
         const version = semvers?.resolve('lts', { now });
-        assert.equal(version, 'v14.2.0');
+        assert.equal(version, 'v12.16.3');
       });
 
       it('dubnium', () => {
@@ -95,25 +95,25 @@ describe('sync', () => {
       it('lts/*', () => {
         const semvers = NodeVersions.loadSync({ cachePath });
         const version = semvers?.resolve('lts/*', { now });
-        assert.equal(version, 'v14.2.0');
+        assert.equal(version, 'v12.16.3');
       });
 
       it('latest', () => {
         const semvers = NodeVersions.loadSync({ cachePath });
         const version = semvers?.resolve('latest', { now });
-        assert.equal(version, 'v13.14.0');
+        assert.equal(version, 'v14.2.0');
       });
 
       it('stable', () => {
         const semvers = NodeVersions.loadSync({ cachePath });
         const version = semvers?.resolve('stable', { now });
-        assert.equal(version, 'v14.2.0');
+        assert.equal(version, 'v12.16.3');
       });
 
       it('stable (raw)', () => {
         const semvers = NodeVersions.loadSync({ cachePath });
         const version = semvers?.resolve('stable', { now, path: 'raw' });
-        assert.equal((version as Version).version, 'v14.2.0');
+        assert.equal((version as Version).version, 'v12.16.3');
       });
     });
 

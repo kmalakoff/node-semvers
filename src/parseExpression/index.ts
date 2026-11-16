@@ -11,6 +11,7 @@ export default function parseExpression(this: { schedules: Schedule[] }, express
   if (expression === 'stable') expression = 'lts';
 
   if (typeof expression === 'number') return { major: expression };
+  if (~expression.indexOf('-')) return null; // prerelease versions are selected only by exact string, through the range path
   if (~expression.indexOf('.')) {
     const parts = expression.split('.');
     if (parts.length === 1) return isNaN(+parts[0]) ? null : { major: +parts[0] };

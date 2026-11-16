@@ -177,7 +177,7 @@ describe('cli', () => {
               .split('versions:\n')
               .pop() ?? ''
           ).split('\n')[0];
-          assert.equal(version, 'v14.2.0');
+          assert.equal(version, 'v12.16.3');
           done();
         });
       });
@@ -191,7 +191,7 @@ describe('cli', () => {
               .split('versions:\n')
               .pop() ?? ''
           ).split('\n')[0];
-          assert.equal(version, 'v14.2.0');
+          assert.equal(version, 'v12.16.3');
           done();
         });
       });
@@ -205,7 +205,7 @@ describe('cli', () => {
               .split('versions:\n')
               .pop() ?? ''
           ).split('\n')[0];
-          assert.equal(version, 'v13.14.0');
+          assert.equal(version, 'v14.2.0');
           done();
         });
       });
@@ -219,7 +219,7 @@ describe('cli', () => {
               .split('versions:\n')
               .pop() ?? ''
           ).split('\n')[0];
-          assert.equal(version, 'v14.2.0');
+          assert.equal(version, 'v12.16.3');
           done();
         });
       });
@@ -235,7 +235,7 @@ describe('cli', () => {
                 .pop() ?? ''
             ).split('\n')[0]
           );
-          assert.equal(version.version, 'v14.2.0');
+          assert.equal(version.version, 'v12.16.3');
           done();
         });
       });

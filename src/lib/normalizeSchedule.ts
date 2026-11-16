@@ -10,6 +10,7 @@ export default function normalizeSchedule(name: string, raw: ScheduleRaw): Sched
   schedule.start = new Date(raw.start);
   schedule.end = new Date(raw.end);
   if (raw.codename) schedule.codename = raw.codename.toLowerCase();
+  if (raw.alpha) schedule.alpha = new Date(raw.alpha);
   if (raw.lts) schedule.lts = new Date(raw.lts);
   if (raw.maintenance) schedule.maintenance = new Date(raw.maintenance);
 

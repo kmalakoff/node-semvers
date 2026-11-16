@@ -24,7 +24,8 @@ export default function useCache(suite: string): string {
       seeds.map(({ file }) => file),
       'tests must not create shipped cache files'
     );
-    for (const { file, contents } of seeds) {
+    for (let index = 0; index < seeds.length; index++) {
+      const { file, contents } = seeds[index];
       assert.deepEqual(fs.readFileSync(path.join(SEED_PATH, file)), contents, `tests must not refresh shipped cache ${file}`);
     }
   });

@@ -89,6 +89,7 @@ export default class NodeVersions {
       for (let index = 0; index < this.versions.length; index++) {
         const test = this.versions[index];
         if (options.now && options.now < test.date) continue;
+        if (~test.semver.indexOf('-')) continue; // alphas are never chosen implicitly
         if (!match(test as unknown as Record<string, unknown>, query as unknown as Record<string, unknown>)) continue;
         version = test;
         break;

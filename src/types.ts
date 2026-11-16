@@ -22,6 +22,7 @@ export interface VersionRaw {
 }
 
 export interface ScheduleRaw {
+  alpha?: string;
   start: string;
   end: string;
   lts?: string;
@@ -38,6 +39,7 @@ export interface Schedule {
   start: Date;
   end: Date;
   codename?: string;
+  alpha?: Date;
   lts?: Date;
   maintenance?: Date;
 }
