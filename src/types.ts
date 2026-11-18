@@ -1,4 +1,9 @@
 export interface LoadOptions {
+  /**
+   * The only folder read and written; the shipped copy is not used. `loadSync` returns `null`
+   * until `load` has saved records there. Without it, refreshes go to `~/.node-semvers/cache/<format>/`
+   * and the copy shipped with the package is read when it is newer.
+   */
   cachePath?: string;
   now?: Date;
 }

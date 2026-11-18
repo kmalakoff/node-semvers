@@ -1,7 +1,11 @@
-import Cache, { type CacheOptions } from 'fetch-json-cache';
+import Cache from 'fetch-json-cache';
 import semver from 'semver';
 
-import { CACHE_PATH, DISTS_URL, SCHEDULES_URL } from './constants.ts';
+import { homedir } from './compat.ts';
+import { DISTS_URL, SCHEDULES_URL } from './constants.ts';
+import cacheError from './lib/cacheError.ts';
+import cacheFolders, { type CacheFolders } from './lib/cacheFolders.ts';
+import cacheOptions from './lib/cacheOptions.ts';
 import { major, minor } from './lib/keyFunctions.ts';
 import { even, odd } from './lib/lineFunctions.ts';
 import match from './lib/match.ts';
@@ -13,12 +17,18 @@ import type { LoadError, LoadOptions, ResolveOptions, Schedule, ScheduleRawMap, 
 
 export type LoadCallback = (error?: LoadError, semvers?: NodeVersions) => void;
 
-type Wire = VersionRaw[] | ScheduleRawMap;
-
-// Only these fields are read, and the cache ships in the package, so store nothing else
-const cacheOptions: CacheOptions<Wire, Wire> = {
-  transform: (body, endpoint) => (endpoint === DISTS_URL && Array.isArray(body) ? body.map(({ version, date, lts }) => ({ version, date, lts })) : body),
-};
+// Resolved per call, never at import, so requiring this package can never fail on it
+function folders(options: LoadOptions): CacheFolders {
+  let home: string | null = null;
+  if (!options.cachePath) {
+    try {
+      home = homedir();
+    } catch (_) {
+      home = null;
+    }
+  }
+  return cacheFolders(options.cachePath, home);
+}
 
 export default class NodeVersions {
   versions: Version[];
@@ -45,12 +55,17 @@ export default class NodeVersions {
     options = typeof options === 'function' ? {} : ((options || {}) as LoadOptions);
 
     function worker(options: LoadOptions, callback: LoadCallback) {
-      const cache = new Cache(options.cachePath || CACHE_PATH, cacheOptions);
+      const where = folders(options);
+      if (where.error) return callback(where.error);
+
+      const fail = (err: Error): LoadError => (where.home ? (cacheError(err, where.cachePath, where.home) as LoadError) : (err as LoadError));
+      const cache = new Cache(where.cachePath, cacheOptions(where.seedPath));
       cache.get<VersionRaw[]>(DISTS_URL, (err, versions) => {
-        if (err) return callback(err);
+        if (err) return callback(fail(err));
 
         cache.get<ScheduleRawMap>(SCHEDULES_URL, (err, schedule) => {
-          if (err || !versions || !schedule) return callback(err ?? new Error('Missing data'));
+          if (err) return callback(fail(err));
+          if (!versions || !schedule) return callback(new Error('Missing data'));
           callback(undefined, new NodeVersions(versions, schedule));
         });
       });
@@ -66,7 +81,9 @@ export default class NodeVersions {
   }
 
   static loadSync(options?: LoadOptions): NodeVersions | null {
-    const cache = new Cache(options?.cachePath || CACHE_PATH, cacheOptions);
+    // With no usable home this reads the shipped seed, which a fresh offline install needs
+    const where = folders(options || {});
+    const cache = new Cache(where.cachePath, cacheOptions(where.seedPath));
     const versions = cache.getSync<VersionRaw[]>(DISTS_URL);
     const schedule = cache.getSync<ScheduleRawMap>(SCHEDULES_URL);
     if (!versions || !schedule) return null;

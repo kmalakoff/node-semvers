@@ -1,1 +1,2 @@
-ignores: ["node-semvers", "node-version-use", "ts-dev-stack", "rollup"]
+ignores: ["node-semvers", "node-version-use", "ts-dev-stack", "rollup", "mkdirp-classic"]
+ignoreDirs: [".tmp"]

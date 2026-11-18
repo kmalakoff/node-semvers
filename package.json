@@ -46,8 +46,9 @@
   },
   "dependencies": {
     "exit-compat": "^1.0.0",
-    "fetch-json-cache": "^1.4.0",
+    "fetch-json-cache": "^1.9.0",
     "getopts-compat": "^2.2.5",
+    "homedir-polyfill": "^1.0.3",
     "semver": "5.7.2"
   },
   "devDependencies": {
@@ -57,6 +58,8 @@
     "cr": "^0.1.0",
     "cross-spawn-cb": "^3.0.0",
     "fs-remove-compat": "^1.0.0",
+    "get-file-compat": "^2.4.0",
+    "mkdirp-classic": "^0.5.2",
     "node-version-use": "*",
     "pinkie-promise": "*",
     "rollup": "^4.53.4",

@@ -23,16 +23,19 @@ Follows a similar convention to [nave](https://github.com/isaacs/nave) with the 
 ## Usage
 
 ```js
-var NodeVersions = require('node-semvers');
+import NodeVersions from 'node-semvers';
 
-NodeVersions.load(function (err, semvers) {
+const semvers = await NodeVersions.load();
+console.log(semvers.resolve('lts'));
+console.log(semvers.resolve('10.0.0 || ~12.0.0'));
+```
+
+The callback form:
+
+```js
+NodeVersions.load((err, semvers) => {
   if (err) throw err;
-  var version = semvers.resolve('lts');
-  console.log(version);
-});
-
-NodeVersions.load().then(function (semvers) {
-  console.log(semvers.resolve('10.0.0 || ~12.0.0'));
+  console.log(semvers.resolve('lts'));
 });
 ```
 
@@ -45,3 +48,14 @@ From Node 27 on, Node publishes one major a year ([nodejs/Release](https://githu
 - Alpha releases (for example `v27.0.0-alpha.0.1.0`) are never chosen by `lts`, `latest`, a major such as `27`, or a range such as `>=20`. Only the exact version string selects one.
 - The `even` and `odd` range filters stay literal major parity. They do not mean LTS: odd lines are LTS from 27.
 - `latest` and `lts` follow the dates in the release schedule at the time given by `now`, so `lts` is `v24.x` until `v26` becomes LTS.
+
+## Cache
+
+Refreshed copies of the Node.js release lists are kept in `~/.node-semvers/cache/<format>/` (for example `v1`). The home folder must be writable; to use another folder, pass the `cachePath` option. Nothing here is ever deleted automatically: an older format folder stays after an upgrade until you delete it. Deleting `~/.node-semvers`, or any folder in it, is always safe: the next run uses the copy shipped with the package and fetches a fresh one.
+
+`load` and `loadSync` read whichever is newer, the home copy or the shipped one. With `cachePath`, only that folder is read and written, so `loadSync` returns `null` until `load` has saved there. If there is no usable home folder, `loadSync` reads the shipped copy and `load` fails asking for `cachePath`.
+
+```js
+const semvers = await NodeVersions.load({ cachePath: '/path/to/folder' });
+console.log(semvers.resolve('lts')); // the newest LTS version
+```

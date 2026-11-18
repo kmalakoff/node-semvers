@@ -6,9 +6,12 @@ import assert from 'assert';
 import fs from 'fs';
 import NodeVersions from 'node-semvers';
 import path from 'path';
+import { CACHE_FORMAT } from '../../src/constants.ts';
 import useCache from '../lib/cache.ts';
 
 const FIELDS = ['version', 'date', 'lts'];
+// A stored shape that changes must move to a new format folder, never edit this one
+const FORMAT_FIELDS: { [format: string]: string[] } = { v1: ['version', 'date', 'lts'] };
 
 describe('cache transform', () => {
   const cachePath = useCache('transform');
@@ -31,6 +34,10 @@ describe('cache transform', () => {
       assert.deepEqual(Object.keys(index[0]).sort(), FIELDS.slice().sort());
       done();
     });
+  });
+
+  it('names the stored format after its fields', () => {
+    assert.deepEqual(FORMAT_FIELDS[CACHE_FORMAT], FIELDS);
   });
 
   it('leaves the schedule untouched', (done) => {
